@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>المندوب - طلبات التوصيل</title>
+<title>ادبل المندوب - طلبات التوصيل</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -28,7 +28,7 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 .auth-logo i{font-size:60px;color:var(--primary)}
 .auth-title{text-align:center;color:white;font-size:28px;font-weight:900;margin-bottom:8px}
 .auth-sub{text-align:center;color:rgba(255,255,255,.9);margin-bottom:32px;font-size:14px}
-.auth-card{background:white;border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.auth-card{background:white;border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.15);max-height:80vh;overflow-y:auto}
 .tabs{display:flex;background:var(--light);border-radius:14px;padding:4px;margin-bottom:20px}
 .tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-weight:600;color:var(--gray);cursor:pointer;font-size:14px}
 .tab.active{background:white;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,.08)}
@@ -155,13 +155,108 @@ body{background:var(--light);color:var(--dark);font-size:15px}
       <button type="button" class="btn btn-primary" id="loginBtn"><i class="fas fa-right-to-bracket"></i> دخول</button>
     </div>
     <div id="registerForm" style="display:none">
-      <div class="field"><label>الاسم الكامل</label><div class="input-wrap"><i class="far fa-user"></i><input id="regName" class="input"></div></div>
-      <div class="field"><label>رقم الجوال</label><div class="input-wrap"><i class="fas fa-phone"></i><input id="regPhone" class="input"></div><small class="field-hint">يرجى وضع رقم هاتف صحيح لتتم عملية التواصل بشكل صحيح</small></div>
-      <div class="field"><label>نوع المركبة</label><div class="input-wrap"><i class="fas fa-motorcycle"></i><input id="regVehicle" class="input" placeholder="دراجة / سيارة"></div></div>
-      <div class="field"><label>البريد الإلكتروني</label><div class="input-wrap"><i class="far fa-envelope"></i><input id="regEmail" class="input" type="email"></div></div>
-      <div class="field"><label>كلمة المرور</label><div class="input-wrap"><i class="fas fa-lock"></i><input id="regPass" class="input" type="password"></div></div>
-      <button type="button" class="btn btn-primary" id="regBtn"><i class="fas fa-user-plus"></i> إنشاء حساب مندوب</button>
+      <p style="font-size:12px;color:var(--gray);margin-bottom:14px;text-align:center;font-weight:600">📋 يرجى تعبئة جميع البيانات بدقة لمراجعة حسابك</p>
+
+      <p style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:8px;margin-top:4px">✅ البيانات الأساسية</p>
+      <div class="field"><label>الاسم الكامل *</label><div class="input-wrap"><i class="far fa-user"></i><input id="regName" class="input" placeholder="الاسم الكامل"></div></div>
+      <div class="field">
+        <label>رقم الجوال *</label>
+        <div style="display:flex;gap:6px;align-items:center;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:white">
+          <span style="padding:13px 10px;background:#f1f5f9;font-size:13px;white-space:nowrap;font-weight:600;border-left:1px solid var(--border);flex-shrink:0">🇸🇾 +963</span>
+          <input id="regPhone" type="tel" placeholder="912345678" style="flex:1;border:none;outline:none;padding:13px 10px;font-size:14px;font-family:'Cairo',sans-serif;background:transparent;width:100%">
+        </div>
+        <small style="color:var(--gray);font-size:11px;margin-top:4px;display:block">يجب إدخال رقم هاتف صحيح (مثال: 912345678)</small>
+      </div>
+      <div class="field"><label>البريد الإلكتروني *</label><div class="input-wrap"><i class="far fa-envelope"></i><input id="regEmail" class="input" type="email" placeholder="example@email.com"></div></div>
+      <div class="field"><label>كلمة المرور *</label><div class="input-wrap"><i class="fas fa-lock"></i><input id="regPass" class="input" type="password" placeholder="6 أحرف على الأقل"></div></div>
+
+      <p style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:8px;margin-top:12px">🔒 بيانات التحقق (KYC)</p>
+      <div class="field"><label>رقم الهوية / الإقامة *</label><div class="input-wrap"><i class="fas fa-id-card"></i><input id="regIdNumber" class="input" placeholder="رقم الهوية أو الإقامة"></div></div>
+      <div class="field">
+        <label>صورة الهوية (الوجه الأمامي) *</label>
+        <div style="border:1.5px dashed var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fafafa" onclick="document.getElementById('regIdFront').click()">
+          <i class="fas fa-camera" style="color:var(--gray);font-size:20px;display:block;margin-bottom:4px"></i>
+          <span id="regIdFrontLabel" style="font-size:12px;color:var(--gray)">اضغط لاختيار صورة</span>
+          <input id="regIdFront" type="file" accept="image/*" style="display:none" onchange="updateFileLabel('regIdFront','regIdFrontLabel')">
+        </div>
+      </div>
+      <div class="field">
+        <label>صورة الهوية (الوجه الخلفي) *</label>
+        <div style="border:1.5px dashed var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fafafa" onclick="document.getElementById('regIdBack').click()">
+          <i class="fas fa-camera" style="color:var(--gray);font-size:20px;display:block;margin-bottom:4px"></i>
+          <span id="regIdBackLabel" style="font-size:12px;color:var(--gray)">اضغط لاختيار صورة</span>
+          <input id="regIdBack" type="file" accept="image/*" style="display:none" onchange="updateFileLabel('regIdBack','regIdBackLabel')">
+        </div>
+      </div>
+      <div class="field">
+        <label>صورة شخصية (سيلفي) *</label>
+        <div style="border:1.5px dashed var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fafafa" onclick="document.getElementById('regSelfie').click()">
+          <i class="fas fa-user-circle" style="color:var(--gray);font-size:20px;display:block;margin-bottom:4px"></i>
+          <span id="regSelfieLabel" style="font-size:12px;color:var(--gray)">اضغط لاختيار صورة</span>
+          <input id="regSelfie" type="file" accept="image/*" capture="user" style="display:none" onchange="updateFileLabel('regSelfie','regSelfieLabel')">
+        </div>
+      </div>
+
+      <p style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:8px;margin-top:12px">🚗 بيانات المركبة</p>
+      <div class="field">
+        <label>نوع المركبة *</label>
+        <div class="input-wrap">
+          <i class="fas fa-motorcycle"></i>
+          <select id="regVehicle" class="input" style="padding-right:40px">
+            <option value="">اختر نوع المركبة</option>
+            <option value="دراجة">🏍️ دراجة</option>
+            <option value="سيارة">🚗 سيارة</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>صورة المركبة *</label>
+        <div style="border:1.5px dashed var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fafafa" onclick="document.getElementById('regVehicleImg').click()">
+          <i class="fas fa-car" style="color:var(--gray);font-size:20px;display:block;margin-bottom:4px"></i>
+          <span id="regVehicleImgLabel" style="font-size:12px;color:var(--gray)">اضغط لاختيار صورة</span>
+          <input id="regVehicleImg" type="file" accept="image/*" style="display:none" onchange="updateFileLabel('regVehicleImg','regVehicleImgLabel')">
+        </div>
+      </div>
+      <div class="field">
+        <label>المدينة *</label>
+        <div class="input-wrap">
+          <i class="fas fa-map-marker-alt"></i>
+          <select id="regCity" class="input" style="padding-right:40px">
+            <option value="">اختر مدينتك</option>
+            <option value="درعا - الحراك">درعا - الحراك</option>
+            <option value="درعا">درعا</option>
+            <option value="دمشق">دمشق</option>
+            <option value="ريف دمشق">ريف دمشق</option>
+            <option value="حلب">حلب</option>
+            <option value="حمص">حمص</option>
+            <option value="حماة">حماة</option>
+            <option value="اللاذقية">اللاذقية</option>
+            <option value="طرطوس">طرطوس</option>
+            <option value="دير الزور">دير الزور</option>
+            <option value="الرقة">الرقة</option>
+            <option value="الحسكة">الحسكة</option>
+            <option value="السويداء">السويداء</option>
+            <option value="القنيطرة">القنيطرة</option>
+            <option value="إدلب">إدلب</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" id="regBtn" style="margin-top:8px"><i class="fas fa-user-plus"></i> إنشاء حساب مندوب</button>
     </div>
+  </div>
+</div>
+
+<div id="pendingScreen" class="screen auth-screen" style="text-align:center">
+  <div style="background:white;border-radius:28px;padding:36px 28px;max-width:360px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.15)">
+    <div style="width:90px;height:90px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#FBBF24);display:flex;align-items:center;justify-content:center;font-size:40px">⏳</div>
+    <h2 style="font-size:22px;font-weight:900;color:#0F172A;margin-bottom:10px">جارٍ التحقق من حسابك</h2>
+    <p style="font-size:14px;color:#64748B;line-height:1.7;margin-bottom:18px">شكراً لتسجيلك! تم استلام بياناتك بنجاح.<br>سيقوم فريقنا بمراجعة معلوماتك والتواصل معك في أقرب وقت ممكن.</p>
+    <div style="background:#FEF3C7;border-radius:14px;padding:14px;margin-bottom:20px;border:1px solid #FDE68A">
+      <p style="font-size:13px;color:#92400E;font-weight:600">⏱️ وقت المراجعة المتوقع: من 1 إلى 5 ساعات</p>
+    </div>
+    <p style="font-size:12px;color:#94A3B8">سيتم إشعارك عند تفعيل حسابك.<br>يمكنك إغلاق الصفحة والعودة لاحقاً.</p>
+    <button onclick="window.logout()" style="margin-top:20px;padding:11px 24px;border:1.5px solid #E2E8F0;border-radius:12px;background:white;color:#64748B;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer"><i class="fas fa-right-from-bracket"></i> تسجيل الخروج</button>
   </div>
 </div>
 
@@ -335,6 +430,30 @@ function mapErr(e){
   return e.message||'خطأ';
 }
 
+// Helper to convert file to base64
+window.updateFileLabel = (inputId, labelId) => {
+  const file = document.getElementById(inputId).files[0];
+  if(file) document.getElementById(labelId).textContent = '✅ ' + file.name;
+};
+function compressImage(file, maxWidth=400, quality=0.6){
+  return new Promise((res)=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const canvas = document.createElement('canvas');
+        const ratio = Math.min(maxWidth/img.width, maxWidth/img.height, 1);
+        canvas.width = img.width * ratio;
+        canvas.height = img.height * ratio;
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        res(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 $('#loginBtn').addEventListener('click', async ()=>{
   const email=$('#loginEmail').value.trim(), pass=$('#loginPass').value;
   if(!email||!pass)return showErr('أدخل البيانات');
@@ -344,15 +463,58 @@ $('#loginBtn').addEventListener('click', async ()=>{
 });
 
 $('#regBtn').addEventListener('click', async ()=>{
-  const name=$('#regName').value.trim(), phone=$('#regPhone').value.trim(), vehicle=$('#regVehicle').value.trim(), email=$('#regEmail').value.trim(), pass=$('#regPass').value;
-  if(!name||!phone||!email||!pass) return showErr('الحقول مطلوبة');
-  if(pass.length<6) return showErr('كلمة المرور 6 أحرف');
+  const name=$('#regName').value.trim();
+  const phoneRaw=$('#regPhone').value.trim();
+  const email=$('#regEmail').value.trim();
+  const pass=$('#regPass').value;
+  const idNumber=$('#regIdNumber').value.trim();
+  const vehicle=$('#regVehicle').value.trim();
+  const city=$('#regCity').value.trim();
+
+  // Validate
+  if(!name||!phoneRaw||!email||!pass||!idNumber||!vehicle||!city) return showErr('يرجى تعبئة جميع الحقول المطلوبة');
+  if(pass.length<6) return showErr('كلمة المرور 6 أحرف على الأقل');
+  // Phone validation: must be digits only, 9-10 digits
+  if(!/^\d{9,10}$/.test(phoneRaw)) return showErr('يجب إدخال رقم هاتف صحيح (مثال: 912345678)');
+  const phone = '+963' + phoneRaw;
+
+  const idFrontFile = document.getElementById('regIdFront').files[0];
+  const idBackFile = document.getElementById('regIdBack').files[0];
+  const selfieFile = document.getElementById('regSelfie').files[0];
+  const vehicleImgFile = document.getElementById('regVehicleImg').files[0];
+  if(!idFrontFile) return showErr('يرجى رفع صورة الهوية (الوجه الأمامي)');
+  if(!idBackFile) return showErr('يرجى رفع صورة الهوية (الوجه الخلفي)');
+  if(!selfieFile) return showErr('يرجى رفع صورة شخصية (سيلفي)');
+  if(!vehicleImgFile) return showErr('يرجى رفع صورة المركبة');
+
   $('#regBtn').disabled=true;
+  $('#regBtn').textContent = 'جارٍ إنشاء الحساب...';
   try{
-    const cred=await createUserWithEmailAndPassword(auth,email,pass);
-    await setDoc(doc(db,'users',cred.user.uid),{uid:cred.user.uid,name,phone,vehicle,email,role:'delivery',available:false,createdAt:serverTimestamp()},{merge:true});
-  }catch(e){showErr(mapErr(e))}
-  $('#regBtn').disabled=false;
+    const [selfieB64, idFrontB64, idBackB64, vehicleImgB64] = await Promise.all([
+      compressImage(selfieFile, 350, 0.5),
+      compressImage(idFrontFile, 350, 0.5),
+      compressImage(idBackFile, 350, 0.5),
+      compressImage(vehicleImgFile, 350, 0.5),
+    ]);
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await setDoc(doc(db,'users',cred.user.uid),{
+      uid: cred.user.uid,
+      name, phone, email, vehicle, city, idNumber,
+      selfie: selfieB64,
+      idFront: idFrontB64,
+      idBack: idBackB64,
+      vehicleImage: vehicleImgB64,
+      role: 'delivery',
+      status: 'pending',
+      available: false,
+      createdAt: serverTimestamp()
+    });
+  }catch(e){
+    console.error('خطأ التسجيل:', e);
+    showErr(mapErr(e));
+    $('#regBtn').disabled=false;
+    $('#regBtn').innerHTML='<i class="fas fa-user-plus"></i> إنشاء حساب مندوب';
+  }
 });
 
 window.logout = async () => { try{await signOut(auth)}catch(e){} };
@@ -364,10 +526,23 @@ onAuthStateChanged(auth, async (user)=>{
     if(snap.exists()) {
       userData=snap.data();
     } else {
-      userData={uid:user.uid,name:user.email.split('@')[0],email:user.email,phone:'',vehicle:'',role:'delivery',available:false};
+      userData={uid:user.uid,name:user.email.split('@')[0],email:user.email,phone:'',vehicle:'',city:'',role:'delivery',status:'pending',available:false};
       await setDoc(doc(db,'users',user.uid),userData,{merge:true});
     }
     if(userData.role!=='delivery'){ toast('هذا ليس حساب مندوب','error'); await signOut(auth); return; }
+    // Check account status
+    if(userData.status==='rejected'){
+      toast('تم رفض حسابك من قبل الإدارة','error');
+      await signOut(auth);
+      return;
+    }
+    if(userData.status==='pending'){
+      $('#bottomNav').style.display='none';
+      $$('.screen').forEach(s=>s.classList.remove('active'));
+      $('#pendingScreen').classList.add('active');
+      return;
+    }
+    // status === 'active'
     initApp();
   } else {
     currentUser=null; userData=null;
@@ -459,8 +634,14 @@ function subscribeOrders(){
 function statusLabel(s){ return {pending:'قيد انتظار قبول المندوب',accepted:'تم القبول',on_way:'في الطريق',delivered:'تم التسليم',cancelled:'ملغي'}[s]||s; }
 
 function renderOrders(){
+  const now = Date.now();
   let list = [];
-  if(currentFilter==='available') list = allOrders.filter(o=>o.status==='pending'&&!o.deliveryId);
+  if(currentFilter==='available') list = allOrders.filter(o=>{
+    if(o.status!=='pending'||o.deliveryId) return false;
+    // Only show orders created within last 4 minutes
+    const created = o.createdAt?.seconds ? o.createdAt.seconds * 1000 : 0;
+    return created && (now - created) <= 4 * 60 * 1000;
+  });
   if(currentFilter==='mine_active') list = allOrders.filter(o=>o.deliveryId===currentUser.uid && ['accepted','on_way'].includes(o.status));
   if(currentFilter==='mine_done') list = allOrders.filter(o=>o.deliveryId===currentUser.uid && ['delivered','cancelled'].includes(o.status));
   list.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
