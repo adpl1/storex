@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>لوحة الإدارة - طلبات سريعة</title>
+<title> الإدارة - طلبات سريعة</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
 <style>
@@ -195,6 +195,7 @@ body{background:var(--light);color:var(--dark);font-size:14px;min-height:100vh}
     <div class="nav-link" data-page="storesPage"><i class="fas fa-store"></i> المتاجر</div>
     <div class="nav-link" data-page="productsPage"><i class="fas fa-box"></i> المنتجات</div>
     <div class="nav-link" data-page="bannersPage"><i class="fas fa-image"></i> البانرات</div>
+    <div class="nav-link" data-page="deliveryRequestsPage"><i class="fas fa-user-check"></i> طلبات المندوبين</div>
     <div class="nav-link" data-page="usersPage"><i class="fas fa-users"></i> المستخدمون</div>
     <div class="nav-link" data-page="settingsPage"><i class="fas fa-gear"></i> الإعدادات</div>
     <div class="nav-link" onclick="logout()" style="margin-top:30px;color:#FCA5A5"><i class="fas fa-right-from-bracket"></i> تسجيل الخروج</div>
@@ -267,6 +268,17 @@ body{background:var(--light);color:var(--dark);font-size:14px;min-height:100vh}
           <button class="btn btn-primary" onclick="openBannerModal()"><i class="fas fa-plus"></i> بانر جديد</button>
         </div>
         <div class="grid-items" id="bannersGrid"></div>
+      </div>
+
+      <!-- DELIVERY REQUESTS -->
+      <div id="deliveryRequestsPage" class="page">
+        <div class="tabs-row" id="deliveryReqTabs">
+          <button class="pill active" data-dstatus="all">الكل</button>
+          <button class="pill" data-dstatus="pending">قيد الانتظار</button>
+          <button class="pill" data-dstatus="active">مفعّلون</button>
+          <button class="pill" data-dstatus="rejected">مرفوضون</button>
+        </div>
+        <div id="deliveryReqList"></div>
       </div>
 
       <!-- USERS -->
@@ -388,7 +400,7 @@ window.showPage=(id)=>{
   $$('.page').forEach(p=>p.classList.remove('active'));
   $('#'+id).classList.add('active');
   $$('.nav-link').forEach(n=>n.classList.toggle('active', n.dataset.page===id));
-  const titles={dashboardPage:'لوحة التحكم',ordersPage:'الطلبات',storesPage:'المتاجر',productsPage:'المنتجات',bannersPage:'البانرات',usersPage:'المستخدمون',settingsPage:'الإعدادات'};
+  const titles={dashboardPage:'لوحة التحكم',ordersPage:'الطلبات',storesPage:'المتاجر',productsPage:'المنتجات',bannersPage:'البانرات',usersPage:'المستخدمون',settingsPage:'الإعدادات',deliveryRequestsPage:'طلبات المندوبين'};
   $('#pageTitle').textContent = titles[id]||'';
 };
 window.closeModal = (id)=>$('#'+id).classList.remove('show');
@@ -473,7 +485,7 @@ function initData(){
   });
   onSnapshot(collection(db,'users'), (snap)=>{
     allUsers = snap.docs.map(d=>({id:d.id,...d.data()}));
-    updateDashboard(); renderUsers();
+    updateDashboard(); renderUsers(); renderDeliveryRequests();
   });
   loadSettings();
 }
@@ -699,6 +711,91 @@ function renderBanners(){
       </div>
     </div>`).join('');
 }
+
+// DELIVERY REQUESTS
+let deliveryReqFilter = 'all';
+$$('#deliveryReqTabs .pill').forEach(p=>p.addEventListener('click',()=>{
+  $$('#deliveryReqTabs .pill').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active');
+  deliveryReqFilter = p.dataset.dstatus;
+  renderDeliveryRequests();
+}));
+
+// store images in memory to avoid putting base64 in HTML attributes
+const deliveryImagesMap = {};
+
+function openDeliveryImg(uid, key){
+  const src = deliveryImagesMap[uid]?.[key];
+  if(!src) return;
+  const win = window.open('','_blank');
+  win.document.write(`<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh"><img src="${src}" style="max-width:100%;max-height:100vh;object-fit:contain"></body></html>`);
+  win.document.close();
+}
+window.openDeliveryImg = openDeliveryImg;
+
+function renderDeliveryRequests(){
+  const el = $('#deliveryReqList');
+  if(!el) return;
+  let list = allUsers.filter(u=>u.role==='delivery');
+  console.log('كل المندوبين:', JSON.stringify(list.map(u=>({id:u.id,name:u.name,status:u.status,phone:u.phone,city:u.city}))));
+  if(deliveryReqFilter==='pending') list = list.filter(u=>!u.status||u.status==='pending');
+  else if(deliveryReqFilter==='active') list = list.filter(u=>u.status==='active');
+  else if(deliveryReqFilter==='rejected') list = list.filter(u=>u.status==='rejected');
+  // 'all' shows everything
+  console.log('بعد الفلتر ('+deliveryReqFilter+'):', list.length, 'مندوب');
+  if(!list.length){ el.innerHTML=`<div class="empty"><i class="fas fa-users-slash"></i><h4>لا يوجد مندوبون في هذا التبويب</h4><p style="font-size:13px;margin-top:6px">جرب تبويب "الكل"</p></div>`; return; }
+
+  list.forEach(u=>{
+    deliveryImagesMap[u.id] = {
+      selfie: u.selfie||null,
+      idFront: u.idFront||null,
+      idBack: u.idBack||null,
+      vehicleImage: u.vehicleImage||null
+    };
+  });
+
+  el.innerHTML = list.map(u=>`
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-head">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="avatar" style="width:48px;height:48px;font-size:18px">${(u.name||'?').charAt(0)}</div>
+          <div>
+            <h3 style="font-size:16px">${esc(u.name||'-')}</h3>
+            <span style="font-size:12px;color:var(--gray)">${esc(u.email||'-')}</span>
+          </div>
+        </div>
+        <span class="badge ${u.status==='active'?'delivered':u.status==='rejected'?'cancelled':'pending'}">${u.status==='active'?'مفعّل':u.status==='rejected'?'مرفوض':'قيد الانتظار'}</span>
+      </div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;font-size:13px">
+          <div style="background:var(--light);padding:10px;border-radius:10px"><span style="color:var(--gray);display:block;font-size:11px;margin-bottom:2px">الاسم الكامل</span><strong>${esc(u.name||'-')}</strong></div>
+          <div style="background:var(--light);padding:10px;border-radius:10px"><span style="color:var(--gray);display:block;font-size:11px;margin-bottom:2px">رقم الجوال</span><strong>${esc(u.phone||'-')}</strong></div>
+          <div style="background:var(--light);padding:10px;border-radius:10px"><span style="color:var(--gray);display:block;font-size:11px;margin-bottom:2px">المدينة</span><strong>${esc(u.city||'-')}</strong></div>
+          <div style="background:var(--light);padding:10px;border-radius:10px"><span style="color:var(--gray);display:block;font-size:11px;margin-bottom:2px">المركبة</span><strong>${esc(u.vehicle||'-')}</strong></div>
+          <div style="background:var(--light);padding:10px;border-radius:10px"><span style="color:var(--gray);display:block;font-size:11px;margin-bottom:2px">رقم الهوية</span><strong>${esc(u.idNumber||'-')}</strong></div>
+          <div style="background:var(--light);padding:10px;border-radius:10px"><span style="color:var(--gray);display:block;font-size:11px;margin-bottom:2px">البريد</span><strong style="font-size:12px">${esc(u.email||'-')}</strong></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+          ${u.selfie?`<div style="text-align:center"><p style="font-size:11px;color:var(--gray);margin-bottom:4px;font-weight:600">📸 صورة شخصية</p><img src="${u.selfie}" style="width:100%;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:pointer" onclick="openDeliveryImg('${u.id}','selfie')"></div>`:`<div style="background:#FEF2F2;border-radius:10px;display:flex;align-items:center;justify-content:center;height:90px;font-size:12px;color:var(--danger)">❌ لا توجد صورة شخصية</div>`}
+          ${u.idFront?`<div style="text-align:center"><p style="font-size:11px;color:var(--gray);margin-bottom:4px;font-weight:600">🪪 هوية أمامي</p><img src="${u.idFront}" style="width:100%;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:pointer" onclick="openDeliveryImg('${u.id}','idFront')"></div>`:`<div style="background:#FEF2F2;border-radius:10px;display:flex;align-items:center;justify-content:center;height:90px;font-size:12px;color:var(--danger)">❌ لا توجد هوية أمامي</div>`}
+          ${u.idBack?`<div style="text-align:center"><p style="font-size:11px;color:var(--gray);margin-bottom:4px;font-weight:600">🪪 هوية خلفي</p><img src="${u.idBack}" style="width:100%;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:pointer" onclick="openDeliveryImg('${u.id}','idBack')"></div>`:`<div style="background:#FEF2F2;border-radius:10px;display:flex;align-items:center;justify-content:center;height:90px;font-size:12px;color:var(--danger)">❌ لا توجد هوية خلفي</div>`}
+          ${u.vehicleImage?`<div style="text-align:center"><p style="font-size:11px;color:var(--gray);margin-bottom:4px;font-weight:600">🚗 صورة المركبة</p><img src="${u.vehicleImage}" style="width:100%;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:pointer" onclick="openDeliveryImg('${u.id}','vehicleImage')"></div>`:`<div style="background:#FEF2F2;border-radius:10px;display:flex;align-items:center;justify-content:center;height:90px;font-size:12px;color:var(--danger)">❌ لا توجد صورة مركبة</div>`}
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${u.status!=='active'?`<button class="btn btn-success" style="width:auto;padding:9px 20px" onclick="setDeliveryStatus('${u.id}','active')"><i class="fas fa-check"></i> تفعيل الحساب</button>`:''}
+          ${u.status!=='rejected'?`<button class="btn btn-danger" style="width:auto;padding:9px 20px" onclick="setDeliveryStatus('${u.id}','rejected')"><i class="fas fa-times"></i> رفض</button>`:''}
+          ${u.status==='rejected'?`<button class="btn btn-ghost" style="width:auto;padding:9px 20px" onclick="setDeliveryStatus('${u.id}','pending')"><i class="fas fa-rotate-left"></i> إعادة للانتظار</button>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+window.setDeliveryStatus = async (uid, status) => {
+  try{
+    await updateDoc(doc(db,'users',uid),{status});
+    toast(status==='active'?'تم تفعيل الحساب':status==='rejected'?'تم رفض الحساب':'تم التعديل','success');
+  }catch(e){toast('خطأ','error')}
+};
 
 // USERS
 $$('#usersTabs .pill').forEach(p=>p.addEventListener('click',()=>{
