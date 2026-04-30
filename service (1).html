@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>طلب خدمة - أدبل</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B1220; --surface:#111A2E; --surface-2:#172238; --line:#22304D;
+  --text:#E7ECF7; --muted:#8B98B5; --primary:#FFD400; --accent:#22D3EE;
+  --success:#22C55E; --danger:#EF4444; --orange:#F97316;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+.app{max-width:520px;margin:0 auto;min-height:100vh}
+.header{padding:22px 18px 16px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,var(--surface) 0%,#0F1A30 100%)}
+.header .logo{width:46px;height:46px;border-radius:14px;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 20px rgba(249,115,22,.25)}
+.header h2{font-size:18px;font-weight:900}
+.header p{font-size:12px;color:var(--muted)}
+.section{padding:14px 18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block;font-weight:500}
+.input,.textarea{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none}
+.textarea{min-height:90px;resize:vertical}
+.input:focus,.textarea:focus{border-color:var(--orange)}
+.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-ghost{background:var(--surface-2);color:var(--text);border:1px solid var(--line)}
+.btn-danger{background:var(--danger);color:#fff}
+.tabs{display:flex;background:var(--surface-2);border-radius:12px;padding:4px;margin-bottom:14px}
+.tab{flex:1;text-align:center;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)}
+.tab.active{background:var(--orange);color:#fff}
+.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.cats::-webkit-scrollbar{display:none}
+.cat{padding:8px 14px;background:var(--surface-2);border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border:1px solid var(--line);color:var(--muted)}
+.cat.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.search{display:flex;align-items:center;gap:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:12px}
+.search input{flex:1;background:transparent;border:none;color:var(--text);outline:none;font-size:14px;font-family:inherit}
+.fab-wrap{display:flex;gap:10px}
+.fab{position:static;transform:none;background:var(--orange);color:#fff;border:none;border-radius:999px;padding:14px 22px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;cursor:pointer;box-shadow:0 10px 30px rgba(249,115,22,.4);font-family:inherit}
+.svc{display:flex;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;cursor:pointer;transition:transform .12s}
+.svc:active{transform:scale(.99)}
+.svc-img{width:84px;height:84px;border-radius:12px;background:var(--surface-2);background-size:cover;background-position:center;flex-shrink:0;display:grid;place-items:center;color:var(--muted);font-size:24px}
+.svc-info{flex:1;min-width:0}
+.svc-info h4{font-size:15px;font-weight:800;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.svc-info .price{color:var(--orange);font-weight:900;font-size:16px}
+.svc-info .meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:4px}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty i{font-size:46px;margin-bottom:10px;opacity:.4}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(120%);background:#0B1220;color:#fff;padding:12px 18px;border-radius:12px;border:1px solid var(--line);font-size:14px;z-index:9999;transition:all .3s}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.err{border-color:var(--danger)}
+.toast.ok{border-color:var(--success)}
+.hidden{display:none!important}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:20px;max-height:92vh;overflow-y:auto}
+.modal h3{font-size:18px;margin-bottom:14px;font-weight:900}
+.field{margin-bottom:12px}
+.auth-wrap{padding:30px 20px;max-width:420px;margin:0 auto}
+.detail-img{width:100%;height:220px;border-radius:14px;background:var(--surface-2);background-size:cover;background-position:center;margin-bottom:14px;display:grid;place-items:center;color:var(--muted);font-size:54px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:none}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(249,115,22,.15);color:var(--orange);margin-right:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="logo"><i class="fas fa-handshake"></i></div>
+    <div><h2>طلب خدمة</h2><p>سوق الخدمات - بنفس روح حراج</p></div>
+  </div>
+
+  <!-- AUTH -->
+  <div id="authView" class="auth-wrap">
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-t="login">دخول</div>
+        <div class="tab" data-t="reg">حساب جديد</div>
+      </div>
+      <div id="loginBox">
+        <div class="field"><label class="label">البريد</label><input id="lEmail" class="input" type="email"></div>
+        <div class="field"><label class="label">كلمة المرور</label><input id="lPass" class="input" type="password"></div>
+        <button class="btn btn-primary" id="loginBtn"><i class="fas fa-right-to-bracket"></i> دخول</button>
+      </div>
+      <div id="regBox" class="hidden">
+        <div class="field"><label class="label">الاسم</label><input id="rName" class="input"></div>
+        <div class="field"><label class="label">رقم الجوال</label><input id="rPhone" class="input"></div>
+        <div class="field"><label class="label">البريد</label><input id="rEmail" class="input" type="email"></div>
+        <div class="field"><label class="label">كلمة المرور</label><input id="rPass" class="input" type="password" placeholder="6 أحرف على الأقل"></div>
+        <button class="btn btn-primary" id="regBtn"><i class="fas fa-user-plus"></i> إنشاء حساب</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div id="listView" class="hidden">
+    <div class="section">
+      <!-- Main tabs: عارضو الخدمات / طالبو الخدمات -->
+      <div class="tabs" id="mainTabs" style="margin-bottom:12px">
+        <div class="tab active" data-main="providers"><i class="fas fa-handshake" style="margin-left:4px"></i> عارضو الخدمات</div>
+        <div class="tab" data-main="requests"><i class="fas fa-hand-holding-hand" style="margin-left:4px"></i> طالبو الخدمات</div>
+      </div>
+      <div class="search"><i class="fas fa-search" style="color:var(--muted)"></i><input id="searchInput" placeholder="ابحث عن خدمة..."></div>
+      <div class="cats" id="catsList">
+        <div class="cat active" data-c="all">الكل</div>
+        <div class="cat" data-c="cleaning">تنظيف</div>
+        <div class="cat" data-c="maintenance">صيانة</div>
+        <div class="cat" data-c="electrical">كهرباء</div>
+        <div class="cat" data-c="plumbing">سباكة</div>
+        <div class="cat" data-c="moving">نقل عفش</div>
+        <div class="cat" data-c="ac">تكييف</div>
+        <div class="cat" data-c="paint">دهان</div>
+        <div class="cat" data-c="other">متفرقات</div>
+      </div>
+    </div>
+    <!-- Providers section -->
+    <div id="providersSection">
+      <div class="section" id="svcList"></div>
+    </div>
+    <!-- Requests section -->
+    <div id="requestsSection" class="hidden">
+      <div class="section" id="reqList"></div>
+    </div>
+  </div>
+
+  <!-- FAB buttons -->
+  <div class="fab-wrap hidden" id="fabWrap" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:50">
+    <button class="fab" id="addBtn" style="position:static;transform:none;box-shadow:0 10px 30px rgba(249,115,22,.4)"><i class="fas fa-plus"></i> أضف خدمة</button>
+    <button class="fab" id="reqBtn" style="position:static;transform:none;background:var(--accent);box-shadow:0 10px 30px rgba(34,211,238,.35)"><i class="fas fa-hand-holding-hand"></i> طلب خدمة</button>
+  </div>
+
+  <!-- ADD MODAL -->
+  <div class="modal-bg" id="addModal">
+    <div class="modal">
+      <h3><i class="fas fa-plus-circle"></i> نشر خدمة جديدة</h3>
+      <div class="field"><label class="label">عنوان الخدمة</label><input id="aTitle" class="input" placeholder="مثال: فني كهرباء منزلية"></div>
+      <div class="field"><label class="label">القسم</label>
+        <select id="aCat" class="input">
+          <option value="cleaning">تنظيف</option><option value="maintenance">صيانة</option>
+          <option value="electrical">كهرباء</option><option value="plumbing">سباكة</option>
+          <option value="moving">نقل عفش</option><option value="ac">تكييف</option>
+          <option value="paint">دهان</option><option value="other">متفرقات</option>
+        </select>
+      </div>
+      <div class="field"><label class="label">الوصف</label><textarea id="aDesc" class="textarea" placeholder="اشرح خدمتك بالتفصيل..."></textarea></div>
+      <div class="field"><label class="label">السعر (ل.س)</label><input id="aPrice" class="input" type="number" placeholder="مثال: 50000"></div>
+      <div class="field"><label class="label">المدينة / المنطقة</label><input id="aCity" class="input" placeholder="مثال: دمشق - المزة"></div>
+      <div class="field"><label class="label">رقم التواصل</label><input id="aPhone" class="input" placeholder="09xxxxxxxx"></div>
+      <div class="field"><label class="label">رابط صورة (اختياري)</label><input id="aImg" class="input" placeholder="https://..."></div>
+      <button class="btn btn-primary" id="submitAdd"><i class="fas fa-paper-plane"></i> نشر الخدمة</button>
+      <button class="btn btn-ghost" id="cancelAdd" style="margin-top:8px"><i class="fas fa-xmark"></i> إلغاء</button>
+    </div>
+  </div>
+
+  <!-- REQUEST SERVICE MODAL -->
+  <div class="modal-bg" id="reqModal">
+    <div class="modal">
+      <h3><i class="fas fa-hand-holding-hand"></i> طلب خدمة</h3>
+      <div class="field"><label class="label">عنوان الطلب</label><input id="rqTitle" class="input" placeholder="مثال: أحتاج فني كهرباء"></div>
+      <div class="field"><label class="label">القسم</label>
+        <select id="rqCat" class="input">
+          <option value="cleaning">تنظيف</option><option value="maintenance">صيانة</option>
+          <option value="electrical">كهرباء</option><option value="plumbing">سباكة</option>
+          <option value="moving">نقل عفش</option><option value="ac">تكييف</option>
+          <option value="paint">دهان</option><option value="other">متفرقات</option>
+        </select>
+      </div>
+      <div class="field"><label class="label">وصف الطلب</label><textarea id="rqDesc" class="textarea" placeholder="اشرح ما تحتاجه بالتفصيل..."></textarea></div>
+      <div class="field"><label class="label">الميزانية المتوقعة (ل.س)</label><input id="rqBudget" class="input" type="number" placeholder="مثال: 30000"></div>
+      <div class="field"><label class="label">المدينة / المنطقة</label><input id="rqCity" class="input" placeholder="مثال: دمشق - المزة"></div>
+      <div class="field"><label class="label">رقم التواصل</label><input id="rqPhone" class="input" placeholder="09xxxxxxxx"></div>
+      <button class="btn" id="submitReq" style="background:var(--accent);color:#0B1220;font-weight:800"><i class="fas fa-paper-plane"></i> نشر الطلب</button>
+      <button class="btn btn-ghost" id="cancelReq" style="margin-top:8px"><i class="fas fa-xmark"></i> إلغاء</button>
+    </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="modal-bg" id="detailModal">
+    <div class="modal" id="detailBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, addDoc, deleteDoc, onSnapshot, collection, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA3wjOh1IZLS5cK8dH0fB6nwKH50iXvFhk",
+  authDomain: "ahmad-b755f.firebaseapp.com",
+  projectId: "ahmad-b755f",
+  storageBucket: "ahmad-b755f.firebasestorage.app",
+  messagingSenderId: "1086597289816",
+  appId: "1:1086597289816:web:efe60451f04837b75e772d"
+};
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+setPersistence(auth, browserLocalPersistence).catch(()=>{});
+
+const $ = s => document.querySelector(s);
+const toast = (m,t='') => { const el=$('#toast'); el.textContent=m; el.className='toast show '+t; setTimeout(()=>el.classList.remove('show'),2500); };
+const CAT_LABEL = {all:'الكل',cleaning:'تنظيف',maintenance:'صيانة',electrical:'كهرباء',plumbing:'سباكة',moving:'نقل عفش',ac:'تكييف',paint:'دهان',other:'متفرقات'};
+const CAT_ICON = {cleaning:'fa-broom',maintenance:'fa-screwdriver-wrench',electrical:'fa-bolt',plumbing:'fa-droplet',moving:'fa-truck-ramp-box',ac:'fa-fan',paint:'fa-paint-roller',other:'fa-tag'};
+
+let user=null, userData=null, services=[], filterCat='all', searchQ='';
+
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  $('#loginBox').classList.toggle('hidden', t.dataset.t!=='login');
+  $('#regBox').classList.toggle('hidden', t.dataset.t!=='reg');
+}));
+
+$('#loginBtn').onclick = async ()=>{
+  try{ await signInWithEmailAndPassword(auth, $('#lEmail').value.trim(), $('#lPass').value); }
+  catch(e){ toast('فشل الدخول','err'); }
+};
+$('#regBtn').onclick = async ()=>{
+  const name=$('#rName').value.trim(), phone=$('#rPhone').value.trim(), email=$('#rEmail').value.trim(), pass=$('#rPass').value;
+  if(!name||!phone||!email||pass.length<6){ toast('الرجاء تعبئة جميع الحقول','err'); return; }
+  try{
+    const cred = await createUserWithEmailAndPassword(auth,email,pass);
+    await setDoc(doc(db,'users',cred.user.uid),{name,phone,email,createdAt:serverTimestamp()});
+  }catch(e){ toast('فشل التسجيل','err'); }
+};
+
+onAuthStateChanged(auth, async u=>{
+  if(!u){ $('#authView').classList.remove('hidden'); $('#listView').classList.add('hidden'); $('#fabWrap').classList.add('hidden'); return; }
+  user=u;
+  const ud = await getDoc(doc(db,'users',u.uid));
+  userData = ud.exists()? ud.data() : { name:u.email, phone:'', email:u.email };
+  $('#authView').classList.add('hidden');
+  $('#listView').classList.remove('hidden');
+  $('#fabWrap').classList.remove('hidden');
+  loadServices();
+  loadRequests();
+});
+
+let activeSection = 'providers', serviceRequests = [];
+
+// Main tab switch
+document.querySelectorAll('[data-main]').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('[data-main]').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  activeSection = t.dataset.main;
+  if(activeSection==='providers'){
+    $('#providersSection').classList.remove('hidden');
+    $('#requestsSection').classList.add('hidden');
+  } else {
+    $('#providersSection').classList.add('hidden');
+    $('#requestsSection').classList.remove('hidden');
+    renderRequests();
+  }
+}));
+
+function loadServices(){
+  onSnapshot(query(collection(db,'services'), orderBy('createdAt','desc')), snap=>{
+    services = snap.docs.map(d=>({id:d.id,...d.data()}));
+    render();
+  });
+}
+
+function loadRequests(){
+  onSnapshot(query(collection(db,'serviceRequests'), orderBy('createdAt','desc')), snap=>{
+    serviceRequests = snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(activeSection==='requests') renderRequests();
+  });
+}
+
+function renderRequests(){
+  const list = $('#reqList');
+  let arr = serviceRequests;
+  if(filterCat!=='all') arr = arr.filter(s=>s.category===filterCat);
+  if(searchQ) arr = arr.filter(s=>(s.title||'').toLowerCase().includes(searchQ)||(s.description||'').toLowerCase().includes(searchQ));
+  if(!arr.length){ list.innerHTML=`<div class="empty"><i class="fas fa-inbox"></i><h4>لا توجد طلبات</h4><p>كن أول من يطلب خدمة</p></div>`; return; }
+  list.innerHTML = arr.map(s=>`
+    <div class="svc">
+      <div class="svc-img" style="background:var(--surface-2);font-size:28px;color:var(--accent)"><i class="fas ${CAT_ICON[s.category]||'fa-tag'}"></i></div>
+      <div class="svc-info">
+        <h4>${s.title||'طلب خدمة'}</h4>
+        <div class="price" style="color:var(--accent)">${(+s.budget||0).toLocaleString()} ل.س</div>
+        <div class="meta"><i class="fas fa-location-dot"></i> ${s.city||'-'} <span class="badge" style="background:rgba(34,211,238,.15);color:var(--accent)">${CAT_LABEL[s.category]||'خدمة'}</span></div>
+        <div class="meta" style="margin-top:4px"><i class="fas fa-user"></i> ${s.requesterName||'-'}</div>
+      </div>
+      <a href="tel:${s.phone||''}" style="color:var(--accent);font-size:20px;display:flex;align-items:center;padding:0 8px"><i class="fas fa-phone"></i></a>
+    </div>`).join('');
+}
+
+document.querySelectorAll('.cat').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active'); filterCat=c.dataset.c; render(); renderRequests();
+}));
+$('#searchInput').addEventListener('input',e=>{ searchQ=e.target.value.trim().toLowerCase(); render(); renderRequests(); });
+
+function render(){
+  const list = $('#svcList');
+  let arr = services;
+  if(filterCat!=='all') arr = arr.filter(s=>s.category===filterCat);
+  if(searchQ) arr = arr.filter(s=>(s.title||'').toLowerCase().includes(searchQ)||(s.description||'').toLowerCase().includes(searchQ));
+  if(!arr.length){ list.innerHTML=`<div class="empty"><i class="fas fa-inbox"></i><h4>لا توجد خدمات</h4><p>كن أول من ينشر خدمة</p></div>`; return; }
+  list.innerHTML = arr.map(s=>{
+    const img = s.image ? `style="background-image:url('${s.image}')"` : '';
+    const icon = s.image ? '' : `<i class="fas ${CAT_ICON[s.category]||'fa-tag'}"></i>`;
+    return `<div class="svc" data-id="${s.id}">
+      <div class="svc-img" ${img}>${icon}</div>
+      <div class="svc-info">
+        <h4>${s.title||'خدمة'}</h4>
+        <div class="price">${(+s.price||0).toLocaleString()} ل.س</div>
+        <div class="meta"><i class="fas fa-location-dot"></i> ${s.city||'-'} <span class="badge">${CAT_LABEL[s.category]||'خدمة'}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.svc').forEach(el=>el.addEventListener('click',()=>openDetail(el.dataset.id)));
+}
+
+function openDetail(id){
+  const s = services.find(x=>x.id===id); if(!s) return;
+  const img = s.image ? `style="background-image:url('${s.image}')"` : '';
+  const icon = s.image ? '' : `<i class="fas ${CAT_ICON[s.category]||'fa-tag'}"></i>`;
+  const isMine = s.userId===user.uid;
+  $('#detailBody').innerHTML = `
+    <div class="detail-img" ${img}>${icon}</div>
+    <h3>${s.title}</h3>
+    <p style="color:var(--muted);margin:8px 0 14px;line-height:1.7">${s.description||''}</p>
+    <div class="row"><span>السعر</span><strong style="color:var(--orange);font-size:18px">${(+s.price||0).toLocaleString()} ل.س</strong></div>
+    <div class="row"><span>القسم</span><strong>${CAT_LABEL[s.category]||'-'}</strong></div>
+    <div class="row"><span>المنطقة</span><strong>${s.city||'-'}</strong></div>
+    <div class="row"><span>الناشر</span><strong>${s.providerName||'-'}</strong></div>
+    <a href="tel:${s.phone||''}" class="btn btn-primary" style="margin-top:14px"><i class="fas fa-phone"></i> اتصل: ${s.phone||''}</a>
+    <a href="https://wa.me/${(s.phone||'').replace(/[^0-9]/g,'')}" target="_blank" class="btn btn-ghost" style="margin-top:8px;background:#25D366;color:#fff;border:none"><i class="fab fa-whatsapp"></i> واتساب</a>
+    ${isMine?`<button class="btn btn-danger" id="delBtn" style="margin-top:8px"><i class="fas fa-trash"></i> حذف</button>`:''}
+    <button class="btn btn-ghost" id="closeDetail" style="margin-top:8px"><i class="fas fa-xmark"></i> إغلاق</button>
+  `;
+  $('#detailModal').classList.add('show');
+  $('#closeDetail').onclick = ()=> $('#detailModal').classList.remove('show');
+  if(isMine) $('#delBtn').onclick = async ()=>{
+    if(!confirm('حذف الخدمة؟')) return;
+    await deleteDoc(doc(db,'services',id));
+    $('#detailModal').classList.remove('show');
+    toast('تم الحذف','ok');
+  };
+}
+
+$('#addBtn').onclick = ()=> $('#addModal').classList.add('show');
+$('#reqBtn').onclick = ()=> $('#reqModal').classList.add('show');
+$('#cancelReq').onclick = ()=> $('#reqModal').classList.remove('show');
+$('#submitReq').onclick = async ()=>{
+  const data = {
+    title: $('#rqTitle').value.trim(),
+    category: $('#rqCat').value,
+    description: $('#rqDesc').value.trim(),
+    budget: +$('#rqBudget').value||0,
+    city: $('#rqCity').value.trim(),
+    phone: $('#rqPhone').value.trim() || userData.phone||'',
+    userId: user.uid,
+    requesterName: userData.name||user.email,
+    createdAt: serverTimestamp()
+  };
+  if(!data.title||!data.description||!data.phone){ toast('املأ الحقول الأساسية','err'); return; }
+  try{
+    await addDoc(collection(db,'serviceRequests'), data);
+    $('#reqModal').classList.remove('show');
+    ['#rqTitle','#rqDesc','#rqBudget','#rqCity','#rqPhone'].forEach(s=>$(s).value='');
+    toast('تم نشر الطلب','ok');
+  }catch(e){ toast('فشل النشر: '+e.message,'err'); }
+};
+$('#cancelAdd').onclick = ()=> $('#addModal').classList.remove('show');
+$('#submitAdd').onclick = async ()=>{
+  const data = {
+    title: $('#aTitle').value.trim(),
+    category: $('#aCat').value,
+    description: $('#aDesc').value.trim(),
+    price: +$('#aPrice').value||0,
+    city: $('#aCity').value.trim(),
+    phone: $('#aPhone').value.trim() || userData.phone||'',
+    image: $('#aImg').value.trim(),
+    userId: user.uid,
+    providerName: userData.name||user.email,
+    createdAt: serverTimestamp()
+  };
+  if(!data.title||!data.description||!data.phone){ toast('املأ الحقول الأساسية','err'); return; }
+  try{
+    await addDoc(collection(db,'services'), data);
+    $('#addModal').classList.remove('show');
+    ['#aTitle','#aDesc','#aPrice','#aCity','#aPhone','#aImg'].forEach(s=>$(s).value='');
+    toast('تم نشر الخدمة','ok');
+  }catch(e){ toast('فشل النشر: '+e.message,'err'); }
+};
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"7f7b0fd8732c4326aae4b9d58d5c514a","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
