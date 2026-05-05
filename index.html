@@ -15,6 +15,13 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <meta name="google-site-verification" content="DhT6dcetl6v_uKdz_S_asi6u918VSW4SRqR8GGCcKgw" />
   <link rel="icon" type="image/png" href="favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#F5C842">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ادبل">
+<link rel="apple-touch-icon" href="favicon.png">
+
 <style>
 :root{
   --primary:#FF5A1F; --primary-dark:#E04A10; --primary-light:#FFE8DD;
@@ -28,6 +35,18 @@ body{background:white;color:var(--dark);font-size:15px}
 .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;padding-bottom:80px;width:100%;-webkit-overflow-scrolling:touch;background:white;z-index:0}
 .screen.active{display:block;animation:fadeIn .3s;z-index:10}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+
+/* PWA Install Button */
+.pwa-install-bar{display:none;align-items:center;gap:12px;background:linear-gradient(135deg,#1A1D29,#2D3250);color:white;padding:14px 20px;margin:0 20px 16px;border-radius:16px;cursor:pointer;box-shadow:0 8px 24px rgba(26,29,41,.25);animation:fadeIn .4s}
+.pwa-install-bar.show{display:flex}
+.pwa-install-bar .pwa-ic{width:44px;height:44px;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.pwa-install-bar .pwa-ic img{width:100%;height:100%;object-fit:cover}
+.pwa-install-bar .pwa-text{flex:1}
+.pwa-install-bar .pwa-text h4{font-size:14px;font-weight:800;margin-bottom:2px}
+.pwa-install-bar .pwa-text p{font-size:11px;opacity:.75}
+.pwa-install-bar .pwa-btn-install{background:#F5C842;color:#1A1D29;border:none;border-radius:10px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.pwa-install-bar .pwa-close{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.12);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
 
 /* Auth */
 .auth-screen{background:linear-gradient(160deg,#F5C842 0%,#F0D060 50%,#F7E08A 100%);padding:40px 24px;padding-bottom:40px;display:flex;flex-direction:column;justify-content:center;min-height:100dvh}
@@ -236,31 +255,6 @@ body{background:white;color:var(--dark);font-size:15px}
 <body>
 <div class="app" id="app">
 
-<!-- AUTH -->
-<div id="authScreen" class="screen active auth-screen">
-  <div class="auth-logo" id="authLogo"><i class="fas fa-bolt"></i></div>
-  <h1 class="auth-title">طلبات سريعة</h1>
-  <p class="auth-sub">كل ما تحتاجه يصلك خلال دقائق</p>
-  <div class="auth-card">
-    <div class="tabs">
-      <div class="tab active" data-tab="login">دخول</div>
-      <div class="tab" data-tab="register">حساب جديد</div>
-    </div>
-    <div class="err" id="authErr"></div>
-    <div id="loginForm">
-      <div class="field"><label>البريد الإلكتروني</label><div class="input-wrap"><i class="far fa-envelope"></i><input id="loginEmail" class="input" type="email" placeholder="example@mail.com"></div></div>
-      <div class="field"><label>كلمة المرور</label><div class="input-wrap"><i class="fas fa-lock"></i><input id="loginPass" class="input" type="password" placeholder="••••••"></div></div>
-      <button class="btn btn-primary" id="loginBtn"><i class="fas fa-right-to-bracket"></i> تسجيل الدخول</button>
-    </div>
-    <div id="registerForm" style="display:none">
-      <div class="field"><label>الاسم الكامل</label><div class="input-wrap"><i class="far fa-user"></i><input id="regName" class="input" placeholder="اسمك الكريم"></div></div>
-      <div class="field"><label>رقم الجوال</label><div class="input-wrap"><i class="fas fa-phone"></i><input id="regPhone" class="input" placeholder="05xxxxxxxx"></div><small class="field-hint">يرجى وضع رقم هاتف صحيح لتتم عملية التواصل بشكل صحيح</small></div>
-      <div class="field"><label>البريد الإلكتروني</label><div class="input-wrap"><i class="far fa-envelope"></i><input id="regEmail" class="input" type="email" placeholder="example@mail.com"></div></div>
-      <div class="field"><label>كلمة المرور</label><div class="input-wrap"><i class="fas fa-lock"></i><input id="regPass" class="input" type="password" placeholder="6 أحرف على الأقل"></div></div>
-      <button class="btn btn-primary" id="regBtn"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
-    </div>
-  </div>
-</div>
 
 <!-- HOME -->
 <div id="homeScreen" class="screen">
@@ -270,6 +264,17 @@ body{background:white;color:var(--dark);font-size:15px}
       <div class="avatar" id="homeAvatar" onclick="showScreen('profileScreen')">-</div>
     </div>
     <div class="search-bar"><i class="fas fa-search" style="color:var(--gray)"></i><input placeholder="ابحث عن متجر أو منتج..." id="searchInput"></div>
+  </div>
+
+  <!-- PWA Install Bar -->
+  <div class="pwa-install-bar" id="pwaInstallBar">
+    <div class="pwa-ic"><img src="favicon.png" alt="ادبل"></div>
+    <div class="pwa-text">
+      <h4>ثبّت تطبيق ادبل</h4>
+      <p>للوصول السريع من شاشتك الرئيسية</p>
+    </div>
+    <button class="pwa-btn-install" id="pwaInstallBtn">تثبيت</button>
+    <button class="pwa-close" id="pwaCloseBtn"><i class="fas fa-times"></i></button>
   </div>
 
   <div class="section">
@@ -582,41 +587,7 @@ window.showScreen = (id) => {
 };
 
 $$('.nav-item').forEach(n=>n.addEventListener('click',()=>showScreen(n.dataset.nav)));
-$$('.tab').forEach(t=>t.addEventListener('click',()=>{
-  $$('.tab').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active');
-  const tab=t.dataset.tab;
-  $('#loginForm').style.display = tab==='login'?'block':'none';
-  $('#registerForm').style.display = tab==='register'?'block':'none';
-  $('#authErr').classList.remove('show');
-}));
-
-function showErr(m){const e=$('#authErr');e.textContent=m;e.classList.add('show')}
-
-$('#loginBtn').addEventListener('click', async ()=>{
-  const email=$('#loginEmail').value.trim(), pass=$('#loginPass').value;
-  if(!email||!pass)return showErr('أدخل البريد وكلمة المرور');
-  const btn = $('#loginBtn');
-  const original = btn.innerHTML;
-  btn.disabled=true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> يجري تسجيل دخولك';
-  try{await signInWithEmailAndPassword(auth,email,pass)}
-  catch(e){showErr(mapErr(e))}
-  finally{ btn.disabled=false; btn.innerHTML = original; }
-});
-
-$('#regBtn').addEventListener('click', async ()=>{
-  const name=$('#regName').value.trim(), phone=$('#regPhone').value.trim(), email=$('#regEmail').value.trim(), pass=$('#regPass').value;
-  if(!name||!phone||!email||!pass) return showErr('كل الحقول مطلوبة');
-  if(pass.length<6) return showErr('كلمة المرور 6 أحرف على الأقل');
-  $('#regBtn').disabled=true;
-  try{
-    const cred = await createUserWithEmailAndPassword(auth,email,pass);
-    await setDoc(doc(db,'users',cred.user.uid),{uid:cred.user.uid,name,phone,email,role:'user',createdAt:serverTimestamp()});
-  }catch(e){showErr(mapErr(e))}
-  $('#regBtn').disabled=false;
-});
-
+// Auth forms removed - handled in login.html
 function mapErr(e){
   const c=e.code||'';
   if(c.includes('email-already'))return 'البريد مسجل مسبقاً';
@@ -640,9 +611,8 @@ onAuthStateChanged(auth, async (user)=>{
     initApp();
   } else {
     currentUser=null; userData=null;
-    $('#bottomNav').style.display='none';
-    $('#authScreen').style.display='block';
-    showScreen('authScreen');
+    // توجيه لصفحة تسجيل الدخول
+    window.location.replace('login.html');
   }
 });
 
@@ -662,7 +632,6 @@ function initApp(){
   $('#profName').textContent = userData.name||'-';
   $('#profEmail').textContent = userData.email||'-';
   $('#bottomNav').style.display='flex';
-  $('#authScreen').style.display='none';
   $('#homeScreen').style.display='block';
   showScreen('homeScreen');
   loadHome();
@@ -1344,6 +1313,44 @@ async function refreshDeliveryEstimate(){
   if(feeText) feeText.textContent = currency(est.fee);
   if(checkFeeText) checkFeeText.textContent = currency(est.fee);
   if(estimateText) estimateText.textContent = est.courier ? `أقرب مندوب يبعد تقريباً ${est.km.toFixed(1)} كم، ورسوم التوصيل ${currency(est.fee)}` : `لم يتم العثور على مندوب متاح، ورسوم التوصيل ${currency(est.fee)} محسوبة حسب المسافة`;
+}
+
+// ===== PWA Install =====
+let _deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  _deferredPrompt = e;
+  const bar = document.getElementById('pwaInstallBar');
+  if(bar) bar.classList.add('show');
+});
+
+document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
+  if(!_deferredPrompt) return;
+  _deferredPrompt.prompt();
+  const { outcome } = await _deferredPrompt.userChoice;
+  _deferredPrompt = null;
+  const bar = document.getElementById('pwaInstallBar');
+  if(bar) bar.classList.remove('show');
+});
+
+document.getElementById('pwaCloseBtn')?.addEventListener('click', () => {
+  const bar = document.getElementById('pwaInstallBar');
+  if(bar) bar.classList.remove('show');
+  try{ localStorage.setItem('pwa_dismissed','1'); }catch(e){}
+});
+
+// إخفاء الزر إذا تم الإغلاق مسبقاً أو تم التثبيت
+try{ if(localStorage.getItem('pwa_dismissed')==='1'){ const bar = document.getElementById('pwaInstallBar'); if(bar) bar.style.display='none !important'; } }catch(e){}
+
+window.addEventListener('appinstalled', () => {
+  const bar = document.getElementById('pwaInstallBar');
+  if(bar) bar.classList.remove('show');
+  _deferredPrompt = null;
+});
+
+// تسجيل Service Worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
 
 </script>
