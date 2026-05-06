@@ -9,142 +9,192 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0B1220; --surface:#111A2E; --surface-2:#172238; --line:#22304D;
-  --text:#E7ECF7; --muted:#8B98B5; --primary:#FFD400; --primary-d:#E5BD00;
+  --bg:#0A1124; --surface:#0F1830; --surface-2:#15203B; --line:#243353;
+  --text:#EEF2FB; --muted:#94A3C0; --primary:#FFD23F; --primary-d:#E8B900;
   --accent:#22D3EE; --success:#22C55E; --danger:#EF4444;
+  --shadow-lg:0 18px 50px rgba(0,0,0,.45);
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
-body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-.app{max-width:520px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative}
-.header{padding:22px 18px 16px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,var(--surface) 0%,#0F1A30 100%)}
-.header .logo{width:46px;height:46px;border-radius:14px;background:var(--primary);color:#0B1220;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 20px rgba(255,212,0,.25)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(1200px 600px at 50% -100px, #1B2A52 0%, var(--bg) 60%) no-repeat, var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.app{max-width:520px;margin:0 auto;min-height:100vh;background:linear-gradient(180deg,rgba(255,255,255,.02) 0%,transparent 100%);position:relative;padding-bottom:84px}
+.header{padding:24px 20px 18px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#15203B 0%,#0F1A30 100%);position:sticky;top:0;z-index:30}
+.header .logo{width:48px;height:48px;border-radius:14px;background:var(--primary);color:#0B1220;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 22px rgba(255,210,63,.35)}
 .header h2{font-size:18px;font-weight:900}
 .header p{font-size:12px;color:var(--muted)}
-.section{padding:16px 18px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
-.label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block;font-weight:500}
-.input{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none}
-.input:focus{border-color:var(--primary)}
-.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s}
+.section{padding:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:16px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block;font-weight:600}
+.input{width:100%;background:var(--surface-2);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:.18s}
+.input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(255,210,63,.15)}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s, opacity .15s}
 .btn:active{transform:scale(.98)}
-.btn-primary{background:var(--primary);color:#0B1220}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:#0B1220;box-shadow:0 10px 24px rgba(255,210,63,.25)}
 .btn-ghost{background:var(--surface-2);color:var(--text);border:1px solid var(--line)}
 .btn-danger{background:var(--danger);color:#fff}
 .btn-success{background:var(--success);color:#fff}
-#map{height:340px;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
-.tabs{display:flex;background:var(--surface-2);border-radius:12px;padding:4px;margin-bottom:14px}
-.tab{flex:1;text-align:center;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)}
-.tab.active{background:var(--primary);color:#0B1220}
-.pill{display:inline-block;padding:5px 11px;border-radius:999px;font-size:11px;font-weight:700;background:var(--surface-2);color:var(--accent);border:1px solid var(--line)}
-.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
-.row:last-child{border-bottom:none}
-.row strong{font-weight:800}
-.row .v{color:var(--primary);font-weight:900}
-.muted{color:var(--muted);font-size:13px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120%);background:#0B1220;color:#fff;padding:12px 18px;border-radius:12px;border:1px solid var(--line);font-size:14px;z-index:9999;transition:all .3s}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.err{border-color:var(--danger)}
-.toast.ok{border-color:var(--success)}
-.hidden{display:none!important}
-.searching{text-align:center;padding:30px 20px}
-.pulse{width:80px;height:80px;border-radius:50%;background:var(--primary);margin:0 auto 18px;display:grid;place-items:center;font-size:34px;color:#0B1220;animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,212,0,.6)}50%{box-shadow:0 0 0 22px rgba(255,212,0,0)}}
-.captain-card{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface-2);border-radius:14px;margin-bottom:12px}
-.captain-avatar{width:54px;height:54px;border-radius:50%;background:var(--primary);color:#0B1220;display:grid;place-items:center;font-weight:900;font-size:20px}
-.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.status-bar{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface-2);border-radius:12px;margin-bottom:14px;font-weight:700;font-size:14px}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--success);animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.3}}
-.field{margin-bottom:12px}
-.auth-wrap{padding:30px 20px;max-width:420px;margin:0 auto}
-.auth-wrap h1{font-size:24px;margin-bottom:6px;font-weight:900}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+#map{height:360px;border-radius:18px;overflow:hidden;border:1px solid var(--line);position:relative}
 .leaflet-control-attribution{font-size:9px!important}
-.legend{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-bottom:8px;flex-wrap:wrap}
-.legend span{display:flex;align-items:center;gap:5px}
-.legend i.dot-c{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* Manual pin centered on map but offset to the right (RTL: visually toward right side) */
+.center-pin{position:absolute;top:50%;left:50%;transform:translate(-180%,-100%);pointer-events:none;z-index:400;display:none}
+.center-pin.show{display:block}
+.center-pin .pin{width:34px;height:34px;background:#EF4444;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 6px 18px rgba(0,0,0,.55);position:relative}
+.center-pin .pin::after{content:'';position:absolute;top:8px;left:8px;width:14px;height:14px;border-radius:50%;background:#fff}
+
+.legend{display:flex;gap:10px;font-size:12px;color:var(--muted);margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.legend .dot-c{width:10px;height:10px;border-radius:50%;display:inline-block;margin-left:5px}
 .dot-pickup{background:#22D3EE}
 .dot-dest{background:#EF4444}
+
+.row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:none}
+.row .v{color:var(--primary);font-weight:900;font-size:17px}
+
+/* Search panel */
+.search-bar{display:flex;gap:8px;align-items:center;margin-top:12px}
+.search-input-wrap{flex:1;display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;transition:.18s}
+.search-input-wrap:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(255,210,63,.12)}
+.search-input-wrap input{flex:1;background:transparent;border:none;color:var(--text);outline:none;font-size:14px;font-family:inherit}
+.search-input-wrap i{color:var(--muted)}
+.icon-square{width:48px;height:48px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:pointer;color:#EF4444;font-size:18px;flex-shrink:0;transition:.18s}
+.icon-square:hover{background:rgba(239,68,68,.1);border-color:#EF4444}
+.icon-square.active{background:rgba(239,68,68,.18);border-color:#EF4444;box-shadow:0 0 0 3px rgba(239,68,68,.15)}
+.manual-label{font-size:11px;color:#94A3C0;text-align:center;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700}
+.manual-label i{color:#EF4444}
+
+.results{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;margin-top:10px;display:none;max-height:280px;overflow-y:auto}
+.results.show{display:block}
+.result-item{padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13px;display:flex;align-items:center;gap:10px}
+.result-item:last-child{border-bottom:none}
+.result-item:hover{background:rgba(255,255,255,.04)}
+.result-item .res-ic{width:32px;height:32px;border-radius:10px;background:rgba(255,210,63,.15);color:var(--primary);display:grid;place-items:center;flex-shrink:0}
+.result-item .res-body{flex:1;min-width:0}
+.result-item .res-name{font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result-item .res-dist{font-size:11px;color:var(--muted);margin-top:2px}
+
+.manual-hint{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.3);color:#67E8F9;padding:10px 14px;border-radius:12px;font-size:12px;margin-top:10px;display:flex;gap:8px;align-items:center;line-height:1.5}
+
+/* Tracking */
+.searching{text-align:center;padding:36px 20px}
+.pulse{width:90px;height:90px;border-radius:50%;background:var(--primary);margin:0 auto 22px;display:grid;place-items:center;font-size:36px;color:#0B1220;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,210,63,.6)}50%{box-shadow:0 0 0 28px rgba(255,210,63,0)}}
+.captain-card{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface-2);border-radius:14px;margin-bottom:12px}
+.captain-avatar{width:54px;height:54px;border-radius:50%;background:var(--primary);color:#0B1220;display:grid;place-items:center;font-weight:900;font-size:20px}
+.status-bar{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;background:var(--surface-2);border-radius:14px;margin-bottom:14px;font-weight:800;font-size:14px;border:1px solid var(--line)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--success);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(120%);background:#0B1220;color:#fff;padding:12px 20px;border-radius:14px;border:1px solid var(--line);font-size:14px;z-index:9999;transition:.3s}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.err{border-color:var(--danger);background:#2C1010}
+.toast.ok{border-color:var(--success);background:#0E2018}
+.hidden{display:none!important}
+
+/* Bottom Nav */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:rgba(15,24,48,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding:8px 0;z-index:50}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px;cursor:pointer;color:var(--muted);font-size:11px;font-weight:700;transition:.15s}
+.nav-item i{font-size:18px}
+.nav-item.active{color:var(--primary)}
+
+.page{display:none}
+.page.active{display:block;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Orders list */
+.order-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;cursor:pointer;transition:.15s}
+.order-card:hover{border-color:var(--primary)}
+.order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.badge{padding:4px 11px;border-radius:100px;font-size:11px;font-weight:800}
+.badge.searching{background:rgba(245,158,11,.18);color:#FBBF24}
+.badge.accepted{background:rgba(59,130,246,.18);color:#60A5FA}
+.badge.arrived{background:rgba(168,85,247,.18);color:#C084FC}
+.badge.in_progress{background:rgba(99,102,241,.18);color:#A5B4FC}
+.badge.completed{background:rgba(34,197,94,.18);color:#4ADE80}
+.badge.cancelled{background:rgba(239,68,68,.18);color:#FCA5A5}
+
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty i{font-size:54px;margin-bottom:14px;opacity:.4}
+
+.section-title{font-size:16px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+.completed-card{text-align:center;padding:32px 20px}
+.check-big{width:84px;height:84px;border-radius:50%;background:var(--success);margin:0 auto 16px;display:grid;place-items:center;font-size:36px;color:#fff}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
     <div class="logo"><i class="fas fa-taxi"></i></div>
-    <div><h2>طلب سيارة</h2><p>اوبر بنفس البساطة، مع كباتن قريبين منك</p></div>
+    <div><h2>طلب سيارة</h2><p>وصّلك لأي مكان بسرعة وأمان</p></div>
   </div>
 
-  <!-- AUTH -->
-  <div id="authView" class="auth-wrap">
-    <div class="card">
-      <div class="tabs">
-        <div class="tab active" data-t="login">دخول</div>
-        <div class="tab" data-t="reg">حساب جديد</div>
-      </div>
-      <div id="loginBox">
-        <div class="field"><label class="label">البريد</label><input id="lEmail" class="input" type="email" placeholder="example@mail.com"></div>
-        <div class="field"><label class="label">كلمة المرور</label><input id="lPass" class="input" type="password" placeholder="••••••"></div>
-        <button class="btn btn-primary" id="loginBtn"><i class="fas fa-right-to-bracket"></i> تسجيل الدخول</button>
-      </div>
-      <div id="regBox" class="hidden">
-        <div class="field"><label class="label">الاسم</label><input id="rName" class="input" placeholder="اسمك"></div>
-        <div class="field"><label class="label">رقم الجوال</label><input id="rPhone" class="input" placeholder="09xxxxxxxx"></div>
-        <div class="field"><label class="label">البريد</label><input id="rEmail" class="input" type="email"></div>
-        <div class="field"><label class="label">كلمة المرور</label><input id="rPass" class="input" type="password" placeholder="6 أحرف على الأقل"></div>
-        <button class="btn btn-primary" id="regBtn"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOOK -->
-  <div id="bookView" class="hidden">
+  <!-- HOME / BOOK -->
+  <div id="homePage" class="page active">
     <div class="section">
       <div class="card">
         <div class="legend">
           <span><i class="dot-c dot-pickup"></i> موقعك</span>
           <span><i class="dot-c dot-dest"></i> الوجهة</span>
-          <span style="color:var(--accent)" id="mapHint"><i class="fas fa-info-circle"></i> جاري تحديد موقعك تلقائياً...</span>
+          <span style="color:var(--accent);margin-right:auto" id="mapHint"><i class="fas fa-info-circle"></i> جاري تحديد موقعك...</span>
         </div>
-        <div id="map"></div>
-        <div style="margin-top:10px;display:flex;gap:8px" id="mapButtons">
-          <button class="btn btn-ghost hidden" id="useGpsBtn" style="flex:1"><i class="fas fa-location-crosshairs"></i> موقعي الحالي</button>
-          <button class="btn btn-ghost hidden" id="destBtn" style="flex:1;background:var(--primary);color:#0B1220;border:none"><i class="fas fa-map-marker-alt"></i> تحديد الوجهة</button>
-          <button class="btn btn-ghost" id="resetMapBtn" style="flex:1"><i class="fas fa-rotate-right"></i> إعادة تعيين</button>
+        <div id="mapWrap" style="position:relative">
+          <div id="map"></div>
+          <div class="center-pin" id="centerPin"><div class="pin"></div></div>
         </div>
+        <div style="margin-top:12px;display:flex;gap:8px" id="mapButtons">
+          <button class="btn btn-ghost hidden" id="useGpsBtn" style="flex:1"><i class="fas fa-location-crosshairs"></i> موقعي</button>
+          <button class="btn btn-ghost hidden" id="destBtn" style="flex:1;background:var(--primary);color:#0B1220;border:none;font-weight:900"><i class="fas fa-map-marker-alt"></i> تحديد الوجهة</button>
+          <button class="btn btn-ghost" id="resetMapBtn" style="flex:1"><i class="fas fa-rotate-right"></i> تعيين</button>
+        </div>
+
         <!-- Destination Search Panel -->
-        <div id="destPanel" class="hidden" style="margin-top:10px">
-          <div style="display:flex;gap:8px;align-items:center">
-            <div style="flex:1;display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px 14px">
-              <i class="fas fa-search" style="color:var(--muted)"></i>
-              <input id="destSearchInput" placeholder="ابحث عن الوجهة..." style="flex:1;background:transparent;border:none;color:var(--text);outline:none;font-size:14px;font-family:inherit">
+        <div id="destPanel" class="hidden" style="margin-top:14px">
+          <div class="search-bar">
+            <div class="search-input-wrap">
+              <i class="fas fa-search"></i>
+              <input id="destSearchInput" placeholder="ابحث عن وجهتك (اسم محل، منطقة...)">
             </div>
-            <button id="manualPinBtn" class="btn btn-ghost" style="width:auto;padding:10px 14px;flex-shrink:0" title="حدد الموقع يدوياً"><i class="fas fa-map-pin" style="color:#EF4444"></i></button>
+            <div class="icon-square" id="manualPinBtn" title="تحديد الموقع يدوياً"><i class="fas fa-map-pin"></i></div>
           </div>
-          <div id="searchResults" style="background:var(--surface-2);border:1px solid var(--line);border-radius:12px;margin-top:6px;display:none;max-height:200px;overflow-y:auto"></div>
-          <p id="manualPinHint" class="hidden" style="font-size:12px;color:var(--accent);margin-top:6px;text-align:center"><i class="fas fa-info-circle"></i> حرّك الدبوس الأحمر في الخريطة إلى موقعك المطلوب ثم اضغط <strong>تأكيد الموقع</strong></p>
-          <button id="confirmManualPin" class="btn btn-primary hidden" style="margin-top:8px"><i class="fas fa-check"></i> تأكيد الموقع</button>
+          <div class="manual-label" id="manualPinLabel">
+            <i class="fas fa-map-pin"></i> اضغط الدبوس الأحمر لتحديد الموقع يدوياً
+          </div>
+          <div class="results" id="searchResults"></div>
+          <div class="manual-hint hidden" id="manualPinHint"><i class="fas fa-info-circle"></i> حرّك الخريطة حتى يصبح الدبوس الأحمر فوق الموقع المطلوب، ثم اضغط <strong>تأكيد الموقع</strong></div>
+          <button class="btn btn-primary hidden" id="confirmManualPin" style="margin-top:10px"><i class="fas fa-check"></i> تأكيد الموقع</button>
         </div>
       </div>
 
       <div class="card" id="estCard">
+        <h3 class="section-title"><i class="fas fa-receipt"></i> تفاصيل الرحلة</h3>
         <div class="row"><span>المسافة المتوقعة</span><strong id="distVal">—</strong></div>
         <div class="row"><span>أقرب كابتن</span><strong id="captainDistVal">—</strong></div>
         <div class="row"><span>السعر التقديري</span><strong class="v" id="priceVal">—</strong></div>
-        <p class="muted" style="margin-top:8px;font-size:11px"><i class="fas fa-info-circle"></i> الحساب: 5000 رسم افتتاحي + 1500/كم للرحلة + 1000/كم لوصول الكابتن</p>
+        <p style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.6"><i class="fas fa-info-circle"></i> الحساب: 5000 رسم افتتاحي + 1500/كم للرحلة + 1000/كم لوصول الكابتن</p>
       </div>
 
-      <button class="btn btn-primary" id="confirmBtn" disabled style="opacity:.5"><i class="fas fa-check"></i> تأكيد الطلب</button>
-      <button class="btn btn-ghost" id="logoutBtn" style="margin-top:10px"><i class="fas fa-right-from-bracket"></i> خروج</button>
+      <button class="btn btn-primary" id="confirmBtn" disabled><i class="fas fa-check"></i> تأكيد الطلب</button>
     </div>
   </div>
 
-  <!-- TRACKING -->
-  <div id="trackView" class="hidden">
+  <!-- ORDERS -->
+  <div id="ordersPage" class="page">
+    <div class="section">
+      <h3 class="section-title"><i class="fas fa-clock-rotate-left"></i> طلباتي</h3>
+      <div id="ordersList"></div>
+    </div>
+  </div>
+
+  <!-- TRACKING (overlay-like) -->
+  <div id="trackPage" class="page">
     <div class="section">
       <div class="card" id="searchingCard">
         <div class="searching">
           <div class="pulse"><i class="fas fa-magnifying-glass"></i></div>
-          <h3>جارِ البحث عن كابتن...</h3>
-          <p class="muted" style="margin-top:8px">سيتم إرسال طلبك لأقرب كابتن متصل</p>
+          <h3 style="font-size:18px;font-weight:900">جارِ البحث عن كابتن...</h3>
+          <p style="margin-top:8px;color:var(--muted);font-size:13px">سيتم إرسال طلبك لأقرب كابتن متصل</p>
         </div>
         <button class="btn btn-danger" id="cancelSearchBtn"><i class="fas fa-xmark"></i> إلغاء</button>
       </div>
@@ -154,8 +204,8 @@ body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
         <div class="card">
           <div class="captain-card">
             <div class="captain-avatar" id="capAvatar">ك</div>
-            <div style="flex:1"><strong id="capName">-</strong><div class="muted" id="capPhone">-</div></div>
-            <a id="capCallBtn" href="#" class="btn btn-ghost" style="width:auto;padding:10px 14px"><i class="fas fa-phone"></i></a>
+            <div style="flex:1"><strong id="capName">-</strong><div style="color:var(--muted);font-size:12px;margin-top:2px" id="capPhone">-</div></div>
+            <a id="capCallBtn" href="#" class="btn btn-ghost" style="width:auto;padding:11px 14px"><i class="fas fa-phone"></i></a>
           </div>
           <div class="row"><span>المسافة</span><strong id="trkDist">—</strong></div>
           <div class="row"><span>السعر</span><strong class="v" id="trkPrice">—</strong></div>
@@ -164,118 +214,94 @@ body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
       </div>
 
       <div id="completedBox" class="hidden">
-        <div class="card" style="text-align:center;padding:30px 20px">
-          <div style="width:80px;height:80px;border-radius:50%;background:var(--success);margin:0 auto 14px;display:grid;place-items:center;font-size:34px;color:#fff"><i class="fas fa-check"></i></div>
-          <h3>اكتملت الرحلة</h3>
-          <p class="muted" style="margin-top:8px">شكراً لاستخدامك خدمتنا</p>
+        <div class="card completed-card">
+          <div class="check-big"><i class="fas fa-check"></i></div>
+          <h3 style="font-size:20px;font-weight:900">اكتملت الرحلة</h3>
+          <p style="margin-top:8px;color:var(--muted)">شكراً لاستخدامك خدمتنا</p>
         </div>
         <button class="btn btn-primary" id="newRideBtn"><i class="fas fa-plus"></i> طلب رحلة جديدة</button>
       </div>
     </div>
   </div>
 </div>
+
+<div class="bottom-nav" id="bottomNav">
+  <div class="nav-item active" data-nav="homePage"><i class="fas fa-house"></i><span>الرئيسية</span></div>
+  <div class="nav-item" data-nav="ordersPage"><i class="fas fa-receipt"></i><span>طلباتي</span></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, addDoc, updateDoc, onSnapshot, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA3wjOh1IZLS5cK8dH0fB6nwKH50iXvFhk",
-  authDomain: "ahmad-b755f.firebaseapp.com",
-  projectId: "ahmad-b755f",
-  storageBucket: "ahmad-b755f.firebasestorage.app",
-  messagingSenderId: "1086597289816",
-  appId: "1:1086597289816:web:efe60451f04837b75e772d"
-};
+const firebaseConfig = { apiKey:"AIzaSyA3wjOh1IZLS5cK8dH0fB6nwKH50iXvFhk", authDomain:"ahmad-b755f.firebaseapp.com", projectId:"ahmad-b755f", storageBucket:"ahmad-b755f.firebasestorage.app", messagingSenderId:"1086597289816", appId:"1:1086597289816:web:efe60451f04837b75e772d" };
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
 setPersistence(auth, browserLocalPersistence).catch(()=>{});
 
-// Pricing strategy
-const BASE_FARE = 5000;        // SYP
-const PER_KM_TRIP = 1500;      // per km of trip
-const PER_KM_PICKUP = 1000;    // per km from captain to customer
-const SEARCH_RADIUS_KM = 30;
+const BASE_FARE = 5000, PER_KM_TRIP = 1500, PER_KM_PICKUP = 1000, SEARCH_RADIUS_KM = 30;
 
 const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
 const toast = (m,t='') => { const el=$('#toast'); el.textContent=m; el.className='toast show '+t; setTimeout(()=>el.classList.remove('show'),2500); };
 const km = (a,b)=>{ const R=6371,toR=x=>x*Math.PI/180; const dLat=toR(b.lat-a.lat),dLng=toR(b.lng-a.lng); const x=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2; return 2*R*Math.asin(Math.sqrt(x)); };
+function esc(s){return String(s||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]))}
 
 let user=null, userData=null, map=null, pickupMarker=null, destMarker=null, routeLine=null;
 let pickup=null, dest=null, routeKm=0, nearestCaptain=null, nearestKm=null, totalPrice=0;
-let activeRideId=null, rideUnsub=null, captainMarker=null;
+let activeRideId=null, rideUnsub=null, ordersUnsub=null;
+let manualPinMode=false;
 
-// Tabs
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active');
-  $('#loginBox').classList.toggle('hidden', t.dataset.t!=='login');
-  $('#regBox').classList.toggle('hidden', t.dataset.t!=='reg');
-}));
-
-$('#loginBtn').onclick = async ()=>{
-  try{ await signInWithEmailAndPassword(auth, $('#lEmail').value.trim(), $('#lPass').value); }
-  catch(e){ toast('فشل الدخول: '+(e.code||e.message),'err'); }
+// === Pages
+window.showPage = (id) => {
+  $$('.page').forEach(p=>p.classList.remove('active'));
+  $('#'+id).classList.add('active');
+  $$('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.nav===id));
+  if(id==='homePage') setTimeout(()=>{ if(map) map.invalidateSize(); }, 150);
 };
-$('#regBtn').onclick = async ()=>{
-  const name=$('#rName').value.trim(), phone=$('#rPhone').value.trim(), email=$('#rEmail').value.trim(), pass=$('#rPass').value;
-  if(!name||!phone||!email||pass.length<6){ toast('الرجاء تعبئة جميع الحقول','err'); return; }
-  try{
-    const cred = await createUserWithEmailAndPassword(auth,email,pass);
-    await setDoc(doc(db,'users',cred.user.uid),{ name, phone, email, createdAt: serverTimestamp() });
-  }catch(e){ toast('فشل التسجيل: '+(e.code||e.message),'err'); }
-};
+$$('.nav-item').forEach(n=>n.addEventListener('click',()=>showPage(n.dataset.nav)));
 
+// === Auth: redirect to login if not authed
 onAuthStateChanged(auth, async u=>{
-  if(!u){ $('#authView').classList.remove('hidden'); $('#bookView').classList.add('hidden'); $('#trackView').classList.add('hidden'); return; }
-  user=u;
+  if(!u){ window.location.replace('ride-login.html'); return; }
+  user = u;
   const ud = await getDoc(doc(db,'users',u.uid));
-  userData = ud.exists()? ud.data() : { name:u.email, phone:'', email:u.email };
-  $('#authView').classList.add('hidden');
-  // Check if user has an active ride
+  userData = ud.exists() ? ud.data() : { name:u.email, phone:'', email:u.email };
+  // Initialize map and check active ride
+  initMap(); autoGps();
+  subscribeOrders();
   const q = query(collection(db,'rides'), where('customerId','==',u.uid), where('status','in',['searching','accepted','arrived','in_progress']));
   const snap = await getDocs(q);
   if(!snap.empty){
     activeRideId = snap.docs[0].id;
     showTracking();
-  } else {
-    showBook();
   }
 });
 
-$('#logoutBtn').onclick = ()=> signOut(auth);
-
-function showBook(){
-  $('#bookView').classList.remove('hidden');
-  $('#trackView').classList.add('hidden');
-  setTimeout(()=>{ initMap(); autoGps(); }, 300);
-}
-
 function initMap(){
   if(map){ map.invalidateSize(); return; }
-  // Default to Damascus
   map = L.map('map',{zoomControl:true}).setView([33.5138,36.2765],13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
   map.on('click', e=>{
+    if(manualPinMode) return; // ignore clicks while picking via center pin
     if(!pickup){ setPickup(e.latlng); }
     else if(!dest){ setDest(e.latlng); }
-    else { // reset and start over
-      resetMap(); setPickup(e.latlng);
-    }
+    else { resetMap(); setPickup(e.latlng); }
   });
 }
 
-function pinIcon(color){ return L.divIcon({className:'',html:`<div style="background:${color};width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.5)"></div>`,iconAnchor:[11,22]}); }
+function pinIcon(color){ return L.divIcon({className:'',html:`<div style="background:${color};width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.5)"></div>`,iconAnchor:[12,24]}); }
 
 function setPickup(ll){
   pickup={lat:ll.lat,lng:ll.lng};
   if(pickupMarker) pickupMarker.remove();
   pickupMarker = L.marker(ll,{icon:pinIcon('#22D3EE')}).addTo(map).bindPopup('موقعك').openPopup();
-  toast('تم تحديد موقعك. اضغط لتحديد الوجهة','ok');
+  showDestBtn();
 }
 function setDest(ll){
   dest={lat:ll.lat,lng:ll.lng};
@@ -289,12 +315,11 @@ function resetMap(){
   if(destMarker){ destMarker.remove(); destMarker=null; }
   if(routeLine){ routeLine.remove(); routeLine=null; }
   $('#distVal').textContent='—'; $('#captainDistVal').textContent='—'; $('#priceVal').textContent='—';
-  $('#confirmBtn').disabled=true; $('#confirmBtn').style.opacity=.5;
+  $('#confirmBtn').disabled=true;
+  exitManualPin();
 }
 $('#resetMapBtn').onclick = ()=>{ resetMap(); autoGps(); };
-$('#useGpsBtn').onclick = ()=>{ autoGps(); };
-
-let manualPinMode = false, manualPinMarker = null;
+$('#useGpsBtn').onclick = ()=> autoGps();
 
 function autoGps(){
   if(!navigator.geolocation){ toast('GPS غير مدعوم','err'); return; }
@@ -306,7 +331,7 @@ function autoGps(){
     showDestBtn();
   }, ()=>{
     toast('تعذر تحديد موقعك تلقائياً','err');
-    $('#mapHint').innerHTML='<i class="fas fa-info-circle"></i> اضغط على الخريطة لتحديد موقعك';
+    $('#mapHint').innerHTML='<i class="fas fa-info-circle"></i> اضغط الخريطة لتحديد موقعك';
     $('#useGpsBtn').classList.remove('hidden');
   });
 }
@@ -320,80 +345,112 @@ $('#destBtn').onclick = ()=>{
   $('#destPanel').classList.remove('hidden');
   $('#destBtn').classList.add('hidden');
   $('#destSearchInput').focus();
+  // Trigger empty search to display nearby places sorted by distance
+  searchPlace('');
 };
 
-// Search destinations using Nominatim
-let searchTimeout = null;
+// Nominatim search with proximity bias - shows nearby places sorted by distance
+let searchTimeout=null;
 $('#destSearchInput').addEventListener('input', e=>{
   clearTimeout(searchTimeout);
   const q = e.target.value.trim();
-  if(q.length < 2){ $('#searchResults').style.display='none'; return; }
-  searchTimeout = setTimeout(()=>searchPlace(q), 500);
+  searchTimeout = setTimeout(()=>searchPlace(q), 400);
 });
 
 async function searchPlace(q){
+  const box = $('#searchResults');
+  box.classList.add('show');
+  box.innerHTML = `<div style="padding:14px;color:var(--muted);text-align:center"><i class="fas fa-spinner fa-spin"></i> جاري البحث...</div>`;
   try{
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=5&accept-language=ar`;
+    let url;
+    const lat = pickup?.lat || 33.5138;
+    const lng = pickup?.lng || 36.2765;
+    if(q.length < 2){
+      // Show nearby POIs (shops, restaurants, shopping)
+      url = `https://nominatim.openstreetmap.org/search?format=json&q=shop&limit=15&accept-language=ar&viewbox=${lng-0.05},${lat+0.05},${lng+0.05},${lat-0.05}&bounded=1`;
+    } else {
+      url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=15&accept-language=ar&viewbox=${lng-0.2},${lat+0.2},${lng+0.2},${lat-0.2}&bounded=0`;
+    }
     const res = await fetch(url, {headers:{'Accept-Language':'ar'}});
-    const data = await res.json();
-    const box = $('#searchResults');
-    if(!data.length){ box.innerHTML=`<div style="padding:12px;color:var(--muted);text-align:center">لا توجد نتائج</div>`; box.style.display='block'; return; }
-    box.style.display='block';
-    box.innerHTML = data.map(p=>`
-      <div class="search-result-item" data-lat="${p.lat}" data-lng="${p.lon}" style="padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13px">
-        <i class="fas fa-map-marker-alt" style="color:#EF4444;margin-left:8px"></i>${p.display_name}
-      </div>`).join('');
-    box.querySelectorAll('.search-result-item').forEach(el=>el.addEventListener('click',()=>{
+    let data = await res.json();
+    if(!Array.isArray(data) || !data.length){ box.innerHTML=`<div style="padding:16px;color:var(--muted);text-align:center"><i class="fas fa-search-minus"></i> لا توجد نتائج</div>`; return; }
+    // sort by distance from pickup
+    data = data.map(p=>({...p,_d: km({lat,lng},{lat:+p.lat,lng:+p.lon})})).sort((a,b)=>a._d-b._d);
+    box.innerHTML = data.map(p=>{
+      const name = (p.display_name||'').split(',').slice(0,2).join('، ');
+      return `<div class="result-item" data-lat="${p.lat}" data-lng="${p.lon}">
+        <div class="res-ic"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="res-body"><div class="res-name">${esc(name)}</div><div class="res-dist">${p._d.toFixed(2)} كم</div></div>
+      </div>`;
+    }).join('');
+    box.querySelectorAll('.result-item').forEach(el=>el.addEventListener('click',()=>{
       const ll = L.latLng(+el.dataset.lat, +el.dataset.lng);
       setDest(ll); map.setView(ll,15);
-      box.style.display='none'; $('#destPanel').classList.add('hidden');
+      box.classList.remove('show'); $('#destPanel').classList.add('hidden');
       $('#destSearchInput').value='';
     }));
-  }catch(e){ toast('خطأ في البحث','err'); }
+  }catch(e){ box.innerHTML=`<div style="padding:16px;color:var(--danger);text-align:center">خطأ في البحث</div>`; }
 }
 
-// Manual pin mode
+// Manual pin: show center pin overlay (offset to right of center via CSS)
 $('#manualPinBtn').onclick = ()=>{
   manualPinMode = true;
+  $('#centerPin').classList.add('show');
   $('#manualPinHint').classList.remove('hidden');
   $('#confirmManualPin').classList.remove('hidden');
-  if(!manualPinMarker){
-    const center = map.getCenter();
-    manualPinMarker = L.marker(center, {icon: pinIcon('#EF4444'), draggable:true}).addTo(map);
-  }
-  toast('حرّك الدبوس الأحمر إلى موقع الوجهة','ok');
+  $('#manualPinBtn').classList.add('active');
+  $('#searchResults').classList.remove('show');
+  toast('حرّك الخريطة لوضع الدبوس على الموقع','ok');
 };
 
-$('#confirmManualPin').onclick = ()=>{
-  if(!manualPinMarker) return;
-  const ll = manualPinMarker.getLatLng();
-  setDest(ll);
-  manualPinMarker.remove(); manualPinMarker=null;
-  manualPinMode=false;
+function exitManualPin(){
+  manualPinMode = false;
+  $('#centerPin').classList.remove('show');
   $('#manualPinHint').classList.add('hidden');
   $('#confirmManualPin').classList.add('hidden');
+  $('#manualPinBtn').classList.remove('active');
+}
+
+$('#confirmManualPin').onclick = ()=>{
+  if(!map) return;
+  // The center pin is offset visually (-180% from left). Compute pin actual coordinates by offsetting the map center
+  const containerCenter = map.latLngToContainerPoint(map.getCenter());
+  // pin tip offset relative to center: visually translated by translate(-180%,-100%) where pin is 34px wide
+  // -180% horizontal of pin width (34) = -61.2px from center, -100% vertical = -34px from center
+  // But center-pin's anchor (top-left) is at center; transform shifts the visible pin tip.
+  // Pin tip is at the 50% top, 50% left of the pin (rotated). We approximate the tip at offset (-61, -17) px from container center.
+  const tipX = containerCenter.x + 0;   // visually the pin is to the LEFT of center (right side in RTL view feels intentional)
+  const tipY = containerCenter.y + 0;
+  // Actually use the rendered pin element position
+  const wrapRect = $('#mapWrap').getBoundingClientRect();
+  const pinEl = $('#centerPin').querySelector('.pin');
+  const pinRect = pinEl.getBoundingClientRect();
+  const pxX = (pinRect.left + pinRect.width/2) - wrapRect.left;
+  const pxY = (pinRect.top + pinRect.height) - wrapRect.top; // tip is at bottom of rotated square visually
+  const ll = map.containerPointToLatLng([pxX, pxY]);
+  setDest(ll);
   $('#destPanel').classList.add('hidden');
   $('#destSearchInput').value='';
-  $('#searchResults').style.display='none';
+  exitManualPin();
 };
 
 async function drawRoute(){
   if(!pickup||!dest) return;
-  // OSRM free routing
   const url = `https://router.project-osrm.org/route/v1/driving/${pickup.lng},${pickup.lat};${dest.lng},${dest.lat}?overview=full&geometries=geojson`;
   try{
     const res = await fetch(url); const j = await res.json();
-    if(j.code!=='Ok'||!j.routes?.length) throw new Error('no route');
+    if(j.code!=='Ok'||!j.routes?.length) throw new Error('no');
     const coords = j.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
     if(routeLine) routeLine.remove();
-    routeLine = L.polyline(coords,{color:'#FFD400',weight:5,opacity:.9}).addTo(map);
-    map.fitBounds(routeLine.getBounds(),{padding:[40,40]});
+    routeLine = L.polyline(coords,{color:'#FFD23F',weight:5,opacity:.9}).addTo(map);
+    // fitBounds with padding biased to right (to keep pin offset)
+    map.fitBounds(routeLine.getBounds(),{padding:[50,50]});
     routeKm = +(j.routes[0].distance/1000).toFixed(2);
   }catch(e){
     routeKm = +km(pickup,dest).toFixed(2);
     if(routeLine) routeLine.remove();
-    routeLine = L.polyline([[pickup.lat,pickup.lng],[dest.lat,dest.lng]],{color:'#FFD400',weight:4,dashArray:'8,8'}).addTo(map);
-    map.fitBounds(routeLine.getBounds(),{padding:[40,40]});
+    routeLine = L.polyline([[pickup.lat,pickup.lng],[dest.lat,dest.lng]],{color:'#FFD23F',weight:4,dashArray:'8,8'}).addTo(map);
+    map.fitBounds(routeLine.getBounds(),{padding:[50,50]});
   }
   $('#distVal').textContent = routeKm+' كم';
   await findNearestCaptain();
@@ -402,8 +459,11 @@ async function drawRoute(){
 
 async function findNearestCaptain(){
   nearestCaptain=null; nearestKm=null;
-  const snap = await getDocs(query(collection(db,'captains'), where('online','==',true)));
-  let best=null, bestKm=Infinity;
+  // captains live in users collection with role:captain
+  let snap;
+  try{ snap = await getDocs(query(collection(db,'users'), where('role','==','captain'), where('online','==',true))); }
+  catch(_){ snap = await getDocs(query(collection(db,'captains'), where('online','==',true))); }
+  let best=null,bestKm=Infinity;
   snap.forEach(d=>{
     const c={id:d.id,...d.data()};
     if(!c.location?.lat) return;
@@ -419,7 +479,7 @@ function computePrice(){
   const pickupKm = nearestKm ?? 2;
   totalPrice = Math.round(BASE_FARE + routeKm*PER_KM_TRIP + pickupKm*PER_KM_PICKUP);
   $('#priceVal').textContent = totalPrice.toLocaleString()+' ل.س';
-  $('#confirmBtn').disabled=false; $('#confirmBtn').style.opacity=1;
+  $('#confirmBtn').disabled=false;
 }
 
 $('#confirmBtn').onclick = async ()=>{
@@ -427,25 +487,19 @@ $('#confirmBtn').onclick = async ()=>{
   $('#confirmBtn').disabled=true;
   try{
     const ride = {
-      customerId: user.uid,
-      customerName: userData.name||'',
-      customerPhone: userData.phone||'',
-      pickup, destination: dest,
-      routeKm, captainPickupKm: nearestKm||0,
-      price: totalPrice,
-      status: 'searching',
-      captainId: null, captainName:null, captainPhone:null, captainLocation:null,
+      customerId: user.uid, customerName: userData.name||'', customerPhone: userData.phone||'',
+      pickup, destination: dest, routeKm, captainPickupKm: nearestKm||0, price: totalPrice,
+      status:'searching', captainId:null, captainName:null, captainPhone:null, captainLocation:null,
       createdAt: serverTimestamp()
     };
     const ref = await addDoc(collection(db,'rides'), ride);
     activeRideId = ref.id;
     showTracking();
-  }catch(e){ toast('فشل إنشاء الطلب: '+e.message,'err'); $('#confirmBtn').disabled=false; }
+  }catch(e){ toast('فشل الإنشاء: '+e.message,'err'); $('#confirmBtn').disabled=false; }
 };
 
 function showTracking(){
-  $('#bookView').classList.add('hidden');
-  $('#trackView').classList.remove('hidden');
+  showPage('trackPage');
   $('#searchingCard').classList.remove('hidden');
   $('#acceptedBox').classList.add('hidden');
   $('#completedBox').classList.add('hidden');
@@ -454,27 +508,23 @@ function showTracking(){
     if(!snap.exists()) return;
     const r = snap.data();
     if(r.status==='searching'){
-      $('#searchingCard').classList.remove('hidden');
-      $('#acceptedBox').classList.add('hidden');
+      $('#searchingCard').classList.remove('hidden'); $('#acceptedBox').classList.add('hidden');
     } else if(['accepted','arrived','in_progress'].includes(r.status)){
-      $('#searchingCard').classList.add('hidden');
-      $('#acceptedBox').classList.remove('hidden');
+      $('#searchingCard').classList.add('hidden'); $('#acceptedBox').classList.remove('hidden');
       $('#capName').textContent = r.captainName||'كابتن';
       $('#capPhone').textContent = r.captainPhone||'';
       $('#capAvatar').textContent = (r.captainName||'ك').charAt(0);
       $('#capCallBtn').href = 'tel:'+(r.captainPhone||'');
       $('#trkDist').textContent = r.routeKm+' كم';
-      $('#trkPrice').textContent = r.price.toLocaleString()+' ل.س';
-      const map={accepted:'الكابتن في طريقه إليك', arrived:'الكابتن وصل لموقعك', in_progress:'الرحلة جارية الآن'};
-      $('#statusText').textContent = map[r.status];
+      $('#trkPrice').textContent = (+r.price||0).toLocaleString()+' ل.س';
+      const sm={accepted:'الكابتن في طريقه إليك',arrived:'الكابتن وصل',in_progress:'الرحلة جارية الآن'};
+      $('#statusText').textContent = sm[r.status];
     } else if(r.status==='completed'){
-      $('#searchingCard').classList.add('hidden');
-      $('#acceptedBox').classList.add('hidden');
-      $('#completedBox').classList.remove('hidden');
+      $('#searchingCard').classList.add('hidden'); $('#acceptedBox').classList.add('hidden'); $('#completedBox').classList.remove('hidden');
     } else if(r.status==='cancelled'){
-      toast('تم إلغاء الطلب','err');
+      toast('تم إلغاء الرحلة','err');
       activeRideId=null; if(rideUnsub) rideUnsub();
-      showBook();
+      resetMap(); showPage('homePage');
     }
   });
 }
@@ -482,13 +532,40 @@ function showTracking(){
 $('#cancelSearchBtn').onclick = $('#cancelRideBtn').onclick = async ()=>{
   if(!activeRideId) return;
   if(!confirm('تأكيد إلغاء الطلب؟')) return;
-  await updateDoc(doc(db,'rides',activeRideId),{ status:'cancelled', cancelledAt: serverTimestamp() });
+  await updateDoc(doc(db,'rides',activeRideId),{status:'cancelled', cancelledAt:serverTimestamp()});
 };
-$('#newRideBtn').onclick = ()=>{
-  activeRideId=null; if(rideUnsub) rideUnsub();
-  resetMap(); showBook();
-};
+$('#newRideBtn').onclick = ()=>{ activeRideId=null; if(rideUnsub) rideUnsub(); resetMap(); showPage('homePage'); };
+
+// Orders page
+function subscribeOrders(){
+  if(ordersUnsub) ordersUnsub();
+  ordersUnsub = onSnapshot(query(collection(db,'rides'), where('customerId','==',user.uid)), snap=>{
+    const list = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    renderOrders(list);
+  });
+}
+function statusLabel(s){return {searching:'يبحث عن كابتن',accepted:'مقبول',arrived:'الكابتن وصل',in_progress:'في الطريق',completed:'مكتمل',cancelled:'ملغي'}[s]||s}
+function renderOrders(list){
+  const el = $('#ordersList');
+  if(!list.length){ el.innerHTML = `<div class="empty"><i class="fas fa-receipt"></i><h4>لا توجد طلبات</h4><p style="font-size:13px;margin-top:6px">اطلب رحلتك الأولى من الرئيسية</p></div>`; return; }
+  el.innerHTML = list.map(r=>`
+    <div class="order-card" data-id="${r.id}">
+      <div class="order-head">
+        <strong><i class="fas fa-taxi" style="color:var(--primary);margin-left:6px"></i> رحلة</strong>
+        <span class="badge ${r.status}">${statusLabel(r.status)}</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px"><i class="fas fa-route"></i> المسافة: ${(+r.routeKm||0).toFixed(2)} كم</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px"><i class="fas fa-user-tie"></i> ${esc(r.captainName||'بانتظار كابتن')}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)">
+        <span style="font-size:12px;color:var(--muted)">السعر</span>
+        <strong style="color:var(--primary);font-size:16px">${(+r.price||0).toLocaleString()} ل.س</strong>
+      </div>
+    </div>`).join('');
+  el.querySelectorAll('.order-card').forEach(c=>c.addEventListener('click',()=>{
+    activeRideId = c.dataset.id;
+    showTracking();
+  }));
+}
 </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"7f7b0fd8732c4326aae4b9d58d5c514a","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
