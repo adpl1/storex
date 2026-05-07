@@ -1,6 +1,6 @@
 // ===== ادبل Service Worker =====
 // يتم تحديث الإصدار تلقائياً عند رفع نسخة جديدة (build timestamp)
-const CACHE_VERSION = 'adpl-v' + (self.__BUILD_ID__ || '20260507-001');
+const CACHE_VERSION = 'adpl-v-20260507-1430';
 const STATIC_CACHE  = CACHE_VERSION + '-static';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 
@@ -24,10 +24,9 @@ self.addEventListener('install', (event) => {
 // تفعيل: حذف الكاش القديم بالكامل + clientsClaim لاستلام كل الصفحات المفتوحة
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
+    const keep = new Set([STATIC_CACHE, RUNTIME_CACHE]);
     const keys = await caches.keys();
-    await Promise.all(keys.map((k) => {
-      if (!k.startsWith(CACHE_VERSION)) return caches.delete(k);
-    }));
+    await Promise.all(keys.map((k) => keep.has(k) ? Promise.resolve() : caches.delete(k)));
     await self.clients.claim();
     // إخطار جميع الصفحات بأن هناك تحديث جديد
     const clients = await self.clients.matchAll({ type: 'window' });
@@ -60,7 +59,7 @@ self.addEventListener('fetch', (event) => {
         return fresh;
       } catch (_) {
         const cached = await caches.match(req);
-        return cached || caches.match('./index.html');
+        return cached || caches.match('./index.html') || Response.error();
       }
     })());
     return;
