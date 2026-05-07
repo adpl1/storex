@@ -373,35 +373,51 @@ const $$ = s => document.querySelectorAll(s);
 window.$ = $;
 window.$$ = $$;
 
-// === نظام الإشعارات الصوتية ===
+// === نظام الإشعارات (صوت + Notification API) ===
+function requestNotifPermission(){
+  try{ if('Notification' in window && Notification.permission==='default') Notification.requestPermission().catch(()=>{}); }catch(e){}
+}
+document.addEventListener('click', requestNotifPermission, { once:true });
+
+function showNotification(title, body, tag){
+  try{
+    if(!('Notification' in window) || Notification.permission!=='granted') return;
+    const opts = { body: body||'', icon: './favicon.png', badge: './favicon.png', tag: tag||'adpl-d', vibrate:[300,150,300,150,300], renotify:true };
+    if(navigator.serviceWorker && navigator.serviceWorker.ready){
+      navigator.serviceWorker.ready.then(reg => reg.showNotification(title, opts)).catch(()=>{ try{ new Notification(title, opts); }catch(_){} });
+    } else { new Notification(title, opts); }
+  }catch(e){}
+}
+
+// === الأصوات ===
+function _beep(ctx, freqs, dur, gain){
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.connect(g); g.connect(ctx.destination);
+  o.type='sine';
+  freqs.forEach((f,i)=> o.frequency.setValueAtTime(f, ctx.currentTime + i*(dur/freqs.length)));
+  g.gain.setValueAtTime(gain, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+  o.start(ctx.currentTime); o.stop(ctx.currentTime+dur);
+}
 function playSound(type){
   try{
     const ctx = new (window.AudioContext||window.webkitAudioContext)();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
     if(type==='order'){
-      o.type='sine'; o.frequency.setValueAtTime(520,ctx.currentTime); o.frequency.setValueAtTime(780,ctx.currentTime+0.12); o.frequency.setValueAtTime(1040,ctx.currentTime+0.24);
-      g.gain.setValueAtTime(0.2,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.7);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.7);
-      // نغمة مزدوجة
-      setTimeout(()=>{
-        try{
-          const ctx2=new(window.AudioContext||window.webkitAudioContext)();
-          const o2=ctx2.createOscillator(),g2=ctx2.createGain();
-          o2.connect(g2);g2.connect(ctx2.destination);
-          o2.type='sine';o2.frequency.setValueAtTime(520,ctx2.currentTime);o2.frequency.setValueAtTime(780,ctx2.currentTime+0.12);o2.frequency.setValueAtTime(1040,ctx2.currentTime+0.24);
-          g2.gain.setValueAtTime(0.2,ctx2.currentTime);g2.gain.exponentialRampToValueAtTime(0.001,ctx2.currentTime+0.7);
-          o2.start(ctx2.currentTime);o2.stop(ctx2.currentTime+0.7);
-          setTimeout(()=>ctx2.close().catch(()=>{}),1000);
-        }catch(e){}
-      },800);
+      // صوت طلب جديد مستمر تقريباً 2 ثانية (نغمات متتابعة)
+      const pattern = [0, 250, 500, 750, 1000, 1250, 1500, 1750];
+      pattern.forEach(t => setTimeout(()=>{
+        try{ _beep(ctx, [520,780,1040], 0.22, 0.22); }catch(_){}
+      }, t));
+      // اهتزاز للجوال
+      try{ navigator.vibrate && navigator.vibrate([200,100,200,100,200,100,200,100,200]); }catch(_){}
+      setTimeout(()=>ctx.close().catch(()=>{}), 2500);
+    } else if(type==='accept'){
+      _beep(ctx, [880,1100], 0.35, 0.2);
+      setTimeout(()=>ctx.close().catch(()=>{}), 800);
     } else if(type==='chat'){
-      o.type='sine'; o.frequency.setValueAtTime(800,ctx.currentTime); o.frequency.setValueAtTime(1000,ctx.currentTime+0.1);
-      g.gain.setValueAtTime(0.12,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.3);
+      _beep(ctx, [800,1000], 0.3, 0.12);
+      setTimeout(()=>ctx.close().catch(()=>{}), 800);
     }
-    setTimeout(()=>ctx.close().catch(()=>{}),1500);
   }catch(e){}
 }
 
@@ -616,13 +632,19 @@ function playNewOrderAlert(){ playSound('order'); }
 function subscribeOrders(){
   if(ordersUnsub) ordersUnsub();
   let lastAvailableIds = new Set();
+  let firstSnap = true;
   ordersUnsub = onSnapshot(collection(db,'orders'),(snap)=>{
     allOrders = snap.docs.map(d=>({id:d.id,...d.data()}));
     const availableNow = allOrders.filter(o=>o.status==='pending'&&!o.deliveryId);
     const currentIds = new Set(availableNow.map(o=>o.id));
-    const newOrderArrived = availableNow.some(o=>!lastAvailableIds.has(o.id));
-    if(newOrderArrived && $('#homeScreen').classList.contains('active')) playNewOrderAlert();
+    const newOnes = availableNow.filter(o=>!lastAvailableIds.has(o.id));
+    if(!firstSnap && newOnes.length && userData?.available){
+      playNewOrderAlert();
+      const o = newOnes[0];
+      showNotification('طلب جديد متاح 🚨', `طلب من ${o.storeName||'متجر'} - ${(o.total||0)} ل.س`, 'new-order');
+    }
     lastAvailableIds = currentIds;
+    firstSnap = false;
     const mine = allOrders.filter(o=>o.deliveryId===currentUser.uid);
     $('#sTotal').textContent = mine.length;
     $('#sDone').textContent = mine.filter(o=>o.status==='delivered').length;
@@ -728,7 +750,12 @@ function renderOrderDetail(){
 
   const aBtn=$('#acceptBtn'); if(aBtn) aBtn.addEventListener('click',async ()=>{
     aBtn.disabled=true;
-    try{await updateDoc(doc(db,'orders',o.id),{status:'accepted',deliveryId:currentUser.uid,deliveryName:userData.name,deliveryPhone:userData.phone||''});toast('تم قبول الطلب','success');}
+    try{
+      await updateDoc(doc(db,'orders',o.id),{status:'accepted',deliveryId:currentUser.uid,deliveryName:userData.name,deliveryPhone:userData.phone||''});
+      toast('تم قبول الطلب','success');
+      playSound('accept');
+      showNotification('تم قبول الطلب ✅', `أنت الآن مسؤول عن طلب ${o.storeName||''} - توجّه لاستلامه`, 'order-accepted-'+o.id);
+    }
     catch(e){toast('خطأ','error')}
   });
   const owBtn=$('#onwayBtn'); if(owBtn) owBtn.addEventListener('click',async ()=>{
@@ -889,6 +916,27 @@ window.sendMsg = async ()=>{
 
 function currency(v){ return `${Math.round(+v||0)} ل.س`; }
 function esc(s){return String(s||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// تسجيل Service Worker مع تحديث تلقائي
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      setInterval(() => { reg.update().catch(()=>{}); }, 60000);
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing; if(!nw) return;
+        nw.addEventListener('statechange', () => {
+          if(nw.state==='installed' && navigator.serviceWorker.controller) nw.postMessage({type:'SKIP_WAITING'});
+        });
+      });
+    }).catch(()=>{});
+    let _r=false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if(_r) return; _r=true;
+      if('caches' in window){ caches.keys().then(keys => keys.forEach(k => { if(!k.includes('runtime')) caches.delete(k); })); }
+      window.location.reload();
+    });
+  });
+}
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
