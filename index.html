@@ -933,8 +933,11 @@ $('#placeOrderBtn').addEventListener('click', async ()=>{
       status:'pending', type:'store', deliveryId:null, deliveryName:null,
       createdAt:serverTimestamp()
     });
+    const _storeName = cart[0]?.storeName || 'المتجر';
     cart=[]; saveCart(); updateCartFab();
     toast('تم إرسال الطلب بنجاح','success');
+    playSound('order');
+    showNotification('تم إرسال طلبك ✅', 'بانتظار قبول المندوب لطلبك من '+_storeName, 'order-sent');
     showScreen('ordersScreen');
   }catch(e){ toast('خطأ: '+e.message,'error'); }
   $('#placeOrderBtn').disabled=false;
@@ -966,12 +969,39 @@ $('#submitCustomBtn').addEventListener('click', async ()=>{
       createdAt:serverTimestamp()
     });
     toast('تم إرسال الطلب','success');
+    playSound('order');
+    showNotification('تم إرسال طلبك المخصص ✅', 'بانتظار قبول مندوب لتوصيل طلبك', 'order-sent');
     showScreen('ordersScreen');
   }catch(e){ toast('خطأ: '+e.message,'error'); }
   $('#submitCustomBtn').disabled=false;
 });
 
-// === نظام الإشعارات الصوتية ===
+// === نظام الإشعارات (صوت + Notification API) ===
+const VAPID_PUBLIC_KEY = 'BMUk6gPnNEIHRtEF1bmaud3SBc8wff-1ZV2KAmk9F-mWX22f5j2hK9Mw8ljp02aNdGHKkMyz5XR6qa_4bDVT_go';
+
+// طلب إذن الإشعارات (يستدعى بعد أول تفاعل)
+function requestNotifPermission(){
+  try{
+    if('Notification' in window && Notification.permission==='default'){
+      Notification.requestPermission().catch(()=>{});
+    }
+  }catch(e){}
+}
+document.addEventListener('click', requestNotifPermission, { once:true });
+
+// عرض إشعار نظام (يعمل حتى لو التطبيق بالخلفية عبر Service Worker)
+function showNotification(title, body, tag){
+  try{
+    if(!('Notification' in window) || Notification.permission!=='granted') return;
+    const opts = { body: body||'', icon: './favicon.png', badge: './favicon.png', tag: tag||'adpl', vibrate:[200,100,200], renotify:true };
+    if(navigator.serviceWorker && navigator.serviceWorker.ready){
+      navigator.serviceWorker.ready.then(reg => reg.showNotification(title, opts)).catch(()=>{ try{ new Notification(title, opts); }catch(_){} });
+    } else {
+      new Notification(title, opts);
+    }
+  }catch(e){}
+}
+
 function playSound(type){
   try{
     const ctx = new (window.AudioContext||window.webkitAudioContext)();
@@ -1012,12 +1042,21 @@ function subscribeOrders(){
         }
       });
     }
-    // صوت عند تغيير حالة الطلب (ليس عند أول تحميل)
+    // صوت + إشعار عند تغيير حالة الطلب (ليس عند أول تحميل)
     if(!firstLoad){
       list.forEach(o=>{
         if(prevStatuses[o.id] && prevStatuses[o.id] !== o.status){
           playSound('order');
-          toast(`الطلب ${o.id.slice(-4)}: ${statusLabel(o.status)}`,'success');
+          const shortId = o.id.slice(-4);
+          const storeN = o.storeName || 'طلبك';
+          let title='تحديث حالة الطلب', body='';
+          if(o.status==='accepted'){ title='تم قبول طلبك 🎉'; body=`المندوب ${o.deliveryName||''} قبل طلبك من ${storeN}`; }
+          else if(o.status==='on_way'){ title='طلبك في الطريق 🛵'; body=`المندوب في طريقه إليك بطلب ${storeN}`; }
+          else if(o.status==='delivered'){ title='تم تسليم طلبك ✅'; body=`نتمنى أن ينال إعجابك. شكراً لاستخدامك ادبل`; }
+          else if(o.status==='cancelled'){ title='تم إلغاء الطلب ❌'; body=`تم إلغاء طلب ${storeN} رقم ${shortId}`; }
+          else { body = `الطلب ${shortId}: ${statusLabel(o.status)}`; }
+          showNotification(title, body, 'order-'+o.id);
+          toast(`${title}`,'success');
         }
       });
     }
@@ -1337,9 +1376,39 @@ window.addEventListener('appinstalled', () => {
   _deferredPrompt = null;
 });
 
-// تسجيل Service Worker
+// تسجيل Service Worker مع تحديث تلقائي عند رفع نسخة جديدة
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      // فحص دوري للتحديثات (كل 60 ثانية)
+      setInterval(() => { reg.update().catch(()=>{}); }, 60000);
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing;
+        if(!nw) return;
+        nw.addEventListener('statechange', () => {
+          if(nw.state === 'installed' && navigator.serviceWorker.controller){
+            // إصدار جديد جاهز - فعّله فوراً
+            nw.postMessage({ type:'SKIP_WAITING' });
+          }
+        });
+      });
+    }).catch(()=>{});
+
+    let _reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if(_reloaded) return;
+      _reloaded = true;
+      // مسح كل الكاش القديم في المتصفح ثم إعادة التحميل
+      if('caches' in window){ caches.keys().then(keys => keys.forEach(k => { if(!k.includes('runtime')) caches.delete(k); })); }
+      window.location.reload();
+    });
+
+    navigator.serviceWorker.addEventListener('message', (e) => {
+      if(e.data && e.data.type === 'SW_UPDATED'){
+        try{ toast && toast('تم تحديث التطبيق إلى أحدث إصدار','success'); }catch(_){}
+      }
+    });
+  });
 }
 
 </script>
