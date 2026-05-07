@@ -4,10 +4,14 @@ const CACHE_VERSION = 'adpl-v-20260507-1430';
 const STATIC_CACHE  = CACHE_VERSION + '-static';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 
-const PRECACHE_URLS = [
-  './manifest.json',
-  './favicon.png'
+const CACHE_NAME = 'adpl-v1';
+const STATIC_ASSETS = [
+  './index.html',
+  './login.html',
+  './favicon.png',
+  './manifest.json'
 ];
+
 
 // تثبيت: تحميل الموارد + skipWaiting لتفعيل الإصدار الجديد فوراً
 self.addEventListener('install', (event) => {
