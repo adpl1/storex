@@ -308,6 +308,41 @@ window.toast = (m,t='') => { const e=$('#toast'); e.textContent=m; e.className='
 const km = (a,b)=>{ if(!a||!b) return null; const R=6371,toR=x=>x*Math.PI/180; const dLat=toR(b.lat-a.lat),dLng=toR(b.lng-a.lng); const x=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2; return 2*R*Math.asin(Math.sqrt(x)); };
 function esc(s){return String(s||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]))}
 
+// === الإشعارات والصوت ===
+function requestNotifPermission(){ try{ if('Notification' in window && Notification.permission==='default') Notification.requestPermission().catch(()=>{}); }catch(e){} }
+document.addEventListener('click', requestNotifPermission, { once:true });
+function showNotification(title, body, tag){
+  try{
+    if(!('Notification' in window) || Notification.permission!=='granted') return;
+    const opts = { body: body||'', icon: './favicon.png', badge: './favicon.png', tag: tag||'adpl-c', vibrate:[300,150,300,150,300], renotify:true };
+    if(navigator.serviceWorker && navigator.serviceWorker.ready){
+      navigator.serviceWorker.ready.then(reg => reg.showNotification(title, opts)).catch(()=>{ try{ new Notification(title, opts); }catch(_){} });
+    } else { new Notification(title, opts); }
+  }catch(e){}
+}
+function _beep(ctx, freqs, dur, gain){
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.connect(g); g.connect(ctx.destination); o.type='sine';
+  freqs.forEach((f,i)=> o.frequency.setValueAtTime(f, ctx.currentTime + i*(dur/freqs.length)));
+  g.gain.setValueAtTime(gain, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+  o.start(ctx.currentTime); o.stop(ctx.currentTime+dur);
+}
+function playSound(type){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    if(type==='ride'){
+      // طلب رحلة جديدة - صوت مستمر تقريباً 2 ثانية
+      [0,250,500,750,1000,1250,1500,1750].forEach(t=> setTimeout(()=>{ try{ _beep(ctx,[600,900,1200],0.22,0.22); }catch(_){} }, t));
+      try{ navigator.vibrate && navigator.vibrate([200,100,200,100,200,100,200,100,200]); }catch(_){}
+      setTimeout(()=>ctx.close().catch(()=>{}),2500);
+    } else if(type==='accept'){
+      _beep(ctx,[880,1100],0.35,0.2);
+      setTimeout(()=>ctx.close().catch(()=>{}),800);
+    }
+  }catch(e){}
+}
+
 let currentUser=null, userData=null, currentFilter='incoming', online=false, locWatch=null, currentLoc=null;
 let ridesUnsub=null, allRides=[], activeRideId=null, currentRide=null;
 
@@ -451,6 +486,8 @@ $$('#tabsPills .pill').forEach(p=>p.addEventListener('click',()=>{
 
 function subscribeRides(){
   if(ridesUnsub) ridesUnsub();
+  let lastSearchingIds = new Set();
+  let firstSnap = true;
   ridesUnsub = onSnapshot(collection(db,'rides'),(snap)=>{
     allRides = snap.docs.map(d=>({id:d.id,...d.data()}));
     const mine = allRides.filter(r=>r.captainId===currentUser.uid);
@@ -459,6 +496,20 @@ function subscribeRides(){
     $('#sActive').textContent = mine.filter(r=>['accepted','arrived','in_progress'].includes(r.status)).length;
     const active = mine.find(r=>['accepted','arrived','in_progress'].includes(r.status));
     activeRideId = active?.id || null;
+
+    // إشعار صوتي عند وصول طلب رحلة جديد قريب
+    const searching = allRides.filter(r=>r.status==='searching')
+      .map(r=>({...r,_capKm: currentLoc?km(currentLoc,r.pickup):null}))
+      .filter(r=>r._capKm===null||r._capKm<=SEARCH_RADIUS_KM);
+    const currentIds = new Set(searching.map(r=>r.id));
+    const newOnes = searching.filter(r=>!lastSearchingIds.has(r.id));
+    if(!firstSnap && newOnes.length && online){
+      playSound('ride');
+      const r = newOnes[0];
+      showNotification('طلب رحلة جديد 🚖', `عميل: ${r.customerName||''} - السعر ${(+r.price||0).toLocaleString()} ل.س`, 'new-ride');
+    }
+    lastSearchingIds = currentIds;
+    firstSnap = false;
     renderRides();
   });
 }
@@ -554,7 +605,30 @@ async function acceptRide(rideId){
       });
     });
     toast('تم قبول الرحلة','success');
+    playSound('accept');
+    showNotification('تم قبول الرحلة ✅', 'توجّه الآن لاستلام العميل', 'ride-accepted-'+rideId);
   }catch(e){toast(e.message||'فشل القبول','error')}
+}
+
+// تسجيل Service Worker مع تحديث تلقائي
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      setInterval(() => { reg.update().catch(()=>{}); }, 60000);
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing; if(!nw) return;
+        nw.addEventListener('statechange', () => {
+          if(nw.state==='installed' && navigator.serviceWorker.controller) nw.postMessage({type:'SKIP_WAITING'});
+        });
+      });
+    }).catch(()=>{});
+    let _r=false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if(_r) return; _r=true;
+      if('caches' in window){ caches.keys().then(keys => keys.forEach(k => { if(!k.includes('runtime')) caches.delete(k); })); }
+      window.location.reload();
+    });
+  });
 }
 </script>
 </body>
