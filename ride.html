@@ -252,6 +252,32 @@ const toast = (m,t='') => { const el=$('#toast'); el.textContent=m; el.className
 const km = (a,b)=>{ const R=6371,toR=x=>x*Math.PI/180; const dLat=toR(b.lat-a.lat),dLng=toR(b.lng-a.lng); const x=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2; return 2*R*Math.asin(Math.sqrt(x)); };
 function esc(s){return String(s||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]))}
 
+// === الإشعارات والصوت ===
+function requestNotifPermission(){ try{ if('Notification' in window && Notification.permission==='default') Notification.requestPermission().catch(()=>{}); }catch(e){} }
+document.addEventListener('click', requestNotifPermission, { once:true });
+function showNotification(title, body, tag){
+  try{
+    if(!('Notification' in window) || Notification.permission!=='granted') return;
+    const opts = { body: body||'', icon: './favicon.png', badge: './favicon.png', tag: tag||'adpl-r', vibrate:[200,100,200], renotify:true };
+    if(navigator.serviceWorker && navigator.serviceWorker.ready){
+      navigator.serviceWorker.ready.then(reg => reg.showNotification(title, opts)).catch(()=>{ try{ new Notification(title, opts); }catch(_){} });
+    } else { new Notification(title, opts); }
+  }catch(e){}
+}
+function playSound(type){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination); o.type='sine';
+    if(type==='request'){ o.frequency.setValueAtTime(440,ctx.currentTime); o.frequency.setValueAtTime(660,ctx.currentTime+0.15); o.frequency.setValueAtTime(880,ctx.currentTime+0.3);
+      g.gain.setValueAtTime(0.2,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6); o.start(ctx.currentTime); o.stop(ctx.currentTime+0.6);
+    } else if(type==='accept'){ o.frequency.setValueAtTime(880,ctx.currentTime); o.frequency.setValueAtTime(1100,ctx.currentTime+0.18);
+      g.gain.setValueAtTime(0.22,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5); o.start(ctx.currentTime); o.stop(ctx.currentTime+0.5);
+    } else { o.frequency.setValueAtTime(700,ctx.currentTime); g.gain.setValueAtTime(0.15,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3); o.start(ctx.currentTime); o.stop(ctx.currentTime+0.3); }
+    setTimeout(()=>ctx.close().catch(()=>{}),1200);
+  }catch(e){}
+}
+
 let user=null, userData=null, map=null, pickupMarker=null, destMarker=null, routeLine=null;
 let pickup=null, dest=null, routeKm=0, nearestCaptain=null, nearestKm=null, totalPrice=0;
 let activeRideId=null, rideUnsub=null, ordersUnsub=null;
@@ -494,6 +520,8 @@ $('#confirmBtn').onclick = async ()=>{
     };
     const ref = await addDoc(collection(db,'rides'), ride);
     activeRideId = ref.id;
+    playSound('request');
+    showNotification('تم إرسال طلب الرحلة 🚖', 'نبحث الآن عن أقرب كابتن متاح لك', 'ride-sent');
     showTracking();
   }catch(e){ toast('فشل الإنشاء: '+e.message,'err'); $('#confirmBtn').disabled=false; }
 };
@@ -504,9 +532,30 @@ function showTracking(){
   $('#acceptedBox').classList.add('hidden');
   $('#completedBox').classList.add('hidden');
   if(rideUnsub) rideUnsub();
+  let prevStatus = null;
   rideUnsub = onSnapshot(doc(db,'rides',activeRideId), snap=>{
     if(!snap.exists()) return;
     const r = snap.data();
+    // إشعار عند تغيير الحالة
+    if(prevStatus && prevStatus !== r.status){
+      if(r.status==='accepted'){
+        playSound('accept');
+        showNotification('تم قبول رحلتك ✅', `الكابتن ${r.captainName||''} في طريقه إليك`, 'ride-accepted');
+      } else if(r.status==='arrived'){
+        playSound('accept');
+        showNotification('وصل الكابتن 📍', 'الكابتن في موقع الاستلام بانتظارك', 'ride-arrived');
+      } else if(r.status==='in_progress'){
+        playSound('request');
+        showNotification('بدأت الرحلة 🚗', 'في طريقك إلى الوجهة', 'ride-progress');
+      } else if(r.status==='completed'){
+        playSound('accept');
+        showNotification('انتهت الرحلة ✅', 'شكراً لاستخدامك ادبل، وصلت بسلام', 'ride-done');
+      } else if(r.status==='cancelled'){
+        showNotification('تم إلغاء الرحلة ❌', 'تم إلغاء طلب الرحلة', 'ride-cancel');
+      }
+    }
+    prevStatus = r.status;
+
     if(r.status==='searching'){
       $('#searchingCard').classList.remove('hidden'); $('#acceptedBox').classList.add('hidden');
     } else if(['accepted','arrived','in_progress'].includes(r.status)){
@@ -565,6 +614,27 @@ function renderOrders(list){
     activeRideId = c.dataset.id;
     showTracking();
   }));
+}
+
+// تسجيل Service Worker مع تحديث تلقائي
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      setInterval(() => { reg.update().catch(()=>{}); }, 60000);
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing; if(!nw) return;
+        nw.addEventListener('statechange', () => {
+          if(nw.state==='installed' && navigator.serviceWorker.controller) nw.postMessage({type:'SKIP_WAITING'});
+        });
+      });
+    }).catch(()=>{});
+    let _r=false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if(_r) return; _r=true;
+      if('caches' in window){ caches.keys().then(keys => keys.forEach(k => { if(!k.includes('runtime')) caches.delete(k); })); }
+      window.location.reload();
+    });
+  });
 }
 </script>
 </body>
