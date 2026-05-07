@@ -1398,12 +1398,9 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if(_reloaded) return;
       _reloaded = true;
-      // مسح كاش ادبل القديم بالكامل عند وصول تحديث جديد ثم إعادة التحميل
-      if('caches' in window){
-        caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('adpl-') && !k.includes('20260507-1430')).map(k => caches.delete(k)))).finally(() => window.location.reload());
-      } else {
-        window.location.reload();
-      }
+      // مسح كل الكاش القديم في المتصفح ثم إعادة التحميل
+      if('caches' in window){ caches.keys().then(keys => keys.forEach(k => { if(!k.includes('runtime')) caches.delete(k); })); }
+      window.location.reload();
     });
 
     navigator.serviceWorker.addEventListener('message', (e) => {
