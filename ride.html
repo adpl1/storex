@@ -294,7 +294,7 @@ $$('.nav-item').forEach(n=>n.addEventListener('click',()=>showPage(n.dataset.nav
 
 // === Auth: redirect to login if not authed
 onAuthStateChanged(auth, async u=>{
-  if(!u){ window.location.replace('ride-login.html'); return; }
+  if(!u){ window.location.replace('ride-login.html?v=20260509-3'); return; }
   user = u;
   const ud = await getDoc(doc(db,'users',u.uid));
   userData = ud.exists() ? ud.data() : { name:u.email, phone:'', email:u.email };
