@@ -67,15 +67,34 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = { apiKey:"AIzaSyA3wjOh1IZLS5cK8dH0fB6nwKH50iXvFhk", authDomain:"ahmad-b755f.firebaseapp.com", projectId:"ahmad-b755f", storageBucket:"ahmad-b755f.firebasestorage.app", messagingSenderId:"1086597289816", appId:"1:1086597289816:web:efe60451f04837b75e772d" };
+const APP_VERSION = '20260509-3';
+
+const firebaseConfig = {
+  apiKey:"AIzaSyA3wjOh1IZLS5cK8dH0fB6nwKH50iXvFhk",
+  authDomain:"ahmad-b755f.firebaseapp.com",
+  projectId:"ahmad-b755f",
+  storageBucket:"ahmad-b755f.firebasestorage.app",
+  messagingSenderId:"1086597289816",
+  appId:"1:1086597289816:web:efe60451f04837b75e772d"
+};
+
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
 setPersistence(auth, browserLocalPersistence).catch(()=>{});
 
 const $ = s => document.querySelector(s);
-const toast = (m)=>{const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);};
-const showErr = m=>{const e=$('#err');e.textContent=m;e.classList.add('show')};
+const toast = (m)=>{
+  const t=$('#toast');
+  t.textContent=m;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+};
+const showErr = m=>{
+  const e=$('#err');
+  e.textContent=m;
+  e.classList.add('show');
+};
 
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
@@ -87,26 +106,51 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 
 $('#loginBtn').onclick = async ()=>{
   $('#loginBtn').disabled=true;
-  try{ await signInWithEmailAndPassword(auth, $('#lEmail').value.trim(), $('#lPass').value); }
-  catch(e){ showErr('بيانات غير صحيحة'); $('#loginBtn').disabled=false; }
-};
-$('#regBtn').onclick = async ()=>{
-  const name=$('#rName').value.trim(), phone=$('#rPhone').value.trim(), email=$('#rEmail').value.trim(), pass=$('#rPass').value;
-  if(!name||!phone||!email||pass.length<6) return showErr('املأ جميع الحقول');
-  $('#regBtn').disabled=true;
   try{
-    const cred = await createUserWithEmailAndPassword(auth,email,pass);
-    // Don't overwrite existing user role; merge ride-customer fields
-    const existing = await getDoc(doc(db,'users',cred.user.uid));
-    if(!existing.exists()){
-      await setDoc(doc(db,'users',cred.user.uid),{ uid:cred.user.uid, name, phone, email, role:'user', createdAt:serverTimestamp() });
-    } else {
-      await setDoc(doc(db,'users',cred.user.uid),{ name, phone, email },{merge:true});
-    }
-  }catch(e){ showErr('فشل التسجيل: '+(e.code||'')); $('#regBtn').disabled=false; }
+    await signInWithEmailAndPassword(auth, $('#lEmail').value.trim(), $('#lPass').value);
+  }catch(e){
+    showErr('بيانات غير صحيحة');
+    $('#loginBtn').disabled=false;
+  }
 };
 
-onAuthStateChanged(auth, u=>{ if(u){ window.location.replace('ride.html?v=20260509-2'); } });
+$('#regBtn').onclick = async ()=>{
+  const name=$('#rName').value.trim(),
+        phone=$('#rPhone').value.trim(),
+        email=$('#rEmail').value.trim(),
+        pass=$('#rPass').value;
+
+  if(!name||!phone||!email||pass.length<6) return showErr('املأ جميع الحقول');
+
+  $('#regBtn').disabled=true;
+
+  try{
+    const cred = await createUserWithEmailAndPassword(auth,email,pass);
+
+    const existing = await getDoc(doc(db,'users',cred.user.uid));
+    if(!existing.exists()){
+      await setDoc(doc(db,'users',cred.user.uid),{
+        uid:cred.user.uid,
+        name,
+        phone,
+        email,
+        role:'user',
+        createdAt:serverTimestamp()
+      });
+    } else {
+      await setDoc(doc(db,'users',cred.user.uid),{ name, phone, email },{ merge:true });
+    }
+  }catch(e){
+    showErr('فشل التسجيل: '+(e.code||''));
+    $('#regBtn').disabled=false;
+  }
+};
+
+onAuthStateChanged(auth, u=>{
+  if(u){
+    window.location.replace(`ride.html?v=${APP_VERSION}`);
+  }
+});
 </script>
 </body>
 </html>
