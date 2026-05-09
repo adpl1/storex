@@ -1088,9 +1088,13 @@ $('#placeOrderBtn').addEventListener('click', async ()=>{
   $('#placeOrderBtn').disabled=true;
   const sub = cart.reduce((s,i)=>s+i.price*i.qty,0);
   try{
+    const _store = allStores.find(s=>s.id===cart[0].storeId) || currentStore || {};
     await addDoc(collection(db,'orders'),{
       userId:currentUser.uid, userName:userData.name, userPhone:userData.phone||'',
       storeId:cart[0].storeId, storeName:cart[0].storeName,
+      storeImage: _store.logo || _store.banner || '',
+      storeLocation: _store.location || (_store.lat!=null && _store.lng!=null ? {lat:+_store.lat,lng:+_store.lng} : null),
+      storeMapUrl: _store.mapUrl || '',
       items:cart.map(i=>({id:i.id,name:i.name,price:i.price,qty:i.qty})),
       subtotal:sub, deliveryFee:deliveryEstimate.fee||0, total:sub+(deliveryEstimate.fee||0),
       location:pickedLocation, address:$('#addressNote').value.trim(), note:$('#deliveryNote').value.trim(),
