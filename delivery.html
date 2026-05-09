@@ -49,18 +49,27 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 .err{background:#FEF2F2;color:var(--danger);padding:10px;border-radius:10px;font-size:13px;margin-bottom:12px;display:none}
 .err.show{display:block}
 
-.header{background:white;padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.header{background:white;padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;box-shadow:0 4px 14px rgba(15,23,42,.04)}
 .header h2{font-size:17px;font-weight:800;flex:1}
-.icon-btn{width:40px;height:40px;border-radius:12px;background:var(--light);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--dark);font-size:16px}
+.icon-btn{width:42px;height:42px;border-radius:14px;background:var(--light);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--dark);font-size:16px;transition:.2s}
 .icon-btn:hover{background:var(--primary-light);color:var(--primary)}
 
-.home-hero{background:linear-gradient(135deg,var(--primary),#38BDF8);padding:20px;color:white;border-bottom-left-radius:28px;border-bottom-right-radius:28px;margin-bottom:16px}
-.home-hero .greet{font-size:13px;opacity:.9}
-.home-hero .name{font-size:20px;font-weight:800;margin-bottom:14px}
+.home-hero{position:relative;background:linear-gradient(135deg,#0284C7 0%,#0EA5E9 50%,#38BDF8 100%);padding:22px 20px 26px;color:white;border-bottom-left-radius:30px;border-bottom-right-radius:30px;margin-bottom:18px;box-shadow:0 12px 32px -8px rgba(14,165,233,.45);overflow:hidden}
+.home-hero::before{content:'';position:absolute;top:-40px;left:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+.home-hero::after{content:'';position:absolute;bottom:-50px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(255,90,31,.22),transparent 70%);border-radius:50%}
+.home-hero > *{position:relative;z-index:1}
+.home-hero .greet{font-size:13px;opacity:.92}
+.home-hero .name{font-size:22px;font-weight:900;margin-bottom:14px;text-shadow:0 2px 8px rgba(0,0,0,.15)}
 .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.stat{background:rgba(255,255,255,.18);backdrop-filter:blur(8px);padding:12px;border-radius:14px;text-align:center}
-.stat .v{font-size:20px;font-weight:800}
-.stat .l{font-size:11px;opacity:.85;margin-top:3px}
+.stat{background:rgba(255,255,255,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:13px 8px;border-radius:16px;text-align:center;border:1px solid rgba(255,255,255,.18)}
+.stat .v{font-size:21px;font-weight:900}
+.stat .l{font-size:11px;opacity:.9;margin-top:3px}
+.stats-card{background:white;border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:10px;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stats-card .stats-title{font-size:14px;font-weight:800;color:var(--primary-dark);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.stats-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px;color:var(--dark)}
+.stats-row:last-child{border-bottom:none}
+.stats-row span{display:flex;align-items:center;gap:8px;color:var(--gray);font-weight:600}
+.stats-row strong{color:var(--primary-dark);font-weight:800}
 
 .section{padding:0 20px;margin-bottom:16px}
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -71,8 +80,8 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 .pill{padding:8px 16px;background:white;border:1.5px solid var(--border);border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--dark)}
 .pill.active{background:var(--primary);color:white;border-color:var(--primary)}
 
-.order-card{background:white;padding:14px;border-radius:14px;margin-bottom:10px;border:1px solid var(--border);cursor:pointer;transition:.2s}
-.order-card:hover{box-shadow:0 6px 16px rgba(0,0,0,.06)}
+.order-card{background:white;padding:15px;border-radius:16px;margin-bottom:10px;border:1px solid var(--border);cursor:pointer;transition:.2s;box-shadow:0 2px 8px rgba(15,23,42,.03)}
+.order-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(14,165,233,.12);border-color:rgba(14,165,233,.25)}
 .order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .order-head h5{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
 .badge{padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700}
@@ -87,6 +96,23 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 
 #map,#orderMap{height:260px;width:100%;border-radius:16px;margin-bottom:12px;z-index:1}
 .map-note{background:var(--primary-light);color:var(--primary-dark);padding:10px 14px;border-radius:12px;font-size:12px;margin-bottom:12px;display:flex;gap:8px;align-items:center}
+.store-thumb{width:38px;height:38px;border-radius:10px;object-fit:cover;background:var(--light);border:1px solid var(--border)}
+.order-head-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.route-card{background:white;border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px}
+.route-card h4{font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.route-line{position:relative;padding-right:22px}
+.route-line::before{content:"";position:absolute;right:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--primary) 0%,var(--primary) 50%,var(--accent) 50%,var(--accent) 100%);border-radius:2px}
+.route-step{position:relative;padding:6px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.route-step::before{content:"";position:absolute;right:-22px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:white;border:3px solid var(--primary);box-shadow:0 0 0 2px white}
+.route-step.s2::before{border-color:var(--warning)}
+.route-step.s3::before{border-color:var(--accent)}
+.route-step .label{color:var(--gray);font-weight:600}
+.route-step .km{color:var(--primary);font-weight:800;font-size:15px}
+.route-step .km.muted{color:var(--gray);font-size:12px;font-weight:600}
+.nav-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.nav-btns .btn{padding:14px 10px;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px;line-height:1.3}
+.nav-btns .btn i{font-size:20px}
+.nav-btns .btn.full{grid-column:1/-1}
 
 .total-card{background:white;padding:16px;border-radius:16px;margin-bottom:10px;border:1px solid var(--border)}
 .total-card h4{font-size:14px;margin-bottom:8px}
@@ -105,10 +131,12 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 .chat-input input{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:100px;font-size:14px;font-family:inherit;outline:none}
 .chat-input button{width:44px;height:44px;border-radius:50%;background:var(--primary);color:white;border:none;cursor:pointer}
 
-.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;padding:8px 0;z-index:40;max-width:480px;margin:0 auto}.nav-item{position:relative}.nav-badge{position:absolute;top:6px;right:18px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px;cursor:pointer;color:var(--gray);font-size:11px;font-weight:600}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;padding:8px 0;z-index:40;max-width:480px;margin:0 auto;box-shadow:0 -4px 16px rgba(15,23,42,.06)}
+.nav-item{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px;cursor:pointer;color:var(--gray);font-size:11px;font-weight:600;transition:.2s}
+.nav-badge{position:absolute;top:6px;right:18px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none}
 .nav-item i{font-size:18px}
 .nav-item.active{color:var(--primary)}
+.nav-item.active i{transform:scale(1.15)}
 
 .empty{text-align:center;padding:50px 20px;color:var(--gray)}
 .empty i{font-size:52px;color:var(--border);margin-bottom:12px}
@@ -122,9 +150,12 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 .toast.success{background:var(--success)}
 .toast.error{background:var(--danger)}
 
-.profile-head{text-align:center;padding:28px 20px 20px;background:linear-gradient(135deg,var(--primary),#38BDF8);color:white;border-bottom-left-radius:28px;border-bottom-right-radius:28px;margin-bottom:16px}
-.avatar-big{width:80px;height:80px;margin:0 auto 12px;border-radius:50%;background:white;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700}
-.menu-item{background:white;padding:14px 16px;border-radius:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;border:1px solid var(--border)}
+.profile-head{position:relative;text-align:center;padding:32px 20px 24px;background:linear-gradient(135deg,#0284C7 0%,#0EA5E9 50%,#38BDF8 100%);color:white;border-bottom-left-radius:30px;border-bottom-right-radius:30px;margin-bottom:18px;box-shadow:0 12px 32px -8px rgba(14,165,233,.45);overflow:hidden}
+.profile-head::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+.profile-head > *{position:relative;z-index:1}
+.avatar-big{width:88px;height:88px;margin:0 auto 12px;border-radius:50%;background:white;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;box-shadow:0 8px 20px rgba(0,0,0,.18);border:3px solid rgba(255,255,255,.4)}
+.menu-item{background:white;padding:14px 16px;border-radius:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;border:1px solid var(--border);transition:.2s}
+.menu-item:hover{transform:translateX(-3px);box-shadow:0 6px 16px rgba(15,23,42,.06)}
 .menu-item .ic{width:38px;height:38px;border-radius:10px;background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:15px}
 .menu-item span{flex:1;font-weight:600;font-size:14px}
 
@@ -328,8 +359,13 @@ body{background:var(--light);color:var(--dark);font-size:15px}
     <p id="profVehicle" style="font-size:12px;opacity:.85;margin-top:4px"></p>
   </div>
   <div style="padding:0 16px">
-    <div class="menu-item"><div class="ic"><i class="fas fa-chart-line"></i></div><span>الأرباح</span></div>
-    <div class="menu-item"><div class="ic"><i class="fas fa-star"></i></div><span>التقييمات</span></div>
+    <div class="stats-card">
+      <h4 class="stats-title"><i class="fas fa-chart-simple"></i> إحصائياتي</h4>
+      <div class="stats-row"><span><i class="fas fa-box"></i> عدد الطلبات</span><strong id="profileOrdersDone">0</strong></div>
+      <div class="stats-row"><span><i class="fas fa-star"></i> عدد التقييمات</span><strong id="profileRatingCount">0</strong></div>
+      <div class="stats-row"><span><i class="fas fa-star-half-stroke"></i> متوسط التقييم</span><strong id="profileAvgRating">0</strong></div>
+      <div class="stats-row"><span><i class="fas fa-coins"></i> الأرباح (مجموع التوصيل)</span><strong id="profileEarnings">0 ل.س</strong></div>
+    </div>
     <div class="menu-item"><div class="ic"><i class="fas fa-headset"></i></div><span>الدعم</span></div>
     <div class="menu-item" onclick="logout()" style="color:var(--danger)">
       <div class="ic" style="background:#FEE2E2;color:var(--danger)"><i class="fas fa-right-from-bracket"></i></div>
@@ -649,6 +685,17 @@ function subscribeOrders(){
     $('#sTotal').textContent = mine.length;
     $('#sDone').textContent = mine.filter(o=>o.status==='delivered').length;
     $('#sActive').textContent = mine.filter(o=>['accepted','on_way'].includes(o.status)).length;
+    // Profile inline stats
+    const done = mine.filter(o=>o.status==='delivered');
+    const rated = done.filter(o=>+o.userRatedDelivery>0);
+    const ratingVals = rated.map(o=>+o.userRatedDelivery);
+    const avgR = ratingVals.length ? +(ratingVals.reduce((a,b)=>a+b,0)/ratingVals.length).toFixed(1) : 0;
+    const earned = done.reduce((s,o)=>s+(+o.deliveryFee||0),0);
+    const setT = (id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+    setT('profileOrdersDone', done.length);
+    setT('profileRatingCount', rated.length);
+    setT('profileAvgRating', avgR || '0');
+    setT('profileEarnings', `${Math.round(earned).toLocaleString()} ل.س`);
     renderOrders();
   });
 }
@@ -672,7 +719,7 @@ function renderOrders(){
   if(!list.length){ $('#ordersList').innerHTML = `<div class="empty"><i class="fas fa-inbox"></i><h4>لا توجد طلبات</h4></div>`; return; }
   $('#ordersList').innerHTML = visible.map(o=>`
     <div class="order-card" data-id="${o.id}">
-      <div class="order-head"><h5><i class="fas fa-store" style="color:var(--primary)"></i> ${esc(o.storeName||'طلب')}</h5><span class="badge ${o.status}">${statusLabel(o.status)}</span></div>
+      <div class="order-head"><div class="order-head-row">${o.storeImage?`<img class="store-thumb" src="${esc(o.storeImage)}" alt="">`:`<div class="store-thumb" style="display:flex;align-items:center;justify-content:center"><i class="fas fa-${o.type==='custom'?'wand-magic-sparkles':'store'}" style="color:var(--primary)"></i></div>`}<h5>${esc(o.storeName||'طلب')}</h5></div><span class="badge ${o.status}">${statusLabel(o.status)}</span></div>
       <div class="row"><i class="fas fa-user" style="width:14px"></i> ${esc(o.userName||'عميل')}</div>
       <div class="row"><i class="fas fa-phone" style="width:14px"></i> ${esc(o.userPhone||'غير محدد')}</div>
       ${o.type==='custom'?`<div class="row"><i class="fas fa-wand-magic-sparkles" style="width:14px"></i> طلب مخصص</div>`:`<div class="row"><i class="fas fa-box" style="width:14px"></i> ${(o.items||[]).length} أصناف</div>`}
@@ -712,14 +759,29 @@ function renderOrderDetail(){
   else if(o.status==='on_way' && o.deliveryId===currentUser.uid) actionBtn = `<div class="map-note" style="margin-top:4px"><i class="fas fa-satellite-dish"></i> التتبع نشط - يتم تحديث موقعك تلقائياً</div><button class="btn btn-success" id="deliveredBtn" style="margin-top:8px"><i class="fas fa-circle-check"></i> تم التسليم</button><button class="btn btn-danger" id="cancelBtn" style="margin-top:8px"><i class="fas fa-times-circle"></i> إلغاء الطلب</button>`;
 
   $('#orderBody').innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <h3 style="font-size:17px;font-weight:800"><i class="fas fa-store" style="color:var(--primary)"></i> ${esc(o.storeName||'طلب')}</h3>
+    <div class="order-head-row" style="margin-bottom:12px;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        ${o.storeImage?`<img class="store-thumb" src="${esc(o.storeImage)}" alt="" style="width:48px;height:48px;border-radius:12px">`:`<div class="store-thumb" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center"><i class="fas fa-${o.type==='custom'?'wand-magic-sparkles':'store'}" style="color:var(--primary);font-size:20px"></i></div>`}
+        <h3 style="font-size:17px;font-weight:800">${esc(o.storeName||'طلب')}</h3>
+      </div>
       <span class="badge ${o.status}">${statusLabel(o.status)}</span>
     </div>
     <div class="total-card">
       <h4><i class="fas fa-user"></i> معلومات العميل</h4>
       <div class="total-row"><span>الاسم</span><strong>${esc(o.userName||'-')}</strong></div>
       <div class="total-row"><span>الهاتف</span><strong><a href="tel:${esc(o.userPhone||'')}" style="color:var(--primary)">${esc(o.userPhone||'-')}</a></strong></div>
+    </div>
+    <div class="route-card">
+      <h4><i class="fas fa-route" style="color:var(--primary)"></i> مسار التوصيل</h4>
+      <div class="route-line" id="routeLine">
+        <div class="route-step s1"><span class="label"><i class="fas fa-location-crosshairs"></i> من موقعي</span><span class="km" id="kmMeStore">— كم</span></div>
+        <div class="route-step s2"><span class="label"><i class="fas fa-store"></i> إلى المتجر</span><span class="km" id="kmStoreCust">— كم</span></div>
+        <div class="route-step s3"><span class="label"><i class="fas fa-flag-checkered"></i> إلى العميل</span><span class="km" id="kmTotal">— كم</span></div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      ${o.type!=='custom' && o.storeLocation ? `<button class="btn btn-primary" id="navStoreBtn"><i class="fas fa-store"></i> الذهاب إلى المتجر</button>` : `<div class="btn btn-ghost" style="opacity:.7"><i class="fas fa-store-slash"></i> لا يوجد متجر محدد</div>`}
+      <button class="btn btn-success" id="navCustBtn"><i class="fas fa-flag-checkered"></i> الذهاب إلى العميل</button>
     </div>
     ${o.type==='custom'?`<div class="total-card"><h4><i class="fas fa-wand-magic-sparkles"></i> طلب مخصص</h4><p style="font-size:13px;line-height:1.6">${esc(o.customRequest||'')}</p>${o.budget?`<p style="font-size:12px;color:var(--gray);margin-top:6px">الميزانية: ${o.budget} ل.س</p>`:''}</div>`:''}
     ${itemsHtml?`<div class="total-card"><h4><i class="fas fa-box"></i> الأصناف</h4>${itemsHtml}</div>`:''}
@@ -730,23 +792,49 @@ function renderOrderDetail(){
     </div>
     ${o.address?`<div class="total-card"><h4><i class="fas fa-location-dot"></i> العنوان</h4><p style="font-size:13px">${esc(o.address)}</p></div>`:''}
     ${o.note?`<div class="total-card"><h4><i class="fas fa-note-sticky"></i> ملاحظات</h4><p style="font-size:13px">${esc(o.note)}</p></div>`:''}
-    <div id="orderMap" style="margin-top:10px"></div>
     <div style="margin-top:10px">${actionBtn}</div>
   `;
 
-  setTimeout(()=>{
-    if(window._orderMap){ try{ window._orderMap.remove(); }catch(e){} }
-    window._orderMap = L.map('orderMap').setView([o.location.lat,o.location.lng],15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(window._orderMap);
-    // علامة المستخدم
-    const userIcon = L.divIcon({html:'<div style="background:#FF5A1F;width:20px;height:20px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>',className:'',iconSize:[20,20],iconAnchor:[10,10]});
-    L.marker([o.location.lat,o.location.lng],{icon:userIcon}).addTo(window._orderMap).bindPopup('موقع العميل');
-    window._orderMap.invalidateSize();
-    // إذا كان المندوب في الطريق، ابدأ التتبع التلقائي فوراً
-    if(o.status==='on_way' && o.deliveryId===currentUser.uid){
-      startTracking(o);
+  // حساب المسافات
+  const isCustom = o.type==='custom' || !o.storeLocation;
+  const cust = o.location;
+  const store = o.storeLocation;
+  const setKm = (id,v)=>{ const el=document.getElementById(id); if(el) el.textContent = v==null?'— كم':`${(+v).toFixed(1)} كم`; };
+  if(isCustom){
+    const r = document.getElementById('routeLine');
+    if(r){
+      const s2 = r.querySelector('.s2');
+      if(s2) s2.querySelector('.km').outerHTML = '<span class="km muted">لا يوجد</span>';
     }
-  },200);
+  } else if(store && cust){
+    setKm('kmStoreCust', haversineKm(store, cust));
+  }
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition((pos)=>{
+      const me = {lat:pos.coords.latitude,lng:pos.coords.longitude};
+      if(isCustom){
+        if(cust) setKm('kmMeStore', haversineKm(me, cust));
+        const el = document.getElementById('kmTotal'); if(el) el.outerHTML='<span class="km muted">—</span>';
+      } else {
+        if(store) setKm('kmMeStore', haversineKm(me, store));
+        if(cust) setKm('kmTotal', haversineKm(me, cust));
+      }
+      // بدء التتبع التلقائي إذا كان في الطريق
+      if(o.status==='on_way' && o.deliveryId===currentUser.uid) startTracking(o);
+    },()=>{
+      if(o.status==='on_way' && o.deliveryId===currentUser.uid) startTracking(o);
+    },{enableHighAccuracy:true,timeout:8000,maximumAge:0});
+  }
+
+  const navStoreBtn = document.getElementById('navStoreBtn');
+  if(navStoreBtn) navStoreBtn.addEventListener('click',()=>{
+    const url = o.storeMapUrl || `https://www.google.com/maps/dir/?api=1&destination=${o.storeLocation.lat},${o.storeLocation.lng}&travelmode=driving&dir_action=navigate`;
+    window.open(url,'_blank');
+  });
+  const navCustBtn = document.getElementById('navCustBtn');
+  if(navCustBtn) navCustBtn.addEventListener('click',()=>{
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${o.location.lat},${o.location.lng}&travelmode=driving&dir_action=navigate`,'_blank');
+  });
 
   const aBtn=$('#acceptBtn'); if(aBtn) aBtn.addEventListener('click',async ()=>{
     aBtn.disabled=true;
