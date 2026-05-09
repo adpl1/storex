@@ -106,7 +106,7 @@ $('#regBtn').onclick = async ()=>{
   }catch(e){ showErr('فشل التسجيل: '+(e.code||'')); $('#regBtn').disabled=false; }
 };
 
-onAuthStateChanged(auth, u=>{ if(u){ window.location.replace('ride.html'); } });
+onAuthStateChanged(auth, u=>{ if(u){ window.location.replace('ride.html?v=20260509-2'); } });
 </script>
 </body>
 </html>
