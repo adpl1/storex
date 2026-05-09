@@ -20,13 +20,67 @@ body{background:radial-gradient(1200px 600px at 50% -100px, #1B2A52 0%, var(--bg
 .app{max-width:520px;margin:0 auto;min-height:100vh;background:linear-gradient(180deg,rgba(255,255,255,.02) 0%,transparent 100%);position:relative;padding-bottom:84px}
 
 /* Header matching index.html style but green */
-.header{background:green;padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:2px solid #e8f5ef;position:sticky;top:0;z-index:100;color:#1A1D29}
-.header .logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--green),#34C87A);color:white;display:grid;place-items:center;font-size:20px;box-shadow:0 6px 18px rgba(46,158,107,.3);flex-shrink:0}
-.header .hinfo{flex:1}
-.header h2{font-size:17px;font-weight:800;color:#1A1D29;line-height:1.2}
-.header p{font-size:12px;color:#6B7280}
-.header .hback{width:40px;height:40px;border-radius:12px;background:#f0f9f5;border:none;color:var(--green);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.header{
+  background:#1F4D3A;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border-bottom:2px solid #2D6A4F;
+  position:sticky;
+  top:0;
+  z-index:100;
+  color:#fff;
+}
 
+.header .logo{
+  width:44px;
+  height:44px;
+  border-radius:13px;
+  background:linear-gradient(135deg,#2D6A4F,#40916C);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:20px;
+  box-shadow:0 6px 18px rgba(31,77,58,.35);
+  flex-shrink:0
+}
+
+.header .hinfo{
+  flex:1
+}
+
+.header h2{
+  font-size:17px;
+  font-weight:800;
+  color:#fff;
+  line-height:1.2
+}
+
+.header p{
+  font-size:12px;
+  color:#D1D5DB
+}
+
+.header .hback{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:rgba(255,255,255,.08);
+  border:none;
+  color:#fff;
+  font-size:17px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  transition:.2s
+}
+
+.header .hback:hover{
+  background:rgba(255,255,255,.15)
+}
 /* Search bar - index style, green */
 .dest-search-bar{
   background:#1F4D3A;
