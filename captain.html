@@ -115,6 +115,36 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--success);animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.3}}
 .actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+
+.wallet-card{background:linear-gradient(135deg,#102D20 0%,#173A29 100%);border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 10px 28px rgba(0,0,0,.08)}
+.wallet-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.wallet-balance{font-size:30px;font-weight:900;color:#6EE7B7;line-height:1}
+.wallet-sub{font-size:12px;color:#C9F7D4;margin-top:6px}
+.wallet-mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.wallet-box{background:rgba(255,255,255,.05);border-radius:14px;padding:12px;text-align:center}
+.wallet-box .n{font-size:22px;font-weight:900;color:#FFD400}
+.wallet-box .l{font-size:11px;color:#C7D2FE;margin-top:4px}
+.recent-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;max-height:170px;overflow:auto}
+.recent-item{background:rgba(255,255,255,.04);border-radius:12px;padding:10px 12px;font-size:12px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.recent-item .amt{font-weight:900;color:#FCA5A5}
+.recent-item .amt.plus{color:#86EFAC}
+.rating-stars{display:flex;gap:6px;flex-wrap:wrap}
+.star-btn{border:none;background:transparent;color:#64748B;font-size:22px;cursor:pointer;padding:2px}
+.star-btn.active{color:var(--warning)}
+.chat-panel{background:white;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:12px}
+.chat-list{max-height:230px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.chat-row{display:flex}
+.chat-row.me{justify-content:flex-end}
+.chat-row.them{justify-content:flex-start}
+.chat-bubble{max-width:78%;padding:10px 12px;border-radius:16px;font-size:13px;line-height:1.6;border:1px solid var(--border)}
+.chat-row.me .chat-bubble{background:var(--primary-light);border-top-right-radius:6px}
+.chat-row.them .chat-bubble{background:#F8FAFC;border-top-left-radius:6px}
+.chat-input{display:flex;gap:8px;margin-top:10px}
+.chat-input input{flex:1;border:1.5px solid var(--border);border-radius:14px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none}
+.chat-input input:focus{border-color:var(--primary);background:var(--primary-light)}
+.hidden-soft{display:none !important}
+.ride-actions-only{display:flex;flex-direction:column;gap:8px}
+
 </style>
 </head>
 <body>
@@ -264,8 +294,31 @@ body{background:var(--light);color:var(--dark);font-size:15px}
     <p id="profCar" style="font-size:12px;opacity:.85;margin-top:4px"></p>
   </div>
   <div style="padding:0 16px">
-    <div class="menu-item"><div class="ic"><i class="fas fa-chart-line"></i></div><span>الأرباح</span></div>
-    <div class="menu-item"><div class="ic"><i class="fas fa-star"></i></div><span>التقييمات</span></div>
+    <div class="wallet-card">
+      <div class="wallet-top">
+        <div>
+          <div style="font-size:13px;color:#A7F3D0;font-weight:700;margin-bottom:6px"><i class="fas fa-wallet"></i> المحفظة</div>
+          <div class="wallet-balance" id="walletBalance">50</div>
+          <div class="wallet-sub">الرصيد المستحق بعد الخصومات</div>
+        </div>
+        <div style="text-align:left">
+          <div style="font-size:11px;color:#C7D2FE">آخر تحديث</div>
+          <div style="font-size:12px;font-weight:700" id="walletUpdatedAt">—</div>
+        </div>
+      </div>
+      <div class="wallet-mini">
+        <div class="wallet-box"><div class="n" id="walletTotalEarnings">0</div><div class="l">إجمالي الأرباح</div></div>
+        <div class="wallet-box"><div class="n" id="walletTotalComm">0</div><div class="l">إجمالي الخصم</div></div>
+      </div>
+      <div class="recent-list" id="walletRecent"></div>
+    </div>
+    <div class="wallet-card" style="background:linear-gradient(135deg,#0F172A 0%,#111827 100%);border-color:rgba(255,255,255,.08)">
+      <div style="font-size:13px;color:#FDE68A;font-weight:700;margin-bottom:10px"><i class="fas fa-star"></i> التقييمات والأرباح</div>
+      <div class="wallet-mini">
+        <div class="wallet-box"><div class="n" id="profileRidesDone">0</div><div class="l">رحلات مكتملة</div></div>
+        <div class="wallet-box"><div class="n" id="profileAvgRating">0</div><div class="l">متوسط التقييم</div></div>
+      </div>
+    </div>
     <div class="menu-item"><div class="ic"><i class="fas fa-headset"></i></div><span>الدعم</span></div>
     <div class="menu-item" onclick="logout()" style="color:var(--danger)">
       <div class="ic" style="background:#FEE2E2;color:var(--danger)"><i class="fas fa-right-from-bracket"></i></div>
@@ -286,7 +339,7 @@ body{background:var(--light);color:var(--dark);font-size:15px}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, collection, query, where, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, collection, query, where, orderBy, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA3wjOh1IZLS5cK8dH0fB6nwKH50iXvFhk",
@@ -345,6 +398,7 @@ function playSound(type){
 
 let currentUser=null, userData=null, currentFilter='incoming', online=false, locWatch=null, currentLoc=null;
 let ridesUnsub=null, allRides=[], activeRideId=null, currentRide=null;
+let profileUnsub=null, chatUnsub=null, walletBalance=50, walletHistory=[], selectedCustomerRating=0;
 
 window.showScreen = (id) => {
   $$('.screen').forEach(s=>s.classList.remove('active'));
@@ -408,6 +462,18 @@ $('#regBtn').addEventListener('click', async ()=>{
 });
 
 window.logout = async ()=>{ try{await signOut(auth)}catch(e){} };
+function money(n){ return (+n||0).toLocaleString()+' ل.س'; }
+function avgFromRatings(list){ const vals=list.map(r=>+r.customerRatedCaptain).filter(v=>v>0); if(!vals.length) return 0; return +(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1); }
+function rateStarsUI(containerId, value){ const el=document.getElementById(containerId); if(!el) return; el.innerHTML=''; for(let i=1;i<=5;i++){ const b=document.createElement('button'); b.type='button'; b.className='star-btn'+(i<=value?' active':''); b.innerHTML='<i class="fas fa-star"></i>'; b.onclick=()=>{ selectedCustomerRating=i; rateStarsUI(containerId, i); const m=document.getElementById('customerRatingMeta'); if(m) m.textContent = `تم اختيار ${i} من 5`; }; el.appendChild(b); } }
+function renderWallet(){ const el=id=>document.getElementById(id); if(el('walletBalance')) el('walletBalance').textContent = (walletBalance ?? 50).toFixed ? (walletBalance ?? 50).toFixed(0) : (walletBalance ?? 50); if(el('walletUpdatedAt')) el('walletUpdatedAt').textContent = userData?.walletUpdatedAt ? 'محدث' : '—'; if(el('walletRecent')){ const list = (walletHistory||[]).slice(0,5); el('walletRecent').innerHTML = list.length ? list.map(item=>`<div class="recent-item"><div><div style="font-weight:700">${esc(item.title||'رحلة')}</div><div style="font-size:11px;color:var(--gray)">${esc(item.note||'خصم')}</div></div><div class="amt">-${money(item.amount||0)}</div></div>`).join('') : '<div class="recent-item"><div>لا توجد عمليات بعد</div><div class="amt plus">—</div></div>'; } }
+function renderProfileStats(){ const mine = allRides.filter(r=>r.captainId===currentUser?.uid); const done = mine.filter(r=>r.status==='completed'); const earned = done.reduce((s,r)=>s+(+r.price||0),0); const commission = done.reduce((s,r)=>s+Math.round((+r.price||0)*0.05),0); const ratingAvg = avgFromRatings(done); const el=id=>document.getElementById(id); if(el('profileRidesDone')) el('profileRidesDone').textContent = done.length; if(el('profileAvgRating')) el('profileAvgRating').textContent = ratingAvg ? ratingAvg.toFixed(1) : '0'; if(el('walletTotalEarnings')) el('walletTotalEarnings').textContent = money(earned); if(el('walletTotalComm')) el('walletTotalComm').textContent = money(commission); }
+async function syncCaptainProfile(){ if(!currentUser) return; const ref = doc(db,'users',currentUser.uid); const snap = await getDoc(ref); const data = snap.exists() ? snap.data() : {}; walletBalance = data.walletBalance ?? 50; walletHistory = Array.isArray(data.walletHistory) ? data.walletHistory : []; userData = {...userData, ...data, walletBalance}; renderWallet(); renderProfileStats(); }
+function startProfileListener(){ if(profileUnsub) profileUnsub(); if(!currentUser) return; profileUnsub = onSnapshot(doc(db,'users',currentUser.uid), snap=>{ if(!snap.exists()) return; const d = snap.data(); walletBalance = d.walletBalance ?? 50; walletHistory = Array.isArray(d.walletHistory) ? d.walletHistory : []; userData = {...userData, ...d}; renderWallet(); }); }
+function openCaptainChat(rideId){ if(chatUnsub) chatUnsub(); const box = document.getElementById('chatList'); if(!box) return; const q = query(collection(db,'chats',rideId,'messages'), orderBy('createdAt','asc')); chatUnsub = onSnapshot(q, snap=>{ box.innerHTML = snap.docs.map(d=>{ const m=d.data(); const mine = m.senderId===currentUser.uid; return `<div class="chat-row ${mine?'me':'them'}"><div class="chat-bubble">${esc(m.text||'')}<div style="font-size:10px;color:var(--gray);margin-top:4px">${esc(m.senderName||'')}</div></div></div>`; }).join(''); box.scrollTop = box.scrollHeight; }); }
+async function sendCaptainChat(){ if(!currentRide?.id) return; const input=document.getElementById('chatInput'); const msg=(input?.value||'').trim(); if(!msg) return; input.value=''; await addDoc(collection(db,'chats',currentRide.id,'messages'), { rideId:currentRide.id, senderId:currentUser.uid, senderName:userData.name||'', text:msg, createdAt:serverTimestamp() }); }
+async function finishRideAndDeduct(rideId){ const rideRef = doc(db,'rides',rideId); const userRef = doc(db,'users',currentUser.uid); await runTransaction(db, async tx=>{ const rideSnap = await tx.get(rideRef); if(!rideSnap.exists()) throw new Error('الرحلة غير موجودة'); const ride = rideSnap.data(); if(ride.status==='completed') throw new Error('تم إنهاء الرحلة مسبقاً'); const capSnap = await tx.get(userRef); const cap = capSnap.exists() ? capSnap.data() : {}; const price = +ride.price||0; const commission = Math.round(price*0.05); const balance = Math.max(0, (+cap.walletBalance ?? 50) - commission); const history = Array.isArray(cap.walletHistory) ? cap.walletHistory : []; tx.update(rideRef,{ status:'completed', completedAt:serverTimestamp(), commissionApplied:true }); tx.set(userRef,{ walletBalance:balance, walletHistory:[{ rideId, title:ride.customerName || 'رحلة جديدة', note:`خصم 5% من قيمة التوصيل`, amount:commission, at:Date.now() }, ...history].slice(0,5) },{merge:true}); }); walletBalance = Math.max(0, walletBalance - Math.round((+currentRide?.price||0)*0.05)); renderWallet(); toast('اكتملت الرحلة وتم تحديث المحفظة','success'); showScreen('homeScreen'); }
+async function submitCustomerRating(){ if(!currentRide?.id || !selectedCustomerRating) return; const rideRef = doc(db,'rides',currentRide.id); await runTransaction(db, async tx=>{ const rsnap = await tx.get(rideRef); if(!rsnap.exists()) return; const ride = rsnap.data(); if(ride.captainRatedCustomer) throw new Error('تم التقييم مسبقاً'); tx.update(rideRef,{ captainRatedCustomer:selectedCustomerRating, captainRatedCustomerAt:serverTimestamp() }); if(ride.customerId){ const custRef = doc(db,'users',ride.customerId); const custSnap = await tx.get(custRef); const cust = custSnap.exists() ? custSnap.data() : {}; const sum = (+cust.customerRatingSum||0)+selectedCustomerRating; const count = (+cust.customerRatingCount||0)+1; tx.set(custRef,{ customerRatingSum:sum, customerRatingCount:count, customerRatingAvg:+(sum/count).toFixed(2) },{merge:true}); } }); toast('تم إرسال تقييم العميل','success'); }
+
 
 onAuthStateChanged(auth, async (user)=>{
   if(user){
@@ -425,7 +491,7 @@ onAuthStateChanged(auth, async (user)=>{
     }
     initApp();
   } else {
-    currentUser=null; userData=null; stopWatching();
+    currentUser=null; userData=null; stopWatching(); if(profileUnsub){ profileUnsub(); profileUnsub=null; } if(chatUnsub){ chatUnsub(); chatUnsub=null; }
     $('#bottomNav').style.display='none';
     showScreen('authScreen');
   }
@@ -441,6 +507,8 @@ function initApp(){
   updateAvail();
   if(online) startWatching();
   showScreen('homeScreen');
+  syncCaptainProfile();
+  startProfileListener();
   subscribeRides();
 }
 
@@ -494,6 +562,7 @@ function subscribeRides(){
     $('#sTotal').textContent = mine.length;
     $('#sDone').textContent = mine.filter(r=>r.status==='completed').length;
     $('#sActive').textContent = mine.filter(r=>['accepted','arrived','in_progress'].includes(r.status)).length;
+    renderProfileStats();
     const active = mine.find(r=>['accepted','arrived','in_progress'].includes(r.status));
     activeRideId = active?.id || null;
 
@@ -535,6 +604,7 @@ function renderRides(){
       <div class="ride-head"><h5><i class="fas fa-user" style="color:var(--primary)"></i> ${esc(r.customerName||'عميل')}</h5><span class="badge ${r.status}">${statusLabel(r.status)}</span></div>
       <div class="row"><i class="fas fa-route" style="width:14px"></i> ${(+r.routeKm||0).toFixed(1)} كم</div>
       ${r._capKm!=null?`<div class="row"><i class="fas fa-location-arrow" style="width:14px"></i> المسافة إليك: ${r._capKm.toFixed(2)} كم</div>`:''}
+      ${r.destination?.lat?`<div class="row"><i class="fas fa-flag-checkered" style="width:14px"></i> من العميل إلى الوجهة: ${km(r.pickup,r.destination).toFixed(2)} كم</div>`:''}
       <div class="total"><span>السعر</span><span class="val">${(+r.price||0).toLocaleString()} ل.س</span></div>
     </div>`).join('');
   $$('#ridesList .ride-card').forEach(c=>c.addEventListener('click',()=>openRide(c.dataset.id)));
@@ -547,6 +617,7 @@ function openRide(id){
     if(!snap.exists()) return;
     currentRide = {id:snap.id,...snap.data()};
     renderRideDetail();
+    if(currentRide?.id && currentRide.status!=='searching') openCaptainChat(currentRide.id);
   });
   showScreen('rideScreen');
 }
@@ -555,12 +626,17 @@ function renderRideDetail(){
   const r=currentRide;
   const pickupNav = `https://www.google.com/maps/dir/?api=1&destination=${r.pickup.lat},${r.pickup.lng}&travelmode=driving&dir_action=navigate`;
   const destNav = `https://www.google.com/maps/dir/?api=1&destination=${r.destination.lat},${r.destination.lng}&travelmode=driving&dir_action=navigate`;
+  const canAct = r.captainId===currentUser.uid && ['accepted','arrived','in_progress'].includes(r.status);
   let actions='';
   if(r.status==='searching') actions = `<button class="btn btn-success" id="acceptBtn"><i class="fas fa-check"></i> قبول الرحلة</button>`;
-  else if(r.status==='accepted' && r.captainId===currentUser.uid) actions = `<button class="btn btn-success" id="markArrived"><i class="fas fa-flag-checkered"></i> وصلت للعميل</button>`;
-  else if(r.status==='arrived' && r.captainId===currentUser.uid) actions = `<button class="btn btn-primary" id="startRide"><i class="fas fa-play"></i> بدء الرحلة</button>`;
-  else if(r.status==='in_progress' && r.captainId===currentUser.uid) actions = `<button class="btn btn-success" id="completeRide"><i class="fas fa-check-double"></i> إنهاء الرحلة</button>`;
-  const cancelBtn = (r.captainId===currentUser.uid && ['accepted','arrived','in_progress'].includes(r.status)) ? `<button class="btn btn-danger" id="cancelActive" style="margin-top:8px"><i class="fas fa-xmark"></i> إلغاء الرحلة</button>`:'';
+  else if(r.status==='accepted' && canAct) actions = `<button class="btn btn-success" id="markArrived"><i class="fas fa-flag-checkered"></i> وصلت للعميل</button>`;
+  else if(r.status==='arrived' && canAct) actions = `<button class="btn btn-primary" id="startRide"><i class="fas fa-play"></i> بدء الرحلة</button>`;
+  else if(r.status==='in_progress' && canAct) actions = `<button class="btn btn-success" id="completeRide"><i class="fas fa-check-double"></i> إنهاء الرحلة</button>`;
+  const cancelBtn = canAct ? `<button class="btn btn-danger" id="cancelActive" style="margin-top:8px"><i class="fas fa-xmark"></i> إلغاء الرحلة</button>`:'';
+  const showNavs = r.status!=='searching';
+  const destinationKm = r.destination?.lat ? km(r.pickup, r.destination).toFixed(2) : null;
+  selectedCustomerRating = r.captainRatedCustomer || selectedCustomerRating || 0;
+  const customerRating = r.customerRatedCaptain ? `${r.customerRatedCaptain}/5` : '—';
 
   $('#rideBody').innerHTML = `
     <div class="status-bar"><span class="dot"></span> ${statusLabel(r.status)}</div>
@@ -568,23 +644,44 @@ function renderRideDetail(){
       <h4><i class="fas fa-user"></i> العميل</h4>
       <div class="total-row"><span>الاسم</span><strong>${esc(r.customerName||'-')}</strong></div>
       <div class="total-row"><span>الهاتف</span><strong><a href="tel:${esc(r.customerPhone||'')}" style="color:var(--primary)">${esc(r.customerPhone||'-')}</a></strong></div>
+      <div class="total-row"><span>تقييم العميل</span><strong>${customerRating}</strong></div>
     </div>
     <div class="total-card">
       <div class="total-row"><span>مسافة الرحلة</span><strong>${(+r.routeKm||0).toFixed(2)} كم</strong></div>
+      ${destinationKm?`<div class="total-row"><span>من العميل إلى الوجهة</span><strong>${destinationKm} كم</strong></div>`:''}
       <div class="total-row big"><span>السعر</span><strong style="color:var(--primary)">${(+r.price||0).toLocaleString()} ل.س</strong></div>
     </div>
-    <div class="actions-grid">
+    ${showNavs ? `<div class="actions-grid">
       <a href="${pickupNav}" target="_blank" class="btn btn-success"><i class="fas fa-route"></i> توجّه للعميل</a>
       <a href="${destNav}" target="_blank" class="btn btn-success"><i class="fas fa-route"></i> توجّه للوجهة</a>
+    </div>` : ''}
+    <div style="margin-top:10px" class="ride-actions-only">${actions}${cancelBtn}</div>
+    <div class="chat-panel" id="chatBox">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong><i class="fas fa-comments"></i> المحادثة</strong>
+        <span style="font-size:11px;color:var(--gray)">بينك وبين العميل</span>
+      </div>
+      <div class="chat-list" id="chatList"></div>
+      <div class="chat-input">
+        <input id="chatInput" type="text" placeholder="اكتب رسالة...">
+        <button class="btn btn-primary" id="sendChatBtn" style="width:auto;padding:12px 16px"><i class="fas fa-paper-plane"></i></button>
+      </div>
     </div>
-    <div style="margin-top:10px">${actions}</div>
-    ${cancelBtn}
+    <div class="total-card" id="customerRatingCard" style="display:${r.status==='completed' && r.captainId===currentUser.uid ? 'block' : 'none'}">
+      <h4 style="margin-bottom:10px"><i class="fas fa-star"></i> قيّم العميل</h4>
+      <div class="rating-stars" id="customerRatingStars"></div>
+      <div style="font-size:12px;color:var(--gray);margin-top:8px" id="customerRatingMeta">اختر من 1 إلى 5 نجوم ثم أرسل التقييم.</div>
+      <button class="btn btn-primary" id="submitCustomerRatingBtn" style="margin-top:12px"><i class="fas fa-paper-plane"></i> إرسال التقييم</button>
+    </div>
   `;
   if($('#acceptBtn')) $('#acceptBtn').onclick = ()=>acceptRide(r.id);
   if($('#markArrived')) $('#markArrived').onclick = ()=>updateDoc(doc(db,'rides',r.id),{status:'arrived',arrivedAt:serverTimestamp()});
   if($('#startRide')) $('#startRide').onclick = ()=>updateDoc(doc(db,'rides',r.id),{status:'in_progress',startedAt:serverTimestamp()});
-  if($('#completeRide')) $('#completeRide').onclick = async ()=>{ await updateDoc(doc(db,'rides',r.id),{status:'completed',completedAt:serverTimestamp()}); toast('اكتملت الرحلة','success'); showScreen('homeScreen'); };
+  if($('#completeRide')) $('#completeRide').onclick = async ()=>{ try{ await finishRideAndDeduct(r.id); }catch(e){ toast(e.message||'فشل الإنهاء','error'); } };
   if($('#cancelActive')) $('#cancelActive').onclick = async ()=>{ if(!confirm('تأكيد الإلغاء؟')) return; await updateDoc(doc(db,'rides',r.id),{status:'cancelled',cancelledAt:serverTimestamp()}); showScreen('homeScreen'); };
+  if($('#sendChatBtn')) $('#sendChatBtn').onclick = sendCaptainChat;
+  if($('#chatInput')) $('#chatInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendCaptainChat(); });
+  if($('#submitCustomerRatingBtn')){ rateStarsUI('customerRatingStars', selectedCustomerRating||0); $('#submitCustomerRatingBtn').onclick = async ()=>{ try{ await submitCustomerRating(); }catch(e){ toast(e.message||'فشل التقييم','error'); } }; }
 }
 
 async function acceptRide(rideId){
@@ -601,6 +698,8 @@ async function acceptRide(rideId){
         captainName:userData.name||'', captainPhone:userData.phone||'',
         captainCar:userData.car||'', captainPlate:userData.plate||'',
         captainLocation:currentLoc, captainPickupKm:km(currentLoc,r.pickup),
+        captainRatingAvg:userData.ratingAvg ?? (userData.ratingCount ? +(userData.ratingSum/userData.ratingCount).toFixed(1) : null),
+        captainRatingCount:userData.ratingCount ?? 0,
         acceptedAt:serverTimestamp()
       });
     });
