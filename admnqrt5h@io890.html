@@ -337,6 +337,7 @@ body{background:var(--light);color:var(--dark);font-size:14px;min-height:100vh}
       <div class="field"><label>الشعار (URL)</label><input id="storeLogo" class="input" placeholder="https://..."></div>
       <div class="field"><label>صورة البانر (URL)</label><input id="storeBanner" class="input" placeholder="https://..."></div>
       <div class="field"><label>الأقسام (مفصولة بفاصلة)</label><input id="storeCats" class="input" placeholder="مثال: وجبات, مشروبات, حلويات"></div>
+      <div class="field"><label>رابط موقع المحل (Google Maps)</label><input id="storeMapUrl" class="input" placeholder="https://maps.google.com/?q=..." dir="ltr"><small style="color:var(--gray);font-size:11px;display:block;margin-top:4px">الصق رابط موقع المحل من جوجل ماب — سيُستخرج الإحداثيات تلقائياً</small></div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('storeModal')">إلغاء</button>
@@ -572,16 +573,27 @@ window.openStoreModal = (s=null)=>{
   $('#storeLogo').value = s?.logo||'';
   $('#storeBanner').value = s?.banner||'';
   $('#storeCats').value = (s?.categories||[]).join(', ');
+  $('#storeMapUrl').value = s?.mapUrl||'';
   $('#storeModal').classList.add('show');
 };
+
+function parseStoreLatLng(url){
+  if(!url) return null;
+  const patterns = [/@(-?\d+\.\d+),(-?\d+\.\d+)/, /[?&]q=(-?\d+\.\d+),(-?\d+\.\d+)/, /!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/, /(-?\d+\.\d+),(-?\d+\.\d+)/];
+  for(const p of patterns){ const m=url.match(p); if(m) return {lat:+m[1],lng:+m[2]}; }
+  return null;
+}
 
 $('#saveStoreBtn').addEventListener('click', async ()=>{
   const name = $('#storeName').value.trim();
   if(!name) return toast('أدخل الاسم','error');
+  const mapUrl = $('#storeMapUrl').value.trim();
+  const loc = parseStoreLatLng(mapUrl);
   const data = {
     name, description: $('#storeDesc').value.trim(),
     logo: $('#storeLogo').value.trim(), banner: $('#storeBanner').value.trim(),
-    categories: $('#storeCats').value.split(',').map(x=>x.trim()).filter(Boolean)
+    categories: $('#storeCats').value.split(',').map(x=>x.trim()).filter(Boolean),
+    mapUrl, location: loc || null
   };
   try{
     if(editingStore) await updateDoc(doc(db,'stores',editingStore.id), data);
