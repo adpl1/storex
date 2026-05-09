@@ -10,6 +10,7 @@ const STATIC_ASSETS = [
   './index.html',
   './home.html',
   './login.html',
+   './ride-login.html',
   './ride.html',
   './favicon.png',
   './manifest.json'
