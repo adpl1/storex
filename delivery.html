@@ -719,10 +719,10 @@ function renderOrders(){
   if(!list.length){ $('#ordersList').innerHTML = `<div class="empty"><i class="fas fa-inbox"></i><h4>لا توجد طلبات</h4></div>`; return; }
   $('#ordersList').innerHTML = visible.map(o=>`
     <div class="order-card" data-id="${o.id}">
-      <div class="order-head"><div class="order-head-row">${o.storeImage?`<img class="store-thumb" src="${esc(o.storeImage)}" alt="">`:`<div class="store-thumb" style="display:flex;align-items:center;justify-content:center"><i class="fas fa-${o.type==='custom'?'wand-magic-sparkles':'store'}" style="color:var(--primary)"></i></div>`}<h5>${esc(o.storeName||'طلب')}</h5></div><span class="badge ${o.status}">${statusLabel(o.status)}</span></div>
+      <div class="order-head"><div class="order-head-row">${o.storeImage?`<img class="store-thumb" src="${esc(o.storeImage)}" alt="">`:`<div class="store-thumb" style="display:flex;align-items:center;justify-content:center"><i class="fas fa-${o.type==='gas'?'fire-flame-simple':(o.type==='custom'?'store':'store')}" style="color:var(--primary)"></i></div>`}<h5>${esc(o.storeName||'طلب')}${o.type==='gas'?' <span style="font-size:10px;background:#FEE2E2;color:#991B1B;padding:2px 6px;border-radius:6px;margin-right:4px">تبديل غاز</span>':''}</h5></div><span class="badge ${o.status}">${statusLabel(o.status)}</span></div>
       <div class="row"><i class="fas fa-user" style="width:14px"></i> ${esc(o.userName||'عميل')}</div>
       <div class="row"><i class="fas fa-phone" style="width:14px"></i> ${esc(o.userPhone||'غير محدد')}</div>
-      ${o.type==='custom'?`<div class="row"><i class="fas fa-wand-magic-sparkles" style="width:14px"></i> طلب مخصص</div>`:`<div class="row"><i class="fas fa-box" style="width:14px"></i> ${(o.items||[]).length} أصناف</div>`}
+      ${o.type==='gas'?`<div class="row"><i class="fas fa-fire-flame-simple" style="width:14px"></i> تبديل غاز - ${o.gasQty||1} أسطوانة</div>`:(o.type==='custom'?`<div class="row"><i class="fas fa-store" style="width:14px"></i> ${esc(o.customRequest||'طلب مخصص').slice(0,50)}</div>`:`<div class="row"><i class="fas fa-box" style="width:14px"></i> ${(o.items||[]).length} أصناف</div>`)}
       <div class="total"><span>الإجمالي</span><span class="val">${currency(o.total||0)}</span></div>
     </div>`).join('');
   $$('#ordersList .order-card').forEach(c=>c.addEventListener('click',()=>openOrder(c.dataset.id)));
