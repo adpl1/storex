@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
@@ -356,6 +356,13 @@ body{background:var(--light);color:var(--dark);font-size:14px;min-height:100vh}
       <div class="field"><label>الوصف</label><textarea id="prodDesc" class="textarea"></textarea></div>
       <div class="field"><label>السعر (ر.س) *</label><input id="prodPrice" class="input" type="number"></div>
       <div class="field"><label>صورة المنتج (URL)</label><input id="prodImage" class="input" placeholder="https://..."></div>
+      <div class="field"><label>مكان العرض *</label>
+        <select id="prodDisplay" class="select">
+          <option value="products">صفحة المنتجات (داخل المتجر)</option>
+          <option value="cart">المقترحات في السلة</option>
+          <option value="both">الاثنين معاً</option>
+        </select>
+      </div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('productModal')">إلغاء</button>
@@ -657,13 +664,16 @@ window.openProductModal = (p=null)=>{
   $('#prodDesc').value = p?.description||'';
   $('#prodPrice').value = p?.price||'';
   $('#prodImage').value = p?.image||'';
+  $('#prodDisplay').value = p?.displayLocation||'products';
   $('#productModal').classList.add('show');
 };
 
 $('#saveProductBtn').addEventListener('click', async ()=>{
   const storeId = $('#prodStore').value, name=$('#prodName').value.trim(), price=+$('#prodPrice').value;
   if(!storeId||!name||!price) return toast('الحقول * مطلوبة','error');
-  const data = { storeId, name, description: $('#prodDesc').value.trim(), price, image: $('#prodImage').value.trim(), category: $('#prodCat').value };
+  const displayLocation = $('#prodDisplay').value || 'products';
+  const storeObj = allStores.find(s=>s.id===storeId);
+  const data = { storeId, storeName: storeObj?.name||'', name, description: $('#prodDesc').value.trim(), price, image: $('#prodImage').value.trim(), category: $('#prodCat').value, displayLocation, suggested: (displayLocation==='cart'||displayLocation==='both') };
   try{
     if(editingProduct) await updateDoc(doc(db,'products',editingProduct.id), data);
     else { data.createdAt = serverTimestamp(); await addDoc(collection(db,'products'), data); }
