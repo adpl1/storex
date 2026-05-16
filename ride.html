@@ -6,1147 +6,1088 @@
 <title>طلب سيارة - أدبل</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#f4f7fb;
-  --bg2:#eaf1f8;
-  --surface:rgba(255,255,255,.88);
-  --surface-2:rgba(244,248,252,.92);
-  --line:rgba(31,41,55,.10);
+  --surface:#ffffff;
+  --line:#e6ebf2;
+  --line-2:#eef2f7;
   --text:#0f172a;
   --muted:#64748b;
+  --muted-2:#94a3b8;
   --primary:#16a34a;
   --primary-2:#0ea5a6;
   --primary-d:#15803d;
+  --green:#16a34a;
+  --green-soft:#ecfdf5;
+  --red:#ef4444;
+  --red-soft:#fef2f2;
   --accent:#2563eb;
   --success:#22c55e;
   --danger:#ef4444;
-  --shadow-lg:0 20px 60px rgba(15,23,42,.14);
-  --shadow-md:0 12px 30px rgba(15,23,42,.10);
-  --shadow-sm:0 6px 16px rgba(15,23,42,.08);
-  --green:#16a34a;
-  --green-light:#ecfdf5;
-  --radius:24px;
+  --shadow-lg:0 18px 50px rgba(15,23,42,.10);
+  --shadow-md:0 10px 24px rgba(15,23,42,.08);
+  --shadow-sm:0 4px 14px rgba(15,23,42,.06);
+  --radius:18px;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Tajawal',sans-serif;
-  -webkit-tap-highlight-color:transparent
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif;-webkit-tap-highlight-color:transparent}
 html,body{min-height:100%}
 body{
   direction:rtl;
-  background:
-    radial-gradient(900px 500px at 100% -10%, rgba(22,163,74,.14), transparent 60%),
-    radial-gradient(900px 500px at 0% 0%, rgba(14,165,233,.10), transparent 55%),
-    linear-gradient(180deg,var(--bg) 0%, #fff 100%);
+  background:#f4f7fb;
   color:var(--text);
   min-height:100vh;
   overflow-x:hidden;
 }
-
-body::before{
-  content:'';
-  position:fixed;
-  inset:-120px -120px auto auto;
-  width:280px;
-  height:280px;
-  background:radial-gradient(circle at 30% 30%, rgba(34,197,94,.16), transparent 65%);
-  filter:blur(8px);
-  pointer-events:none;
-  z-index:0;
-}
-
-body::after{
-  content:'';
-  position:fixed;
-  inset:auto auto -140px -140px;
-  width:320px;
-  height:320px;
-  background:radial-gradient(circle at 50% 50%, rgba(37,99,235,.10), transparent 65%);
-  filter:blur(10px);
-  pointer-events:none;
-  z-index:0;
-}
-
 .app{
   max-width:520px;
   margin:0 auto;
   min-height:100vh;
   position:relative;
-  z-index:1;
-  padding-bottom:92px;
-  background:linear-gradient(180deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,.16) 100%);
-  backdrop-filter:blur(12px);
+  padding-bottom:88px;
+  background:#f4f7fb;
 }
 
-.header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:15px 16px;
-  color:#fff;
-  background:
-    linear-gradient(135deg, rgba(17,24,39,.96) 0%, rgba(15,118,110,.96) 100%);
-  border-bottom:1px solid rgba(255,255,255,.10);
-  box-shadow:0 12px 30px rgba(15,23,42,.18);
+/* ===== Header (light, image 1) ===== */
+.header-light{
+  position:sticky;top:0;z-index:600;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:14px 16px 16px;
+  background:#fff;border-bottom:1px solid var(--line-2);
 }
-
-.header::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(120deg, rgba(255,255,255,.12), transparent 40%),
-    radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 35%);
-  pointer-events:none;
-}
-
-.header .logo{
-  width:46px;
-  height:46px;
-  border-radius:16px;
-  background:linear-gradient(135deg, #22c55e 0%, #0ea5a6 100%);
-  display:grid;
-  place-items:center;
-  color:white;
-  font-size:19px;
-  box-shadow:0 10px 24px rgba(16,185,129,.30);
-  flex-shrink:0;
-  border:1px solid rgba(255,255,255,.16);
-  position:relative;
-  z-index:1;
-}
-
-.header .hinfo{
-  flex:1;
-  position:relative;
-  z-index:1;
-}
-
-.header h2{
-  font-size:18px;
-  font-weight:900;
-  line-height:1.2;
-  letter-spacing:.2px;
-}
-
-.header p{
-  margin-top:3px;
-  font-size:12px;
-  color:rgba(255,255,255,.82);
-}
-
-.header .hback{
-  width:42px;
-  height:42px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.10);
-  color:#fff;
-  font-size:16px;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.18s;
-  position:relative;
-  z-index:1;
-  box-shadow:0 8px 20px rgba(0,0,0,.14);
-}
-
-.header .hback:hover{
-  transform:translateY(-1px);
-  background:rgba(255,255,255,.16);
-}
-
-.section{
-  padding:16px;
-}
-
-.card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:var(--shadow-lg);
-  backdrop-filter:blur(16px);
-  position:relative;
-  overflow:hidden;
-}
-
-.card::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg, rgba(255,255,255,.25), transparent 42%);
-  pointer-events:none;
-}
-
-.section-title{
-  font-size:17px;
-  font-weight:900;
-  margin-bottom:14px;
-  display:flex;
-  align-items:center;
-  gap:9px;
-  color:var(--text);
-}
-
-.section-title i{
-  color:var(--primary);
-}
-
-.label{
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:6px;
-  display:block;
-  font-weight:700;
-}
-
-.input{
-  width:100%;
-  background:rgba(255,255,255,.88);
-  border:1.5px solid rgba(15,23,42,.10);
-  border-radius:16px;
-  padding:14px 15px;
-  color:var(--text);
-  font-size:14px;
-  outline:none;
-  transition:.18s;
-  box-shadow:0 1px 0 rgba(255,255,255,.7) inset;
-}
-
-.input:focus{
-  border-color:rgba(22,163,74,.55);
-  box-shadow:0 0 0 4px rgba(22,163,74,.12);
-}
-
-.btn{
-  width:100%;
-  padding:15px 16px;
-  border:none;
-  border-radius:16px;
-  font-size:15px;
-  font-weight:900;
-  font-family:inherit;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  transition:transform .12s, opacity .15s, box-shadow .18s, background .18s;
+.header-light .hb-btn{
+  width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+  background:#fff;color:var(--text);font-size:15px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
   box-shadow:var(--shadow-sm);
 }
+.header-light .hb-title{flex:1;text-align:center}
+.header-light .hb-title h2{font-size:18px;font-weight:900;color:var(--text)}
+.header-light .hb-title p{font-size:12px;color:var(--muted);margin-top:2px}
 
-.btn:active{transform:scale(.985)}
-.btn:disabled{opacity:.52;cursor:not-allowed;box-shadow:none}
-
-.btn-primary{
-  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color:white;
+/* ===== Header (dark, image 2) ===== */
+.header-dark{
+  position:sticky;top:0;z-index:600;
+  display:flex;align-items:center;gap:10px;
+  padding:14px 16px;color:#fff;
+  background:linear-gradient(135deg,#0b1220 0%,#0f172a 100%);
+  box-shadow:0 10px 24px rgba(15,23,42,.18);
 }
-
-.btn-primary:hover{box-shadow:0 16px 30px rgba(22,163,74,.18)}
-
-.btn-ghost{
-  background:rgba(255,255,255,.90);
-  color:var(--text);
-  border:1px solid rgba(15,23,42,.08);
+.header-dark .hb-back{
+  width:40px;height:40px;border-radius:13px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#fff;font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
 }
+.header-dark h2{flex:1;text-align:center;font-size:17px;font-weight:900}
+.header-dark .spacer{width:40px}
 
-.btn-danger{
-  background:linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-  color:#fff;
-}
+.section{padding:14px 14px 0}
 
-.btn-success{
-  background:linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  color:#fff;
-}
-
-#map{
-  height:360px;
-  border-radius:24px;
-  overflow:hidden;
-  border:1px solid rgba(15,23,42,.10);
+/* ===== Map block (home) ===== */
+.map-block{
   position:relative;
-  z-index:1;
-  box-shadow:0 16px 40px rgba(15,23,42,.16);
+  height:340px;
+  border-radius:0;
+  overflow:hidden;
+  background:#e8eef5;
+}
+#map{height:100%;width:100%}
+#mapWrap{position:relative;height:100%}
+
+.map-fab-col{
+  position:absolute;top:14px;left:14px;z-index:500;
+  display:flex;flex-direction:column;gap:8px;
+}
+.map-fab{
+  width:42px;height:42px;border-radius:14px;
+  background:#fff;border:1px solid var(--line);
+  color:var(--text);font-size:15px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-sm);
+}
+.map-fab-zoom{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.map-fab-zoom button{
+  width:42px;height:38px;border:none;background:#fff;color:var(--text);
+  font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.map-fab-zoom button + button{border-top:1px solid var(--line)}
+
+.my-loc-chip{
+  position:absolute;top:14px;right:14px;z-index:500;
+  display:flex;align-items:center;gap:8px;
+  background:#fff;border:1px solid var(--line);
+  border-radius:999px;padding:8px 14px;
+  font-weight:900;font-size:13px;color:var(--text);
+  cursor:pointer;box-shadow:var(--shadow-sm);
+}
+.my-loc-chip .ic{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--green-soft);color:var(--green);
+  display:grid;place-items:center;font-size:11px;
 }
 
-.leaflet-control-attribution{
-  font-size:9px!important;
+/* center pin overlay for manual pick */
+.center-pin{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-100%);
+  pointer-events:none;z-index:400;display:none;
+}
+.center-pin.show{display:block}
+.center-pin .pin{
+  width:34px;height:34px;
+  background:linear-gradient(180deg,#ef4444,#dc2626);
+  border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+  border:3px solid #fff;box-shadow:0 10px 24px rgba(0,0,0,.30);
+  position:relative;
+}
+.center-pin .pin::after{
+  content:'';position:absolute;top:8px;left:8px;
+  width:14px;height:14px;border-radius:50%;background:#fff;
 }
 
-.legend{
-  display:flex;
-  gap:10px;
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:10px;
-  flex-wrap:wrap;
-  align-items:center;
+/* ===== Content panel below map ===== */
+.panel{
+  background:#fff;
+  margin-top:-16px;
+  border-top-left-radius:28px;
+  border-top-right-radius:28px;
+  padding:18px 16px 16px;
+  position:relative;
+  box-shadow:0 -10px 30px rgba(15,23,42,.06);
 }
 
-.legend span{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:7px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.76);
-  border:1px solid rgba(15,23,42,.08);
+/* segmented toggle */
+.seg{
+  display:flex;background:#f1f5f9;
+  border-radius:14px;padding:5px;gap:4px;
+  margin-bottom:14px;
 }
-
-.legend .dot-c{
-  width:10px;
-  height:10px;
-  border-radius:50%;
+.seg button{
+  flex:1;border:none;background:transparent;
+  padding:10px 12px;border-radius:11px;
+  font-family:inherit;font-weight:800;font-size:13px;color:var(--muted);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:.18s;
+}
+.seg button.active{
+  background:#fff;color:var(--text);
+  box-shadow:0 2px 6px rgba(15,23,42,.08);
+}
+.seg .dot-on{
+  width:8px;height:8px;border-radius:50%;background:var(--green);
   display:inline-block;
 }
 
-.dot-pickup{background:#0ea5e9}
-.dot-dest{background:#ef4444}
-
-#mapWrap{
-  position:relative;
-  border-radius:24px;
-}
-
-.center-pin{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-180%,-100%);
-  pointer-events:none;
-  z-index:400;
-  display:none;
-}
-
-.center-pin.show{display:block}
-
-.center-pin .pin{
-  width:36px;
-  height:36px;
-  background:linear-gradient(180deg, #ef4444, #dc2626);
-  border-radius:50% 50% 50% 0;
-  transform:rotate(-45deg);
-  border:3px solid #fff;
-  box-shadow:0 10px 24px rgba(0,0,0,.30);
-  position:relative;
-}
-
-.center-pin .pin::after{
-  content:'';
-  position:absolute;
-  top:8px;
-  left:8px;
-  width:14px;
-  height:14px;
-  border-radius:50%;
+/* dual address card */
+.addr-card{
   background:#fff;
-}
-
-.row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:11px 0;
-  border-bottom:1px dashed rgba(15,23,42,.12);
-  font-size:14px;
-}
-
-.row:last-child{border-bottom:none}
-
-.row .v{
-  color:var(--primary-d);
-  font-weight:900;
-  font-size:17px;
-}
-
-.dest-search-bar{
-  background:rgba(255,255,255,.92);
+  border:1px solid var(--line);
   border-radius:18px;
-  border:1.5px solid rgba(15,23,42,.10);
-  padding:12px 14px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  box-shadow:0 8px 22px rgba(15,23,42,.08);
-  margin-top:12px;
-  transition:.2s;
+  padding:8px 12px;
+  position:relative;
+  margin-bottom:18px;
+  box-shadow:var(--shadow-sm);
+}
+.addr-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 4px;
+}
+.addr-row .lr-pin{
+  width:22px;display:flex;justify-content:center;flex-shrink:0;
+}
+.addr-row .lr-pin .pd{
+  width:14px;height:14px;border-radius:50%;
+  border:3px solid #fff;box-shadow:0 0 0 2px var(--green);
+  background:var(--green);
+}
+.addr-row.dest .lr-pin .pd{
+  background:var(--red);box-shadow:0 0 0 2px var(--red);
+  border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+}
+.addr-row .lr-body{flex:1;min-width:0;text-align:right}
+.addr-row .lr-body label{
+  display:block;font-size:11px;color:var(--muted-2);font-weight:700;margin-bottom:2px;
+}
+.addr-row .lr-body .val{
+  font-size:14px;font-weight:800;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.addr-row .lr-body .val.placeholder{color:var(--muted-2);font-weight:700}
+.addr-row .lr-clear{
+  width:28px;height:28px;border-radius:50%;
+  background:#f1f5f9;color:var(--muted);border:none;cursor:pointer;
+  display:grid;place-items:center;font-size:11px;flex-shrink:0;
+}
+.addr-divider{
+  height:1px;background:var(--line-2);margin:0 6px;position:relative;
+}
+.addr-swap{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border-radius:10px;
+  background:#fff;border:1px solid var(--line);
+  color:var(--text);cursor:pointer;
+  display:grid;place-items:center;font-size:13px;
+  box-shadow:var(--shadow-sm);
+}
+.addr-vline{
+  position:absolute;right:23px;top:30px;bottom:30px;
+  width:2px;background:repeating-linear-gradient(180deg,var(--line) 0 4px,transparent 4px 8px);
+  pointer-events:none;
 }
 
-.dest-search-bar:focus-within{
-  border-color:rgba(22,163,74,.45);
-  box-shadow:0 0 0 4px rgba(22,163,74,.10);
+/* saved places */
+.sec-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
 }
+.sec-head h3{font-size:15px;font-weight:900;color:var(--text)}
+.sec-head a{font-size:12px;font-weight:800;color:var(--green);cursor:pointer}
 
-.dest-search-bar i{
-  color:var(--primary);
-  font-size:15px;
+.saved-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  margin-bottom:18px;
 }
-
-.dest-search-bar input{
-  flex:1;
-  border:none;
-  background:transparent;
-  font-size:14px;
-  font-family:inherit;
-  outline:none;
-  color:var(--text);
+.saved-item{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:14px 8px;text-align:center;cursor:pointer;
+  position:relative;transition:.16s;
 }
-
-.dest-search-bar input::placeholder{color:#94a3b8}
-
-.dest-search-bar .map-pin-btn{
-  width:38px;
-  height:38px;
-  border-radius:13px;
-  background:linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
-  border:1px solid rgba(15,23,42,.08);
-  color:var(--primary);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  font-size:15px;
-  flex-shrink:0;
-  transition:.18s;
+.saved-item:hover{border-color:var(--green);transform:translateY(-1px)}
+.saved-item .si-dots{
+  position:absolute;top:6px;left:6px;color:var(--muted-2);font-size:11px;
 }
-
-.dest-search-bar .map-pin-btn.active{
-  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color:#fff;
-  border-color:transparent;
+.saved-item .si-ic{
+  width:38px;height:38px;margin:0 auto 6px;
+  border-radius:50%;display:grid;place-items:center;
+  color:var(--text);font-size:16px;background:#f8fafc;
 }
+.saved-item.add .si-ic{color:var(--muted)}
+.saved-item.fav .si-ic{color:var(--red);background:#fef2f2}
+.saved-item span{font-size:11px;font-weight:800;color:var(--text)}
 
-.results{
-  background:rgba(255,255,255,.94);
-  border:1px solid rgba(15,23,42,.08);
-  border-radius:18px;
-  margin-top:10px;
-  display:none;
-  max-height:280px;
-  overflow-y:auto;
-  box-shadow:0 14px 30px rgba(15,23,42,.10);
-}
-
-.results.show{display:block}
-
-.result-item{
-  padding:12px 14px;
-  cursor:pointer;
-  border-bottom:1px solid rgba(15,23,42,.06);
-  font-size:13px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* recent places */
+.recent-item{
+  display:flex;align-items:center;gap:10px;
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:12px 14px;margin-bottom:8px;cursor:pointer;
   transition:.16s;
 }
-
-.result-item:last-child{border-bottom:none}
-.result-item:hover{background:rgba(22,163,74,.05)}
-
-.result-item .res-ic{
-  width:34px;
-  height:34px;
-  border-radius:12px;
-  background:rgba(22,163,74,.10);
-  color:var(--primary);
-  display:grid;
-  place-items:center;
-  flex-shrink:0;
+.recent-item:hover{border-color:var(--green)}
+.recent-item .ri-ic{
+  width:32px;height:32px;border-radius:50%;
+  background:#f8fafc;color:var(--muted);
+  display:grid;place-items:center;font-size:12px;flex-shrink:0;
 }
+.recent-item .ri-body{flex:1;text-align:right;min-width:0}
+.recent-item .ri-body .nm{font-size:13px;font-weight:800;color:var(--text)}
+.recent-item .ri-body .ad{font-size:11px;color:var(--muted);margin-top:2px}
 
-.result-item .res-body{
-  flex:1;
-  min-width:0;
+/* ===== Sticky bottom CTA (home & details) ===== */
+.sticky-cta{
+  position:fixed;left:50%;transform:translateX(-50%);
+  bottom:70px;width:calc(100% - 24px);max-width:496px;
+  z-index:60;
 }
+.sticky-cta .btn{box-shadow:0 14px 30px rgba(22,163,74,.30)}
+.details-mode .bottom-nav{display:none}
+.details-mode .sticky-cta{bottom:12px}
+.addr-row.pickup{cursor:pointer}
 
-.result-item .res-name{
-  font-weight:800;
-  color:var(--text);
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+/* ===== Buttons ===== */
+.btn{
+  width:100%;padding:15px 16px;border:none;border-radius:16px;
+  font-size:15px;font-weight:900;font-family:inherit;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:transform .12s,opacity .15s,box-shadow .18s,background .18s;
 }
-
-.result-item .res-dist{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:2px;
+.btn:active{transform:scale(.985)}
+.btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-d) 100%);
+  color:#fff;box-shadow:var(--shadow-sm);
 }
+.btn-ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+.btn-danger{background:linear-gradient(135deg,#ef4444 0%,#dc2626 100%);color:#fff}
 
-.manual-label{
-  font-size:11px;
-  color:var(--muted);
-  text-align:center;
-  margin-top:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  font-weight:700;
-}
-
-.manual-label i{color:#ef4444}
-
-.manual-hint{
-  background:rgba(22,163,74,.08);
-  border:1px solid rgba(22,163,74,.18);
-  color:#166534;
-  padding:10px 14px;
-  border-radius:14px;
-  font-size:12px;
-  margin-top:10px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  line-height:1.5;
-}
-
-.searching{
-  text-align:center;
-  padding:36px 20px;
-}
-
-.pulse{
-  width:92px;
-  height:92px;
-  border-radius:50%;
-  background:linear-gradient(135deg, #fde68a 0%, #f59e0b 100%);
-  margin:0 auto 22px;
-  display:grid;
-  place-items:center;
-  font-size:36px;
-  color:#0b1220;
-  box-shadow:0 14px 34px rgba(245,158,11,.24);
-  animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.35)}
-  50%{box-shadow:0 0 0 28px rgba(245,158,11,0)}
-}
-
-.captain-card{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:14px;
-  background:rgba(248,250,252,.95);
-  border:1px solid rgba(15,23,42,.08);
+/* زر تأكيد الطلب - فاخر ونابض */
+#confirmBtn{
+  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);
+  color:#fff;
   border-radius:18px;
-  margin-bottom:12px;
+  padding:17px 20px;
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:.5px;
+  box-shadow:0 8px 32px rgba(15,52,96,.45), 0 0 0 0 rgba(22,163,74,.4);
+  animation:confirmPulse 2s infinite;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+#confirmBtn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%);
+  border-radius:18px;
+}
+#confirmBtn .btn-icon-right{
+  width:38px;height:38px;border-radius:12px;
+  background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+#confirmBtn .btn-label{flex:1;text-align:center}
+@keyframes confirmPulse{
+  0%,100%{box-shadow:0 8px 32px rgba(15,52,96,.45),0 0 0 0 rgba(22,163,74,.5)}
+  50%{box-shadow:0 12px 40px rgba(15,52,96,.55),0 0 0 14px rgba(22,163,74,0)}
+}
+
+/* ===== Search overlay (dest panel) ===== */
+.dest-panel-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(15,23,42,.5);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.dest-panel-overlay.show{display:flex}
+.dest-panel-sheet{
+  background:#fff;width:100%;max-width:520px;
+  border-top-left-radius:24px;border-top-right-radius:24px;
+  padding:18px 14px;max-height:80vh;display:flex;flex-direction:column;
+}
+.dest-panel-sheet h4{
+  font-size:15px;font-weight:900;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.dest-panel-sheet h4 .closex{
+  width:30px;height:30px;border-radius:50%;background:#f1f5f9;
+  border:none;cursor:pointer;color:var(--muted);
+}
+.dest-search-bar{
+  background:#f8fafc;border-radius:14px;border:1.5px solid var(--line);
+  padding:10px 12px;display:flex;align-items:center;gap:10px;
+}
+.dest-search-bar i{color:var(--green);font-size:14px}
+.dest-search-bar input{
+  flex:1;border:none;background:transparent;font-size:14px;
+  font-family:inherit;outline:none;color:var(--text);
+}
+.dest-search-bar input::placeholder{color:var(--muted-2)}
+.dest-search-bar .map-pin-btn{
+  width:36px;height:36px;border-radius:12px;background:#fff;
+  border:1px solid var(--line);color:var(--green);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.dest-search-bar .map-pin-btn.active{
+  background:var(--green);color:#fff;border-color:transparent;
+}
+.results{
+  background:#fff;border-radius:14px;margin-top:10px;
+  display:none;overflow-y:auto;flex:1;
+}
+.results.show{display:block}
+.result-item{
+  padding:11px 12px;cursor:pointer;border-bottom:1px solid var(--line-2);
+  font-size:13px;display:flex;align-items:center;gap:10px;
+}
+.result-item:last-child{border-bottom:none}
+.result-item:hover{background:#f8fafc}
+.result-item .res-ic{
+  width:32px;height:32px;border-radius:10px;background:var(--green-soft);
+  color:var(--green);display:grid;place-items:center;flex-shrink:0;font-size:12px;
+}
+.result-item .res-body{flex:1;min-width:0}
+.result-item .res-name{font-weight:800;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result-item .res-dist{font-size:11px;color:var(--muted);margin-top:2px}
+.manual-hint{
+  background:var(--green-soft);border:1px solid rgba(22,163,74,.18);
+  color:#166534;padding:10px 12px;border-radius:12px;
+  font-size:12px;margin-top:10px;display:flex;gap:8px;align-items:center;line-height:1.5;
+}
+.manual-hint.hidden{display:none}
+
+/* ===== Details page (image 2) ===== */
+.details-map{
+  height:200px;border-radius:18px;overflow:hidden;
+  border:1px solid var(--line);position:relative;
+  margin-bottom:14px;box-shadow:var(--shadow-sm);
+}
+.details-map .dist-pill{
+  position:absolute;bottom:10px;left:10px;z-index:400;
+  background:#fff;color:var(--text);font-weight:900;font-size:12px;
+  padding:6px 12px;border-radius:999px;
+  box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:5px;
+}
+.info-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;
+}
+.info-card{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:14px;display:flex;align-items:center;gap:12px;
   box-shadow:var(--shadow-sm);
 }
+.info-card .ic-icon{
+  width:40px;height:40px;border-radius:12px;
+  background:#f1f5f9;color:var(--text);
+  display:grid;place-items:center;font-size:15px;flex-shrink:0;
+}
+.info-card .ic-body{flex:1;text-align:right;min-width:0}
+.info-card .ic-body .lbl{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:3px}
+.info-card .ic-body .val{font-size:17px;font-weight:900;color:var(--text)}
+.info-card .ic-body .val .unit{font-size:12px;color:var(--muted);font-weight:700;margin-right:4px}
 
-.captain-avatar{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+.price-card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:16px;margin-top:6px;box-shadow:var(--shadow-sm);
+}
+.price-card .pc-top{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.price-card .pc-total{font-size:22px;font-weight:900;color:var(--text)}
+.price-card .pc-total .u{font-size:13px;color:var(--muted);font-weight:700;margin-right:4px}
+.price-card .pc-toggle{
+  background:transparent;border:none;color:var(--muted);
+  font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+}
+.price-breakdown{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
+  margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);
+}
+.price-breakdown.hidden{display:none}
+.price-breakdown .pb{text-align:center;}
+.price-breakdown .pb .lbl{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:4px}
+.price-breakdown .pb .val{font-size:13px;font-weight:900;color:var(--text)}
+
+/* باقات السيارات */
+.pkg-section{margin-top:14px}
+.pkg-section .pkg-title{font-size:14px;font-weight:900;color:var(--text);margin-bottom:10px}
+.pkg-card{
+  background:#fff;border:2px solid var(--line);border-radius:18px;
+  padding:14px 16px;margin-bottom:10px;cursor:pointer;
+  transition:.2s;display:flex;align-items:center;gap:0;
+  position:relative;overflow:hidden;
+}
+.pkg-card:hover{border-color:#94a3b8;transform:translateY(-1px)}
+.pkg-card.selected{
+  border-color:var(--primary);
+  background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);
+  box-shadow:0 4px 20px rgba(22,163,74,.18);
+}
+.pkg-card .pkg-price{
+  min-width:90px;text-align:right;
+}
+.pkg-card .pkg-price .p-amount{
+  font-size:20px;font-weight:900;color:var(--text);line-height:1;
+}
+.pkg-card.selected .pkg-price .p-amount{color:var(--primary)}
+.pkg-card .pkg-price .p-unit{font-size:11px;color:var(--muted);font-weight:700}
+.pkg-card .pkg-car-svg{
+  flex:1;display:flex;justify-content:center;align-items:center;
+  padding:0 8px;
+}
+.pkg-card .pkg-info{
+  min-width:90px;text-align:left;
+}
+.pkg-card .pkg-info .p-name{font-size:14px;font-weight:900;color:var(--text)}
+.pkg-card .pkg-info .p-badge{
+  display:inline-block;margin-top:3px;
+  font-size:10px;font-weight:900;padding:2px 8px;border-radius:999px;
+}
+.pkg-card .pkg-selected-check{
+  position:absolute;top:10px;left:10px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--primary);color:#fff;
+  display:none;align-items:center;justify-content:center;font-size:10px;
+}
+.pkg-card.selected .pkg-selected-check{display:flex}
+
+/* ===== Bottom nav (smaller) ===== */
+.bottom-nav{
+  position:fixed;bottom:10px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 24px);max-width:496px;
+  background:#fff;border:1px solid var(--line);
+  border-radius:18px;display:flex;padding:5px;z-index:50;
+  box-shadow:0 12px 30px rgba(15,23,42,.10);
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:6px 4px;cursor:pointer;color:var(--muted);font-size:10px;
+  font-weight:800;border-radius:13px;transition:.16s;
+}
+.nav-item i{font-size:15px}
+.nav-item.active{
   color:#fff;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  font-size:20px;
-  box-shadow:0 12px 24px rgba(22,163,74,.22);
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-d) 100%);
+  box-shadow:0 8px 18px rgba(22,163,74,.22);
 }
 
-.status-bar{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:13px;
-  background:rgba(255,255,255,.92);
-  border-radius:16px;
-  margin-bottom:14px;
-  font-weight:900;
-  font-size:14px;
-  border:1px solid rgba(15,23,42,.08);
-  box-shadow:var(--shadow-sm);
-}
-
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--success);
-  animation:blink 1s infinite;
-}
-
-@keyframes blink{50%{opacity:.3}}
-
-.toast{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) scale(.8);
-  background:#0f172a;
-  color:#fff;
-  padding:14px 24px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);
-  font-size:14px;
-  z-index:9999;
-  transition:opacity .3s, transform .3s;
-  opacity:0;
-  pointer-events:none;
-  text-align:center;
-  white-space:nowrap;
-  max-width:80vw;
-  box-shadow:0 18px 50px rgba(0,0,0,.26);
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1);
-}
-
-.toast.err{
-  border-color:rgba(239,68,68,.55);
-  background:#3b0f14;
-}
-
-.toast.ok{
-  border-color:rgba(34,197,94,.55);
-  background:#0b2a1a;
-}
-
+/* ===== Pages / misc ===== */
+.page{display:none}
+.page.active{display:block;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .hidden{display:none!important}
 .hidden-soft{display:none!important}
 
-.bottom-nav{
-  position:fixed;
-  bottom:14px;
-  left:50%;
-  transform:translateX(-50%);
-  width:calc(100% - 24px);
-  max-width:520px;
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(15,23,42,.08);
-  border-radius:22px;
-  box-shadow:0 16px 40px rgba(15,23,42,.12);
-  display:flex;
-  padding:8px;
-  z-index:50;
+.toast{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(.8);
+  background:#0f172a;color:#fff;padding:14px 24px;border-radius:14px;
+  font-size:14px;z-index:9999;transition:opacity .3s,transform .3s;
+  opacity:0;pointer-events:none;text-align:center;
+  white-space:nowrap;max-width:80vw;
+  box-shadow:0 18px 50px rgba(0,0,0,.26);
 }
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.toast.err{background:#7f1d1d}
+.toast.ok{background:#14532d}
 
-.nav-item{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  padding:10px 8px;
-  cursor:pointer;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:800;
-  transition:.16s;
-  border-radius:16px;
+/* ===== Track page (existing) ===== */
+.section-pad{padding:16px}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:16px;margin-bottom:14px;box-shadow:var(--shadow-sm);
 }
-
-.nav-item i{
-  font-size:18px;
+.section-title{
+  font-size:16px;font-weight:900;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;color:var(--text);
 }
-
-.nav-item.active{
-  color:#fff;
-  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  box-shadow:0 10px 22px rgba(22,163,74,.20);
+.section-title i{color:var(--primary)}
+.row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;
 }
-
-.page{
-  display:none;
+.row:last-child{border-bottom:none}
+.row .v{color:var(--primary-d);font-weight:900;font-size:16px}
+.searching{text-align:center;padding:36px 20px}
+.pulse{
+  width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(135deg,#fde68a 0%,#f59e0b 100%);
+  margin:0 auto 20px;display:grid;place-items:center;
+  font-size:32px;color:#0b1220;
+  box-shadow:0 14px 34px rgba(245,158,11,.24);
+  animation:pulse 1.5s infinite;
 }
-
-.page.active{
-  display:block;
-  animation:fadeIn .25s;
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.35)}
+  50%{box-shadow:0 0 0 26px rgba(245,158,11,0)}
 }
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
-}
-
-.order-card{
-  background:rgba(255,255,255,.9);
-  border:1px solid rgba(15,23,42,.08);
-  border-radius:18px;
-  padding:14px;
+.captain-card{
+  display:flex;align-items:center;gap:12px;padding:12px;
+  background:#f8fafc;border:1px solid var(--line);border-radius:16px;
   margin-bottom:12px;
-  cursor:pointer;
-  transition:.16s;
-  box-shadow:var(--shadow-sm);
 }
-
-.order-card:hover{
-  transform:translateY(-1px);
-  border-color:rgba(22,163,74,.25);
+.captain-avatar{
+  width:50px;height:50px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-2) 100%);
+  color:#fff;display:grid;place-items:center;font-weight:900;font-size:18px;
 }
-
-.order-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
+.status-bar{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px;background:#fff;border-radius:14px;margin-bottom:12px;
+  font-weight:900;font-size:14px;border:1px solid var(--line);
 }
-
-.badge{
-  padding:5px 12px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:900;
+.dot{
+  width:10px;height:10px;border-radius:50%;background:var(--success);
+  animation:blink 1s infinite;
 }
-
-.badge.searching{background:rgba(245,158,11,.14);color:#b45309}
-.badge.accepted{background:rgba(59,130,246,.14);color:#2563eb}
-.badge.arrived{background:rgba(168,85,247,.14);color:#7c3aed}
-.badge.in_progress{background:rgba(99,102,241,.14);color:#4f46e5}
-.badge.completed{background:rgba(34,197,94,.14);color:#16a34a}
-.badge.cancelled{background:rgba(239,68,68,.14);color:#dc2626}
-
-.empty{
-  text-align:center;
-  padding:60px 20px;
-  color:var(--muted);
-}
-
-.empty i{
-  font-size:54px;
-  margin-bottom:14px;
-  opacity:.35;
-}
-
-.completed-card{
-  text-align:center;
-  padding:32px 20px;
-}
-
-.check-big{
-  width:84px;
-  height:84px;
-  border-radius:50%;
-  background:linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  margin:0 auto 16px;
-  display:grid;
-  place-items:center;
-  font-size:36px;
-  color:#fff;
-  box-shadow:0 18px 34px rgba(34,197,94,.24);
-}
-
+@keyframes blink{50%{opacity:.3}}
 .track-map{
-  height:210px;
-  border-radius:20px;
-  overflow:hidden;
-  border:1px solid rgba(15,23,42,.08);
-  margin-bottom:12px;
-  position:relative;
-  box-shadow:var(--shadow-sm);
+  height:200px;border-radius:16px;overflow:hidden;
+  border:1px solid var(--line);margin-bottom:12px;position:relative;
 }
-
 .track-map .mini-label{
-  position:absolute;
-  top:10px;
-  right:10px;
-  z-index:400;
-  background:rgba(15,23,42,.76);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:900;
-  backdrop-filter:blur(8px);
+  position:absolute;top:8px;right:8px;z-index:400;
+  background:rgba(15,23,42,.76);color:#fff;padding:5px 9px;
+  border-radius:999px;font-size:11px;font-weight:900;
 }
-
-.rating-panel,
-.chat-panel{
-  background:rgba(255,255,255,.92);
-  border:1px solid rgba(15,23,42,.08);
-  border-radius:18px;
-  padding:14px;
-  margin-top:12px;
-  box-shadow:var(--shadow-sm);
+.rating-panel,.chat-panel{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:14px;margin-top:12px;
 }
-
-.stars{
-  display:flex;
-  gap:6px;
-  justify-content:flex-start;
-  flex-wrap:wrap;
-}
-
+.stars{display:flex;gap:6px}
 .star-btn{
-  border:none;
-  background:transparent;
-  color:#cbd5e1;
-  font-size:22px;
-  cursor:pointer;
-  padding:2px;
-  line-height:1;
+  border:none;background:transparent;color:#cbd5e1;
+  font-size:22px;cursor:pointer;padding:2px;line-height:1;
 }
-
 .star-btn.active{color:#f59e0b}
-
-.rating-meta{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:8px;
-}
-
+.rating-meta{font-size:12px;color:var(--muted);margin-top:8px}
 .chat-list{
-  max-height:220px;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  padding:2px 0;
+  max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:2px 0;
 }
-
 .chat-row{display:flex}
 .chat-row.me{justify-content:flex-start}
 .chat-row.them{justify-content:flex-end}
-
 .chat-bubble{
-  max-width:78%;
-  padding:10px 12px;
-  border-radius:16px;
-  font-size:13px;
-  line-height:1.6;
-  border:1px solid rgba(15,23,42,.08);
-  box-shadow:0 8px 18px rgba(15,23,42,.06);
+  max-width:78%;padding:9px 12px;border-radius:14px;
+  font-size:13px;line-height:1.5;border:1px solid var(--line);
 }
-
-.chat-row.me .chat-bubble{
-  background:#eff6ff;
-  color:var(--text);
-  border-top-right-radius:6px;
-}
-
-.chat-row.them .chat-bubble{
-  background:#ecfdf5;
-  color:#0f5132;
-  border-top-left-radius:6px;
-}
-
-.chat-input{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  margin-top:10px;
-}
-
+.chat-row.me .chat-bubble{background:#eff6ff;color:var(--text);border-top-right-radius:6px}
+.chat-row.them .chat-bubble{background:#ecfdf5;color:#0f5132;border-top-left-radius:6px}
+.chat-input{display:flex;gap:8px;align-items:center;margin-top:10px}
 .chat-input input{
-  flex:1;
-  background:rgba(255,255,255,.92);
-  border:1.5px solid rgba(15,23,42,.08);
-  border-radius:16px;
-  padding:12px 14px;
-  color:var(--text);
-  font-size:14px;
-  outline:none;
-  font-family:inherit;
+  flex:1;background:#f8fafc;border:1.5px solid var(--line);
+  border-radius:14px;padding:11px 14px;color:var(--text);font-size:14px;
+  outline:none;font-family:inherit;
 }
-
-.chat-input input:focus{
-  border-color:rgba(22,163,74,.45);
-  box-shadow:0 0 0 4px rgba(22,163,74,.10);
-}
-
 .eta-box{
-  background:rgba(14,165,233,.08);
-  border:1px solid rgba(14,165,233,.16);
-  border-radius:16px;
-  padding:12px 14px;
-  margin-top:10px;
-  font-size:13px;
+  background:#eff6ff;border:1px solid #dbeafe;color:#1e3a8a;
+  border-radius:14px;padding:11px 14px;margin-top:10px;font-size:13px;
+}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty i{font-size:50px;margin-bottom:14px;opacity:.35}
+.order-card{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:14px;margin-bottom:10px;cursor:pointer;
+}
+.order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.badge{padding:4px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.badge.searching{background:#fef3c7;color:#b45309}
+.badge.accepted{background:#dbeafe;color:#2563eb}
+.badge.arrived{background:#ede9fe;color:#7c3aed}
+.badge.in_progress{background:#e0e7ff;color:#4f46e5}
+.badge.completed{background:#dcfce7;color:#16a34a}
+.badge.cancelled{background:#fee2e2;color:#dc2626}
+.check-big{
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,#22c55e 0%,#16a34a 100%);
+  margin:0 auto 16px;display:grid;place-items:center;
+  font-size:32px;color:#fff;
+}
+.completed-card{text-align:center;padding:30px 20px}
+
+/* account page (basic) */
+#accountPage .acct-hero{
+  background:linear-gradient(135deg,#0f172a 0%,#16a34a 100%);
+  padding:30px 20px 24px;color:#fff;text-align:center;
+  border-bottom-left-radius:28px;border-bottom-right-radius:28px;
+  margin-bottom:18px;
+}
+#accountPage .acct-hero .av{
+  width:78px;height:78px;border-radius:50%;
+  background:rgba(255,255,255,.18);margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:800;border:3px solid rgba(255,255,255,.28);
+}
+#accountPage .acct-hero h3{font-size:20px;font-weight:900;margin-bottom:4px}
+#accountPage .acct-hero p{font-size:13px;opacity:.85}
+.acct-card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:16px;margin:0 16px 14px;
 }
 
-.eta-box strong{color:var(--accent)}
-
-#accountPage > div:first-child{
-  background:
-    linear-gradient(135deg, #0f172a 0%, #0f766e 50%, #16a34a 100%) !important;
-  padding:34px 20px 28px !important;
-  color:#fff !important;
-  border-bottom-left-radius:30px !important;
-  border-bottom-right-radius:30px !important;
-  margin-bottom:18px !important;
-  text-align:center !important;
-  box-shadow:0 20px 50px rgba(15,23,42,.18);
+@keyframes ripple{
+  0%{transform:scale(1);opacity:1}
+  100%{transform:scale(1.5);opacity:0}
 }
-
-#accountPage > div:first-child::after{
-  content:'';
-  position:absolute;
-  inset:auto 0 0 0;
-  height:28px;
-  background:linear-gradient(180deg, transparent, rgba(255,255,255,.06));
-  pointer-events:none;
+@keyframes dotBounce{
+  0%,80%,100%{transform:translateY(0);opacity:.6}
+  40%{transform:translateY(-6px);opacity:1}
 }
-
-#accountPage > div:first-child > div[id="acctAvatar"]{
-  width:82px !important;
-  height:82px !important;
-  border-radius:50% !important;
-  background:rgba(255,255,255,.14) !important;
-  margin:0 auto 14px !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  font-size:32px !important;
-  font-weight:800 !important;
-  border:3px solid rgba(255,255,255,.28) !important;
-  box-shadow:0 10px 24px rgba(0,0,0,.12);
-}
-
-#accountPage > div:first-child h3{
-  font-size:22px !important;
-  font-weight:900 !important;
-  margin-bottom:4px !important;
-}
-
-#accountPage > div:first-child p{
-  font-size:13px !important;
-  opacity:.88 !important;
-}
-
-#accountPage > div[style*="padding:0 16px"]{
-  padding:0 16px !important;
-}
-
-#accountPage > div[style*="padding:0 16px"] > div{
-  border-radius:22px !important;
-  box-shadow:var(--shadow-lg) !important;
-}
-
-#accountPage > div[style*="padding:0 16px"] > button{
-  border-radius:16px !important;
-  box-shadow:var(--shadow-sm) !important;
-}
-
-#mapButtons .btn{
-  border-radius:14px;
-}
-
-#mapButtons .btn-ghost{
-  background:rgba(255,255,255,.9);
-}
-
-#destBtn{
-  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%) !important;
-  color:#fff !important;
-  border:none !important;
-  font-weight:900 !important;
-}
-
-#useGpsBtn{
-  background:rgba(255,255,255,.92) !important;
-}
-
-#confirmManualPin{
-  background:linear-gradient(135deg, var(--green) 0%, var(--primary-2) 100%) !important;
-  color:#fff !important;
-}
-
-#searchingCard .btn-danger,
-#cancelRideBtn,
-#cancelSearchBtn{
-  border-radius:16px;
-}
-
-#trackPage .card,
-#homePage .card,
-#ordersPage .card,
-#accountPage .card{
-  border-radius:24px;
-}
-
-#trackPage .card:first-child{
-  overflow:visible;
-}
-
 @media (max-width:420px){
-  .section{padding:14px}
-  #map{height:320px}
-  .header h2{font-size:17px}
-  .header p{font-size:11px}
-  .bottom-nav{
-    width:calc(100% - 16px);
-    bottom:8px;
-    border-radius:20px;
-  }
+  .map-block{height:300px}
+  .saved-grid{gap:8px}
+  .saved-item{padding:12px 6px}
+  .saved-item .si-ic{width:34px;height:34px;font-size:14px}
 }
-
-@media (prefers-reduced-motion: reduce){
-  *,
-  *::before,
-  *::after{
-    animation:none!important;
-    transition:none!important;
-    scroll-behavior:auto!important;
-  }
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="header">
-    <a href="index.html" style="text-decoration:none"><button class="hback"><i class="fas fa-chevron-right"></i></button></a>
-    <div class="logo"><i class="fas fa-taxi"></i></div>
-    <div class="hinfo"><h2>طلب سيارة</h2><p>وصّلك لأي مكان بسرعة وأمان</p></div>
-  </div>
 
-  <!-- HOME / BOOK -->
+  <!-- ============ HOME PAGE (Image 1) ============ -->
   <div id="homePage" class="page active">
-    <div class="section">
-      <div class="card">
-        <div class="legend">
-          <span><i class="dot-c dot-pickup"></i> موقعك</span>
-          <span><i class="dot-c dot-dest"></i> الوجهة</span>
-          <span style="color:var(--accent);margin-right:auto" id="mapHint"><i class="fas fa-info-circle"></i> جاري تحديد موقعك...</span>
-        </div>
-        <div id="mapWrap" style="position:relative">
-          <div id="map"></div>
-          <div class="center-pin" id="centerPin"><div class="pin"></div></div>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:8px" id="mapButtons">
-          <button class="btn btn-ghost hidden" id="useGpsBtn" style="flex:1"><i class="fas fa-location-crosshairs"></i> موقعي</button>
-          <button class="btn btn-ghost hidden" id="destBtn" style="flex:1;background:var(--primary);color:#0B1220;border:none;font-weight:900"><i class="fas fa-map-marker-alt"></i> تحديد الوجهة</button>
-          <button class="btn btn-ghost" id="resetMapBtn" style="flex:1"><i class="fas fa-rotate-right"></i> تعيين</button>
-        </div>
+    <div class="header-light">
+      <button class="hb-btn" onclick="window.location.href='index.html'"><i class="fas fa-chevron-right"></i></button>
+      <div class="hb-title">
+        <h2>حدد الوجهة</h2>
+        <p>اختر موقع الوصول بدقة</p>
+      </div>
+      <button class="hb-btn" id="helpBtn"><i class="far fa-question-circle"></i></button>
+    </div>
 
-        <!-- Destination Search Panel - Uber Style -->
-        <div id="destPanel" class="hidden" style="margin-top:14px">
-          <div class="dest-search-bar">
-            <i class="fas fa-map-marker-alt" style="color:var(--green)"></i>
-            <input id="destSearchInput" placeholder="إلى أين تريد الذهاب؟" autocomplete="off">
-            <div class="map-pin-btn" id="manualPinBtn" title="تحديد الموقع يدوياً على الخريطة"><i class="fas fa-map-pin"></i></div>
+    <div class="map-block">
+      <div id="mapWrap">
+        <div id="map"></div>
+        <div class="center-pin" id="centerPin"><div class="pin"></div></div>
+      </div>
+      <div class="map-fab-col">
+        <button class="map-fab" id="useGpsBtn" title="موقعي"><i class="fas fa-location-crosshairs"></i></button>
+        <div class="map-fab-zoom">
+          <button id="zoomInBtn"><i class="fas fa-plus"></i></button>
+          <button id="zoomOutBtn"><i class="fas fa-minus"></i></button>
+        </div>
+      </div>
+      <button class="my-loc-chip" id="myLocChip">
+        <span>مواقعي</span>
+        <span class="ic"><i class="fas fa-crosshairs"></i></span>
+      </button>
+    </div>
+
+    <div class="panel">
+      <!-- segmented toggle -->
+      <div class="seg" id="modeSeg">
+        <button class="active" data-mode="current"><span class="dot-on"></span> موقعي الحالي</button>
+        <button data-mode="map"><i class="fas fa-hand-pointer"></i> تحديد على الخريطة</button>
+      </div>
+
+      <!-- dual address card -->
+      <div class="addr-card">
+        <div class="addr-vline"></div>
+        <div class="addr-row pickup" id="pickupRow">
+          <div class="lr-pin"><span class="pd"></span></div>
+          <div class="lr-body">
+            <label>موقع الانطلاق</label>
+            <div class="val" id="pickupValue">موقعي الحالي</div>
           </div>
-          <div class="manual-label" id="manualPinLabel" style="font-size:11px;color:#6B7280;margin-top:6px;display:flex;align-items:center;gap:5px;justify-content:flex-end">
-            <i class="fas fa-map-pin" style="color:#EF4444"></i> تحديد الوجهة على الخريطة
+          <button class="lr-clear" id="clearPickup"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="addr-divider">
+          <button class="addr-swap" id="swapBtn" title="بدّل"><i class="fas fa-arrow-down-up-across-line"></i></button>
+        </div>
+        <div class="addr-row dest" id="destRow">
+          <div class="lr-pin"><span class="pd"></span></div>
+          <div class="lr-body">
+            <label>الوجهة</label>
+            <div class="val placeholder" id="destValue">اختر وجهة الوصول</div>
           </div>
-          <div class="results" id="searchResults"></div>
-          <div class="manual-hint hidden" id="manualPinHint" style="background:rgba(46,158,107,.1);border:1px solid rgba(46,158,107,.3);color:#2E9E6B;padding:10px 14px;border-radius:12px;font-size:12px;margin-top:10px;display:flex;gap:8px;align-items:center;line-height:1.5"><i class="fas fa-info-circle"></i> حرّك الخريطة حتى يصبح الدبوس فوق الموقع المطلوب، ثم اضغط <strong>تأكيد الموقع</strong></div>
-          <button class="btn btn-primary hidden" id="confirmManualPin" style="margin-top:10px;background:var(--green);color:white"><i class="fas fa-check"></i> تأكيد الوجهة</button>
+          <button class="lr-clear" id="clearDest"><i class="fas fa-xmark"></i></button>
         </div>
       </div>
 
-      <div class="card" id="estCard">
-        <h3 class="section-title"><i class="fas fa-receipt"></i> تفاصيل الرحلة</h3>
-        <div class="row"><span>المسافة المتوقعة</span><strong id="distVal">—</strong></div>
-        <div class="row"><span>أقرب كابتن</span><strong id="captainDistVal">—</strong></div>
-        <div class="row"><span>تقييم الكابتن</span><strong id="captainRatingVal">—</strong></div>
-        <div class="row"><span>وقت الوصول المتوقع</span><strong id="etaVal">—</strong></div>
-        <div class="row"><span>السعر التقديري</span><strong class="v" id="priceVal">—</strong></div>
-        <p style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.6"><i class="fas fa-info-circle"></i> الحساب: 5000 رسم افتتاحي + 1500/كم للرحلة + 1000/كم لوصول الكابتن</p>
+      <!-- saved places -->
+      <div class="sec-head">
+        <h3>الأماكن المحفوظة</h3>
+        <a id="showAllSaved">عرض الكل</a>
+      </div>
+      <div class="saved-grid">
+        <div class="saved-item add" id="addPlaceBtn">
+          <div class="si-ic"><i class="fas fa-plus"></i></div>
+          <span>إضافة مكان</span>
+        </div>
+        <div class="saved-item" data-saved="home">
+          <span class="si-dots">⋮</span>
+          <div class="si-ic"><i class="fas fa-house"></i></div>
+          <span>المنزل</span>
+        </div>
+        <div class="saved-item" data-saved="work">
+          <span class="si-dots">⋮</span>
+          <div class="si-ic"><i class="fas fa-briefcase"></i></div>
+          <span>العمل</span>
+        </div>
+        <div class="saved-item fav" data-saved="fav">
+          <span class="si-dots">⋮</span>
+          <div class="si-ic"><i class="fas fa-heart"></i></div>
+          <span>المفضلة</span>
+        </div>
       </div>
 
-      <button class="btn btn-primary" id="confirmBtn" disabled><i class="fas fa-check"></i> تأكيد الطلب</button>
+      <!-- recent places -->
+      <div class="sec-head">
+        <h3><i class="far fa-clock" style="color:var(--muted);margin-left:6px;font-size:13px"></i> الأماكن الأخيرة</h3>
+      </div>
+      <div id="recentList">
+        <div class="recent-item" data-recent>
+          <div class="ri-ic"><i class="far fa-clock"></i></div>
+          <div class="ri-body">
+            <div class="nm">الكورنيش الدمام</div>
+            <div class="ad">شارع الكورنيش، الدمام 32415</div>
+          </div>
+        </div>
+        <div class="recent-item" data-recent>
+          <div class="ri-ic"><i class="far fa-clock"></i></div>
+          <div class="ri-body">
+            <div class="nm">مول الظهران</div>
+            <div class="ad">طريق الملك فهد، الظهران 34416</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sticky-cta">
+      <button class="btn btn-primary" id="confirmDestBtn" disabled>
+        <i class="fas fa-map-marker-alt"></i> تأكيد الوجهة
+      </button>
     </div>
   </div>
 
-  <!-- ORDERS -->
-  <div id="ordersPage" class="page">
+  <!-- ============ DETAILS PAGE (Image 2) ============ -->
+  <div id="detailsPage" class="page">
+    <div class="header-dark">
+      <button class="hb-back" onclick="showPage('homePage')"><i class="fas fa-chevron-right"></i></button>
+      <h2>تفاصيل الرحلة</h2>
+      <span class="spacer"></span>
+    </div>
+
     <div class="section">
-      <h3 class="section-title"><i class="fas fa-clock-rotate-left"></i> طلباتي</h3>
+      <div class="details-map">
+        <div id="detailsMap" style="height:100%"></div>
+        <div class="dist-pill"><i class="fas fa-route" style="color:var(--green)"></i> <span id="dmDistance">— كم</span></div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="ic-icon"><i class="far fa-clock"></i></div>
+          <div class="ic-body">
+            <div class="lbl">يصل خلال</div>
+            <div class="val"><span id="dEta">—</span> <span class="unit">دقائق</span></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon"><i class="fas fa-route"></i></div>
+          <div class="ic-body">
+            <div class="lbl">المسافة المتوقعة</div>
+            <div class="val"><span id="dDist">—</span></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon"><i class="fas fa-star" style="color:#f59e0b"></i></div>
+          <div class="ic-body">
+            <div class="lbl">تقييم الكابتن</div>
+            <div class="val"><span id="dCapRating">—</span></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon"><i class="fas fa-user-tie"></i></div>
+          <div class="ic-body">
+            <div class="lbl">أقرب كابتن</div>
+            <div class="val"><span id="dCapDist">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-section">
+        <div class="pkg-title"><i class="fas fa-car" style="color:var(--primary);margin-left:6px"></i> اختر باقتك</div>
+
+        <!-- باقة عادية -->
+        <div class="pkg-card selected" id="pkgNormal" onclick="selectPkg('normal')">
+          <div class="pkg-selected-check"><i class="fas fa-check"></i></div>
+          <div class="pkg-price">
+            <div class="p-amount" id="pkgNormalPrice">—</div>
+            <div class="p-unit">ل.س</div>
+          </div>
+          <div class="pkg-car-svg">
+            <svg width="100" height="52" viewBox="0 0 120 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- body -->
+              <rect x="8" y="22" width="104" height="22" rx="6" fill="#3b82f6"/>
+              <!-- roof -->
+              <path d="M30 22 L42 8 L78 8 L90 22Z" fill="#2563eb"/>
+              <!-- windshield -->
+              <path d="M45 22 L52 11 L70 11 L76 22Z" fill="#bfdbfe" opacity=".9"/>
+              <!-- rear window -->
+              <path d="M32 22 L38 14 L44 22Z" fill="#bfdbfe" opacity=".7"/>
+              <!-- door line -->
+              <line x1="60" y1="10" x2="60" y2="22" stroke="#1d4ed8" stroke-width="1.5"/>
+              <!-- wheels -->
+              <circle cx="30" cy="44" r="8" fill="#1e293b"/>
+              <circle cx="30" cy="44" r="4" fill="#94a3b8"/>
+              <circle cx="90" cy="44" r="8" fill="#1e293b"/>
+              <circle cx="90" cy="44" r="4" fill="#94a3b8"/>
+              <!-- headlight -->
+              <ellipse cx="110" cy="28" rx="5" ry="3" fill="#fef08a"/>
+              <!-- tail light -->
+              <ellipse cx="10" cy="28" rx="4" ry="2.5" fill="#fca5a5"/>
+              <!-- stripe -->
+              <rect x="8" y="30" width="104" height="2" rx="1" fill="#1d4ed8" opacity=".4"/>
+            </svg>
+          </div>
+          <div class="pkg-info">
+            <div class="p-name">سيارة عادية</div>
+            <span class="p-badge" style="background:#dbeafe;color:#1e40af">اقتصادية</span>
+          </div>
+        </div>
+
+        <!-- باقة عائلية -->
+        <div class="pkg-card" id="pkgFamily" onclick="selectPkg('family')">
+          <div class="pkg-selected-check"><i class="fas fa-check"></i></div>
+          <div class="pkg-price">
+            <div class="p-amount" id="pkgFamilyPrice">—</div>
+            <div class="p-unit">ل.س</div>
+          </div>
+          <div class="pkg-car-svg">
+            <svg width="110" height="52" viewBox="0 0 130 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- GMC body - wider/taller -->
+              <rect x="5" y="18" width="120" height="26" rx="5" fill="#4b5563"/>
+              <!-- roof/cab -->
+              <rect x="20" y="6" width="90" height="14" rx="5" fill="#374151"/>
+              <!-- windshield -->
+              <rect x="78" y="8" width="28" height="11" rx="3" fill="#bfdbfe" opacity=".85"/>
+              <!-- rear window -->
+              <rect x="24" y="8" width="28" height="11" rx="3" fill="#bfdbfe" opacity=".7"/>
+              <!-- door lines -->
+              <line x1="66" y1="7" x2="66" y2="18" stroke="#1f2937" stroke-width="1.5"/>
+              <!-- side mirror -->
+              <rect x="112" y="20" width="8" height="5" rx="2" fill="#6b7280"/>
+              <!-- headlights -->
+              <rect x="118" y="22" width="7" height="6" rx="2" fill="#fef08a"/>
+              <!-- grille -->
+              <rect x="118" y="30" width="7" height="8" rx="2" fill="#9ca3af"/>
+              <!-- tail lights -->
+              <rect x="5" y="23" width="6" height="8" rx="2" fill="#fca5a5"/>
+              <!-- GMC badge area -->
+              <rect x="55" y="20" width="20" height="6" rx="2" fill="#6b7280"/>
+              <!-- wheels -->
+              <circle cx="32" cy="44" r="8" fill="#111827"/>
+              <circle cx="32" cy="44" r="4" fill="#6b7280"/>
+              <circle cx="98" cy="44" r="8" fill="#111827"/>
+              <circle cx="98" cy="44" r="4" fill="#6b7280"/>
+              <!-- chrome strip -->
+              <rect x="5" y="33" width="120" height="2" rx="1" fill="#9ca3af" opacity=".5"/>
+              <!-- running board -->
+              <rect x="15" y="42" width="95" height="3" rx="1.5" fill="#374151"/>
+            </svg>
+          </div>
+          <div class="pkg-info">
+            <div class="p-name">سيارة عائلية</div>
+            <span class="p-badge" style="background:#fef3c7;color:#92400e">مميزة +25%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sticky-cta">
+      <button class="btn" id="confirmBtn">
+        <span class="btn-label">تأكيد الطلب</span>
+        <span class="btn-icon-right"><i class="fas fa-arrow-right"></i></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ ORDERS PAGE ============ -->
+  <div id="ordersPage" class="page">
+    <div class="header-light">
+      <span class="hb-btn" style="visibility:hidden"></span>
+      <div class="hb-title"><h2>طلباتي</h2><p>سجل رحلاتك السابقة</p></div>
+      <span class="hb-btn" style="visibility:hidden"></span>
+    </div>
+    <div class="section-pad">
       <div id="ordersList"></div>
     </div>
   </div>
 
-  <!-- ACCOUNT PAGE -->
+  <!-- ============ ACCOUNT PAGE ============ -->
   <div id="accountPage" class="page">
-    <div style="background:linear-gradient(135deg,#1A3A28 0%,#2E9E6B 100%);padding:36px 20px 28px;color:white;border-bottom-left-radius:28px;border-bottom-right-radius:28px;margin-bottom:20px;text-align:center">
-      <div style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.2);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;border:3px solid rgba(255,255,255,.4)" id="acctAvatar">؟</div>
-      <h3 style="font-size:20px;font-weight:900;margin-bottom:4px" id="acctName">-</h3>
-      <p style="font-size:13px;opacity:.85" id="acctPhone">-</p>
+    <div class="acct-hero">
+      <div class="av" id="acctAvatar">؟</div>
+      <h3 id="acctName">-</h3>
+      <p id="acctPhone">-</p>
+    </div>
+    <div class="acct-card">
+      <div style="font-size:13px;color:var(--muted);font-weight:800;margin-bottom:12px"><i class="fas fa-wallet"></i> أرباحي</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--muted)">إجمالي الرحلات</div>
+          <div style="font-size:22px;font-weight:900;color:#f59e0b" id="acctTotalRides">0</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--muted)">رحلات مكتملة</div>
+          <div style="font-size:22px;font-weight:900;color:var(--green)" id="acctCompletedRides">0</div>
+        </div>
+      </div>
+      <div style="background:#f8fafc;border-radius:12px;padding:12px;text-align:center;margin-bottom:10px">
+        <div style="font-size:12px;color:var(--muted)">إجمالي المدفوع</div>
+        <div style="font-size:24px;font-weight:900;color:var(--green)" id="acctTotalSpent">0 ل.س</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div style="background:#f8fafc;border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:var(--muted)">الأسبوع</div>
+          <div style="font-size:14px;font-weight:800" id="acctWeekSpent">0</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:var(--muted)">الشهر</div>
+          <div style="font-size:14px;font-weight:800" id="acctMonthSpent">0</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:var(--muted)">متوسط</div>
+          <div style="font-size:14px;font-weight:800" id="acctAvgPrice">0</div>
+        </div>
+      </div>
+    </div>
+    <div class="acct-card">
+      <div style="font-size:13px;color:var(--muted);font-weight:800;margin-bottom:10px"><i class="fas fa-user-circle"></i> معلوماتي</div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line)">
+        <span style="color:var(--muted);font-size:13px">الاسم</span><strong id="acctName2" style="font-size:14px">-</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line)">
+        <span style="color:var(--muted);font-size:13px">البريد</span><strong id="acctEmail" style="font-size:13px">-</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0">
+        <span style="color:var(--muted);font-size:13px">الهاتف</span><strong id="acctPhone2" style="font-size:14px">-</strong>
+      </div>
     </div>
     <div style="padding:0 16px">
-      <!-- Earnings Card -->
-      <div style="background:linear-gradient(135deg,#0F2A1E 0%,#1A3A28 100%);border:1px solid rgba(46,158,107,.3);border-radius:20px;padding:20px;margin-bottom:16px">
-        <div style="font-size:13px;color:#6EE7B7;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-wallet"></i> أرباحي</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;text-align:center">
-            <div style="font-size:11px;color:#94A3C0;margin-bottom:4px">إجمالي الرحلات</div>
-            <div style="font-size:24px;font-weight:900;color:#FFD23F" id="acctTotalRides">0</div>
-          </div>
-          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;text-align:center">
-            <div style="font-size:11px;color:#94A3C0;margin-bottom:4px">رحلات مكتملة</div>
-            <div style="font-size:24px;font-weight:900;color:#22C55E" id="acctCompletedRides">0</div>
-          </div>
-        </div>
-        <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;text-align:center;margin-bottom:12px">
-          <div style="font-size:12px;color:#94A3C0;margin-bottom:6px">إجمالي المدفوع</div>
-          <div style="font-size:28px;font-weight:900;color:#2E9E6B" id="acctTotalSpent">0 ل.س</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-          <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center">
-            <div style="font-size:10px;color:#94A3C0;margin-bottom:3px">الأسبوع</div>
-            <div style="font-size:15px;font-weight:800;color:var(--text)" id="acctWeekSpent">0</div>
-          </div>
-          <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center">
-            <div style="font-size:10px;color:#94A3C0;margin-bottom:3px">الشهر</div>
-            <div style="font-size:15px;font-weight:800;color:var(--text)" id="acctMonthSpent">0</div>
-          </div>
-          <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center">
-            <div style="font-size:10px;color:#94A3C0;margin-bottom:3px">متوسط</div>
-            <div style="font-size:15px;font-weight:800;color:var(--text)" id="acctAvgPrice">0</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Info Card -->
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:16px">
-        <div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-user-circle"></i> معلوماتي</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)">
-          <span style="color:var(--muted);font-size:13px">الاسم</span><strong id="acctName2" style="font-size:14px">-</strong>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)">
-          <span style="color:var(--muted);font-size:13px">البريد</span><strong id="acctEmail" style="font-size:13px">-</strong>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
-          <span style="color:var(--muted);font-size:13px">الهاتف</span><strong id="acctPhone2" style="font-size:14px">-</strong>
-        </div>
-      </div>
-
-      <button onclick="doSignOut()" style="width:100%;padding:14px;border:1.5px solid var(--danger);background:transparent;color:var(--danger);border-radius:14px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-right-from-bracket"></i> تسجيل الخروج</button>
+      <button onclick="doSignOut()" style="width:100%;padding:13px;border:1.5px solid var(--danger);background:transparent;color:var(--danger);border-radius:14px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-right-from-bracket"></i> تسجيل الخروج</button>
     </div>
   </div>
 
-  <!-- TRACKING (overlay-like) -->
+  <!-- ============ TRACK PAGE ============ -->
   <div id="trackPage" class="page">
-    <div class="section">
+    <div class="header-dark">
+      <button class="hb-back" onclick="showPage('homePage')"><i class="fas fa-chevron-right"></i></button>
+      <h2>تتبع الرحلة</h2>
+      <span class="spacer"></span>
+    </div>
+    <div class="section-pad">
       <div class="card" id="searchingCard">
         <div class="searching">
-          <div class="pulse"><i class="fas fa-magnifying-glass"></i></div>
-          <h3 style="font-size:18px;font-weight:900">جارِ البحث عن كابتن...</h3>
-          <p style="margin-top:8px;color:var(--muted);font-size:13px">سيتم إرسال طلبك لأقرب كابتن متصل</p>
+          <!-- حلقات نبضية -->
+          <div style="position:relative;width:110px;height:110px;margin:0 auto 24px;display:flex;align-items:center;justify-content:center">
+            <div style="position:absolute;inset:0;border-radius:50%;border:3px solid rgba(245,158,11,.15);animation:ripple 2s infinite"></div>
+            <div style="position:absolute;inset:-14px;border-radius:50%;border:2px solid rgba(245,158,11,.08);animation:ripple 2s infinite .4s"></div>
+            <div style="position:absolute;inset:-28px;border-radius:50%;border:2px solid rgba(245,158,11,.05);animation:ripple 2s infinite .8s"></div>
+            <div class="pulse"><i class="fas fa-car-side"></i></div>
+          </div>
+          <h3 style="font-size:19px;font-weight:900">جارِ البحث عن مندوب...</h3>
+          <p style="margin-top:6px;color:var(--muted);font-size:13px;line-height:1.6">سيتم إرسال طلبك لأقرب مندوب متصل<br>يرجى الانتظار</p>
+
+          <!-- نقاط تحميل -->
+          <div style="display:flex;gap:6px;justify-content:center;margin-top:14px">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);animation:dotBounce 1.2s infinite"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);animation:dotBounce 1.2s infinite .2s"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);animation:dotBounce 1.2s infinite .4s"></div>
+          </div>
         </div>
-        <button class="btn btn-danger" id="cancelSearchBtn"><i class="fas fa-xmark"></i> إلغاء</button>
+
+        <!-- ملخص الطلب -->
+        <div style="background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:16px;padding:16px;margin-bottom:14px;color:#fff">
+          <div style="font-size:13px;font-weight:900;color:#94a3b8;margin-bottom:12px;display:flex;align-items:center;gap:6px">
+            <i class="fas fa-receipt" style="color:#f59e0b"></i> ملخص الطلب
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+            <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:10px;text-align:center">
+              <div style="font-size:10px;color:#94a3b8;margin-bottom:4px">المسافة</div>
+              <div style="font-size:16px;font-weight:900" id="summaryDist">—</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:10px;text-align:center">
+              <div style="font-size:10px;color:#94a3b8;margin-bottom:4px">وقت الوصول</div>
+              <div style="font-size:16px;font-weight:900" id="summaryEta">—</div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:12px;color:#94a3b8">السعر الإجمالي</div>
+            <div style="font-size:20px;font-weight:900;color:#f59e0b" id="summaryPrice">—</div>
+          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;display:flex;align-items:center;gap:8px">
+            <i class="fas fa-car" style="color:#60a5fa;font-size:14px"></i>
+            <div style="font-size:12px;color:#cbd5e1" id="summaryPkg">سيارة عادية</div>
+          </div>
+        </div>
+
+        <button class="btn btn-danger" id="cancelSearchBtn" style="border-radius:14px"><i class="fas fa-xmark"></i> إلغاء البحث</button>
       </div>
 
       <div id="acceptedBox" class="hidden">
         <div class="status-bar"><span class="dot"></span><span id="statusText">قَبِل الكابتن طلبك</span></div>
         <div class="card">
-          <div id="trackMapWrap" class="track-map">
+          <div class="track-map">
             <div class="mini-label"><i class="fas fa-location-crosshairs"></i> تتبع مباشر</div>
             <div id="trackMap" style="height:100%"></div>
           </div>
@@ -1197,13 +1138,46 @@ body::after{
   </div>
 </div>
 
+<!-- destination search overlay -->
+<div class="dest-panel-overlay" id="destPanelOverlay">
+  <div class="dest-panel-sheet">
+    <h4>
+      <span><i class="fas fa-map-marker-alt" style="color:var(--green)"></i> اختر الوجهة</span>
+      <button class="closex" id="closeDestPanel"><i class="fas fa-xmark"></i></button>
+    </h4>
+    <div id="destPanel">
+      <div class="dest-search-bar">
+        <i class="fas fa-search"></i>
+        <input id="destSearchInput" placeholder="إلى أين تريد الذهاب؟" autocomplete="off">
+        <div class="map-pin-btn" id="manualPinBtn" title="تحديد الموقع يدوياً"><i class="fas fa-map-pin"></i></div>
+      </div>
+      <div class="results" id="searchResults"></div>
+      <div class="manual-hint hidden" id="manualPinHint"><i class="fas fa-info-circle"></i> حرّك الخريطة حتى يصبح الدبوس فوق الموقع المطلوب، ثم اضغط <strong>تأكيد الموقع</strong></div>
+      
+    </div>
+  </div>
+</div>
+<button class="btn btn-primary hidden" id="confirmManualPin" style="position:fixed;left:50%;transform:translateX(-50%);bottom:148px;width:calc(100% - 24px);max-width:496px;z-index:180;box-shadow:0 14px 30px rgba(22,163,74,.30)"><i class="fas fa-check"></i> تأكيد الوجهة</button>
+
 <div class="bottom-nav" id="bottomNav">
   <div class="nav-item active" data-nav="homePage"><i class="fas fa-house"></i><span>الرئيسية</span></div>
-  <div class="nav-item" data-nav="ordersPage"><i class="fas fa-receipt"></i><span>طلباتي</span></div>
+  <div class="nav-item" data-nav="ordersPage"><i class="fas fa-receipt"></i><span>رحلاتي</span></div>
   <div class="nav-item" data-nav="accountPage"><i class="far fa-user"></i><span>حسابي</span></div>
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- hidden legacy elements to keep old script references intact -->
+<div style="display:none">
+  <button id="destBtn"></button>
+  <button id="resetMapBtn"></button>
+  <span id="distVal">—</span>
+  <span id="captainDistVal">—</span>
+  <span id="captainRatingVal">—</span>
+  <span id="etaVal">—</span>
+  <span id="priceVal">—</span>
+  <span id="mapHint"></span>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
@@ -1225,7 +1199,7 @@ const toast = (m,t='') => { const el=$('#toast'); el.textContent=m; el.className
 const km = (a,b)=>{ const R=6371,toR=x=>x*Math.PI/180; const dLat=toR(b.lat-a.lat),dLng=toR(b.lng-a.lng); const x=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2; return 2*R*Math.asin(Math.sqrt(x)); };
 function esc(s){return String(s||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]))}
 
-// === الإشعارات والصوت ===
+// === Notifications + sound ===
 function requestNotifPermission(){ try{ if('Notification' in window && Notification.permission==='default') Notification.requestPermission().catch(()=>{}); }catch(e){} }
 document.addEventListener('click', requestNotifPermission, { once:true });
 function showNotification(title, body, tag){
@@ -1253,22 +1227,26 @@ function playSound(type){
 
 let user=null, userData=null, map=null, pickupMarker=null, destMarker=null, routeLine=null;
 let trackMap=null, trackCaptainMarker=null, trackPickupMarker=null, trackLine=null, messagesUnsub=null;
+let detailsMap=null, detailsPickupMarker=null, detailsDestMarker=null, detailsLine=null;
 let pickup=null, dest=null, routeKm=0, nearestCaptain=null, nearestKm=null, totalPrice=0;
 let activeRideId=null, rideUnsub=null, ordersUnsub=null;
 let manualPinMode=false;
+let editTarget="dest";
 let captainRatingAvg=null, etaMinutes=null, selectedRating=0;
 
-// === Pages
 window.showPage = (id) => {
   $$('.page').forEach(p=>p.classList.remove('active'));
   $('#'+id).classList.add('active');
   $$('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.nav===id));
+  document.body.classList.toggle('details-mode', id==='detailsPage');
+  const bottomNav = $('#bottomNav');
+  if(bottomNav) bottomNav.style.display = (id==='detailsPage') ? 'none' : '';
   if(id==='homePage') setTimeout(()=>{ if(map) map.invalidateSize(); }, 150);
   if(id==='accountPage') populateAccount();
   if(id==='trackPage') setTimeout(()=>{ if(trackMap) trackMap.invalidateSize(); }, 150);
+  if(id==='detailsPage') setTimeout(()=>{ initDetailsMap(); }, 100);
 };
 $$('.nav-item').forEach(n=>n.addEventListener('click',()=>showPage(n.dataset.nav)));
-
 
 function fmtMoney(n){ return (+n||0).toLocaleString()+' ل.س'; }
 function estimateEtaMinutes(distanceKm){ if(distanceKm==null || isNaN(distanceKm)) return null; return Math.max(1, Math.round((distanceKm/30)*60)); }
@@ -1295,18 +1273,17 @@ function updateTrackMap(ride){
   }
   setTimeout(()=>trackMap.invalidateSize(), 120);
 }
-function renderChatMessage(msg){ const mine = msg.senderId===user.uid; return `<div class="chat-row ${mine?'me':'them'}"><div class="chat-bubble">${esc(msg.text||'')}<div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px">${msg.senderName||''}</div></div></div>`; }
+function renderChatMessage(msg){ const mine = msg.senderId===user.uid; return `<div class="chat-row ${mine?'me':'them'}"><div class="chat-bubble">${esc(msg.text||'')}<div style="font-size:10px;color:var(--muted);margin-top:4px">${msg.senderName||''}</div></div></div>`; }
 function startChatListener(rideId){ if(messagesUnsub) messagesUnsub(); const q = query(collection(db,'chats',rideId,'messages'), orderBy('createdAt','asc')); messagesUnsub = onSnapshot(q, snap=>{ const list = document.getElementById('chatList'); if(!list) return; list.innerHTML = snap.docs.map(d=>renderChatMessage(d.data())).join(''); list.scrollTop = list.scrollHeight; }); }
 async function sendChatMessage(){ if(!activeRideId) return; const input=document.getElementById('chatInput'); const text=(input?.value||'').trim(); if(!text) return; input.value=''; await addDoc(collection(db,'chats',activeRideId,'messages'), { rideId:activeRideId, senderId:user.uid, senderName:userData.name||user.email||'', text, createdAt:serverTimestamp() }); }
 async function submitCaptainRating(){ if(!activeRideId || !selectedRating) return; const rideRef = doc(db,'rides',activeRideId); const snap = await getDoc(rideRef); if(!snap.exists()) return; const r = snap.data(); if(r.customerRatedCaptain) return toast('تم إرسال التقييم مسبقاً','ok'); await runTransaction(db, async tx=>{ const rsnap = await tx.get(rideRef); if(!rsnap.exists()) return; const current = rsnap.data(); if(current.customerRatedCaptain) throw new Error('تم التقييم مسبقاً'); tx.update(rideRef,{ customerRatedCaptain:selectedRating, customerRatedCaptainAt:serverTimestamp() }); if(current.captainId){ const capRef = doc(db,'users',current.captainId); const capSnap = await tx.get(capRef); const cap = capSnap.exists() ? capSnap.data() : {}; const sum = (+cap.ratingSum||0)+selectedRating; const count = (+cap.ratingCount||0)+1; tx.set(capRef,{ ratingSum:sum, ratingCount:count, ratingAvg:+(sum/count).toFixed(2) },{merge:true}); } }); toast('تم إرسال التقييم','ok'); }
 
-// === Auth: redirect to login if not authed
+// === Auth ===
 onAuthStateChanged(auth, async u=>{
   if(!u){ window.location.replace('ride-login.html'); return; }
   user = u;
   const ud = await getDoc(doc(db,'users',u.uid));
   userData = ud.exists() ? ud.data() : { name:u.email, phone:'', email:u.email };
-  // Initialize map and check active ride
   initMap(); autoGps();
   populateAccount();
   subscribeOrders();
@@ -1320,10 +1297,10 @@ onAuthStateChanged(auth, async u=>{
 
 function initMap(){
   if(map){ map.invalidateSize(); return; }
-  map = L.map('map',{zoomControl:true}).setView([33.5138,36.2765],13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
+  map = L.map('map',{zoomControl:false}).setView([26.4207,50.0888],13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM',maxZoom:19}).addTo(map);
   map.on('click', e=>{
-    if(manualPinMode) return; // ignore clicks while picking via center pin
+    if(manualPinMode) return;
     if(!pickup){ setPickup(e.latlng); }
     else if(!dest){ setDest(e.latlng); }
     else { resetMap(); setPickup(e.latlng); }
@@ -1331,17 +1308,21 @@ function initMap(){
 }
 
 function pinIcon(color){ return L.divIcon({className:'',html:`<div style="background:${color};width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.5)"></div>`,iconAnchor:[12,24]}); }
+function circleIcon(color){ return L.divIcon({className:'',html:`<div style="background:${color};width:20px;height:20px;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.5)"></div>`,iconAnchor:[10,10]}); }
 
 function setPickup(ll){
   pickup={lat:ll.lat,lng:ll.lng};
   if(pickupMarker) pickupMarker.remove();
-  pickupMarker = L.marker(ll,{icon:pinIcon('#22D3EE')}).addTo(map).bindPopup('موقعك').openPopup();
-  showDestBtn();
+  pickupMarker = L.marker(ll,{icon:circleIcon('#16a34a')}).addTo(map);
+  $('#pickupValue').classList.remove('placeholder');
+  updateConfirmDestState();
 }
-function setDest(ll){
+function setDest(ll, name){
   dest={lat:ll.lat,lng:ll.lng};
   if(destMarker) destMarker.remove();
-  destMarker = L.marker(ll,{icon:pinIcon('#EF4444')}).addTo(map).bindPopup('الوجهة').openPopup();
+  destMarker = L.marker(ll,{icon:pinIcon('#ef4444')}).addTo(map);
+  $('#destValue').textContent = name || 'تم التحديد على الخريطة';
+  $('#destValue').classList.remove('placeholder');
   drawRoute();
 }
 function resetMap(){
@@ -1350,55 +1331,95 @@ function resetMap(){
   if(destMarker){ destMarker.remove(); destMarker=null; }
   if(routeLine){ routeLine.remove(); routeLine=null; }
   $('#distVal').textContent='—'; $('#captainDistVal').textContent='—'; $('#priceVal').textContent='—';
-  $('#confirmBtn').disabled=true;
+  $('#destValue').textContent='اختر وجهة الوصول'; $('#destValue').classList.add('placeholder');
+  updateConfirmDestState();
   exitManualPin();
 }
-$('#resetMapBtn').onclick = ()=>{ resetMap(); autoGps(); };
+function updateConfirmDestState(){
+  $('#confirmDestBtn').disabled = !(pickup && dest && totalPrice>0);
+}
+
 $('#useGpsBtn').onclick = ()=> autoGps();
+$('#myLocChip').onclick = ()=> autoGps();
+$('#zoomInBtn').onclick = ()=> map && map.zoomIn();
+$('#zoomOutBtn').onclick = ()=> map && map.zoomOut();
+$('#clearPickup').onclick = ()=>{ if(pickupMarker){pickupMarker.remove();pickupMarker=null;} pickup=null; $('#pickupValue').textContent='موقعي الحالي'; $('#pickupValue').classList.remove('placeholder'); updateConfirmDestState(); };
+$('#clearDest').onclick = ()=>{ if(destMarker){destMarker.remove();destMarker=null;} if(routeLine){routeLine.remove();routeLine=null;} dest=null; routeKm=0; totalPrice=0; $('#destValue').textContent='اختر وجهة الوصول'; $('#destValue').classList.add('placeholder'); updateConfirmDestState(); };
+$('#swapBtn').onclick = ()=>{ if(!pickup||!dest) return; const a=pickup, b=dest; pickup=null; dest=null; if(pickupMarker){pickupMarker.remove();pickupMarker=null;} if(destMarker){destMarker.remove();destMarker=null;} if(routeLine){routeLine.remove();routeLine=null;} setPickup(L.latLng(b.lat,b.lng)); setDest(L.latLng(a.lat,a.lng)); };
+
+// segmented mode
+$$('#modeSeg button').forEach(b=>b.onclick=()=>{
+  $$('#modeSeg button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  if(b.dataset.mode==='map'){
+    openDestPanel('dest');
+    $('#manualPinBtn').click();
+  }
+});
+
+function placeTitle(){ return editTarget === 'pickup' ? 'اختر موقع الانطلاق' : 'اختر الوجهة'; }
+function placeButtonLabel(){ return editTarget === 'pickup' ? 'تأكيد موقع الانطلاق' : 'تأكيد الوجهة'; }
+
+function setConfirmManualButtonText(){
+  const btn = $('#confirmManualPin');
+  if(btn) btn.innerHTML = `<i class="fas fa-check"></i> ${placeButtonLabel()}`;
+}
+
+function openDestPanel(target='dest'){
+  editTarget = target;
+  $('#destPanelOverlay').classList.add('show');
+  $('#manualPinHint').classList.add('hidden');
+  $('#confirmManualPin').classList.add('hidden');
+  $('#manualPinBtn').classList.remove('active');
+  $('#searchResults').classList.remove('show');
+  const title = $('#destPanelOverlay h4 span');
+  if(title) title.innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--green)"></i> ${placeTitle()}`;
+  $('#destSearchInput').placeholder = editTarget === 'pickup' ? 'ابحث عن موقع الانطلاق' : 'إلى أين تريد الذهاب؟';
+  $('#destSearchInput').value = '';
+  setTimeout(()=>$('#destSearchInput').focus(), 100);
+  searchPlace('');
+}
+$('#destRow').addEventListener('click', e=>{ if(e.target.closest('.lr-clear')) return; openDestPanel('dest'); });
+$('#pickupRow').addEventListener('click', e=>{ if(e.target.closest('.lr-clear')) return; openDestPanel('pickup'); });
+$('#closeDestPanel').onclick = ()=> { $('#destPanelOverlay').classList.remove('show'); exitManualPin(); };
 
 function autoGps(){
   if(!navigator.geolocation){ toast('GPS غير مدعوم','err'); return; }
-  $('#mapHint').innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري تحديد موقعك...';
   navigator.geolocation.getCurrentPosition(p=>{
     const ll = L.latLng(p.coords.latitude, p.coords.longitude);
     map.setView(ll,15); setPickup(ll);
-    $('#mapHint').innerHTML='<i class="fas fa-check-circle" style="color:var(--success)"></i> تم تحديد موقعك';
-    showDestBtn();
   }, ()=>{
     toast('تعذر تحديد موقعك تلقائياً','err');
-    $('#mapHint').innerHTML='<i class="fas fa-info-circle"></i> اضغط الخريطة لتحديد موقعك';
-    $('#useGpsBtn').classList.remove('hidden');
   });
 }
 
-function showDestBtn(){
-  $('#destBtn').classList.remove('hidden');
-  $('#useGpsBtn').classList.add('hidden');
-}
-
-$('#destBtn').onclick = ()=>{
-  $('#destPanel').classList.remove('hidden');
-  $('#destBtn').classList.add('hidden');
-  $('#destSearchInput').focus();
-  // Trigger empty search to display nearby places sorted by distance
-  searchPlace('');
-};
-
-// Smart search aliases (English/short → Arabic full names)
 const SEARCH_ALIASES = {
   'ماك':'ماكدونالدز','mac':'mcdonalds','kfc':'kfc','بيتزا هت':'pizza hut','دومينوز':'dominos',
   'ستاربكس':'starbucks','كوفي':'coffee','بقالة':'grocery','صيدلية':'pharmacy','مستشفى':'hospital',
   'مسجد':'mosque','مدرسة':'school','جامعة':'university','حديقة':'park','فندق':'hotel'
 };
 
+function applySelectedPlace(ll, name=''){
+  if(editTarget === 'pickup'){
+    setPickup(ll);
+    $('#pickupValue').textContent = name || 'موقع الانطلاق المحدد';
+    $('#pickupValue').classList.remove('placeholder');
+  }else{
+    setDest(ll, name);
+    map.setView(ll,15);
+  }
+  $('#destPanelOverlay').classList.remove('show');
+  $('#destSearchInput').value = '';
+  exitManualPin();
+}
+
 async function searchPlace(q){
   const box = $('#searchResults');
   box.classList.add('show');
   box.innerHTML = `<div style="padding:14px;color:var(--muted);text-align:center;font-size:13px"><i class="fas fa-spinner fa-spin"></i> جاري البحث...</div>`;
   try{
-    const lat = pickup?.lat || 33.5138;
-    const lng = pickup?.lng || 36.2765;
-    // Apply alias mapping
+    const lat = pickup?.lat || 26.4207;
+    const lng = pickup?.lng || 50.0888;
     let searchQ = q;
     for(const [k,v] of Object.entries(SEARCH_ALIASES)){
       if(q.toLowerCase().includes(k.toLowerCase())){ searchQ = q+' '+v; break; }
@@ -1411,14 +1432,14 @@ async function searchPlace(q){
     }
     const res = await fetch(url, {headers:{'Accept-Language':'ar,en'}});
     let data = await res.json();
-    if(!Array.isArray(data)||!data.length){ box.innerHTML=`<div style="padding:16px;color:var(--muted);text-align:center;font-size:13px"><i class="fas fa-search-minus"></i> لا توجد نتائج، جرب كلمة أخرى</div>`; return; }
+    if(!Array.isArray(data)||!data.length){ box.innerHTML=`<div style="padding:16px;color:var(--muted);text-align:center;font-size:13px"><i class="fas fa-search-minus"></i> لا توجد نتائج</div>`; return; }
     data = data.map(p=>({...p,_d:km({lat,lng},{lat:+p.lat,lng:+p.lon})})).sort((a,b)=>a._d-b._d);
     box.innerHTML = data.slice(0,10).map(p=>{
       const parts = (p.display_name||'').split(',');
       const name = parts.slice(0,2).join('، ');
       const area = parts.slice(2,4).join('، ');
       const distLabel = p._d < 1 ? `${Math.round(p._d*1000)} م` : `${p._d.toFixed(1)} كم`;
-      return `<div class="result-item" data-lat="${p.lat}" data-lng="${p.lon}">
+      return `<div class="result-item" data-lat="${p.lat}" data-lng="${p.lon}" data-name="${esc(name)}">
         <div class="res-ic"><i class="fas fa-map-marker-alt"></i></div>
         <div class="res-body">
           <div class="res-name">${esc(name)}</div>
@@ -1428,9 +1449,7 @@ async function searchPlace(q){
     }).join('');
     box.querySelectorAll('.result-item').forEach(el=>el.addEventListener('click',()=>{
       const ll = L.latLng(+el.dataset.lat, +el.dataset.lng);
-      setDest(ll); map.setView(ll,15);
-      box.classList.remove('show'); $('#destPanel').classList.add('hidden');
-      $('#destSearchInput').value='';
+      applySelectedPlace(ll, el.dataset.name);
     }));
   }catch(e){ box.innerHTML=`<div style="padding:16px;color:var(--danger);text-align:center;font-size:13px"><i class="fas fa-exclamation-circle"></i> خطأ في البحث</div>`; }
 }
@@ -1442,7 +1461,6 @@ $('#destSearchInput').addEventListener('input', e=>{
   searchTimeout = setTimeout(()=>searchPlace(q), 350);
 });
 
-// Manual pin: show center pin overlay (offset to right of center via CSS)
 $('#manualPinBtn').onclick = ()=>{
   manualPinMode = true;
   $('#centerPin').classList.add('show');
@@ -1450,6 +1468,8 @@ $('#manualPinBtn').onclick = ()=>{
   $('#confirmManualPin').classList.remove('hidden');
   $('#manualPinBtn').classList.add('active');
   $('#searchResults').classList.remove('show');
+  setConfirmManualButtonText();
+  $('#destPanelOverlay').classList.remove('show');
   toast('حرّك الخريطة لوضع الدبوس على الموقع','ok');
 };
 
@@ -1463,25 +1483,8 @@ function exitManualPin(){
 
 $('#confirmManualPin').onclick = ()=>{
   if(!map) return;
-  // The center pin is offset visually (-180% from left). Compute pin actual coordinates by offsetting the map center
-  const containerCenter = map.latLngToContainerPoint(map.getCenter());
-  // pin tip offset relative to center: visually translated by translate(-180%,-100%) where pin is 34px wide
-  // -180% horizontal of pin width (34) = -61.2px from center, -100% vertical = -34px from center
-  // But center-pin's anchor (top-left) is at center; transform shifts the visible pin tip.
-  // Pin tip is at the 50% top, 50% left of the pin (rotated). We approximate the tip at offset (-61, -17) px from container center.
-  const tipX = containerCenter.x + 0;   // visually the pin is to the LEFT of center (right side in RTL view feels intentional)
-  const tipY = containerCenter.y + 0;
-  // Actually use the rendered pin element position
-  const wrapRect = $('#mapWrap').getBoundingClientRect();
-  const pinEl = $('#centerPin').querySelector('.pin');
-  const pinRect = pinEl.getBoundingClientRect();
-  const pxX = (pinRect.left + pinRect.width/2) - wrapRect.left;
-  const pxY = (pinRect.top + pinRect.height) - wrapRect.top; // tip is at bottom of rotated square visually
-  const ll = map.containerPointToLatLng([pxX, pxY]);
-  setDest(ll);
-  $('#destPanel').classList.add('hidden');
-  $('#destSearchInput').value='';
-  exitManualPin();
+  const ll = map.getCenter();
+  applySelectedPlace(ll);
 };
 
 async function drawRoute(){
@@ -1492,14 +1495,13 @@ async function drawRoute(){
     if(j.code!=='Ok'||!j.routes?.length) throw new Error('no');
     const coords = j.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
     if(routeLine) routeLine.remove();
-    routeLine = L.polyline(coords,{color:'#FFD23F',weight:5,opacity:.9}).addTo(map);
-    // fitBounds with padding biased to right (to keep pin offset)
+    routeLine = L.polyline(coords,{color:'#0ea5e9',weight:5,opacity:.9}).addTo(map);
     map.fitBounds(routeLine.getBounds(),{padding:[50,50]});
     routeKm = +(j.routes[0].distance/1000).toFixed(2);
   }catch(e){
     routeKm = +km(pickup,dest).toFixed(2);
     if(routeLine) routeLine.remove();
-    routeLine = L.polyline([[pickup.lat,pickup.lng],[dest.lat,dest.lng]],{color:'#FFD23F',weight:4,dashArray:'8,8'}).addTo(map);
+    routeLine = L.polyline([[pickup.lat,pickup.lng],[dest.lat,dest.lng]],{color:'#0ea5e9',weight:4,dashArray:'8,8'}).addTo(map);
     map.fitBounds(routeLine.getBounds(),{padding:[50,50]});
   }
   $('#distVal').textContent = routeKm+' كم';
@@ -1509,7 +1511,6 @@ async function drawRoute(){
 
 async function findNearestCaptain(){
   nearestCaptain=null; nearestKm=null;
-  // captains live in users collection with role:captain
   let snap;
   try{ snap = await getDocs(query(collection(db,'users'), where('role','==','captain'), where('online','==',true))); }
   catch(_){ snap = await getDocs(query(collection(db,'captains'), where('online','==',true))); }
@@ -1529,25 +1530,108 @@ function computePrice(){
   const pickupKm = nearestKm ?? 2;
   totalPrice = Math.round(BASE_FARE + routeKm*PER_KM_TRIP + pickupKm*PER_KM_PICKUP);
   $('#priceVal').textContent = totalPrice.toLocaleString()+' ل.س';
-  $('#confirmBtn').disabled=false;
+  updateConfirmDestState();
 }
 
+// === تأكيد الوجهة (home) → ينقل لصفحة التفاصيل ===
+$('#confirmDestBtn').onclick = ()=>{
+  if(!pickup || !dest || !totalPrice){ toast('حدد الوجهة أولاً','err'); return; }
+  populateDetailsPage();
+  showPage('detailsPage');
+};
+
+function populateDetailsPage(){
+  $('#dDist').textContent = (routeKm||0).toFixed(1)+' كم';
+  $('#dmDistance').textContent = (routeKm||0).toFixed(1)+' كم';
+  $('#dEta').textContent = etaMinutes || '—';
+  $('#dCapRating').textContent = captainRatingAvg ? `${captainRatingAvg} ★` : '—';
+  $('#dCapDist').textContent = nearestKm!=null ? nearestKm+' كم' : '—';
+  // legacy hidden spans
+  $('#dPriceTotal') && ($('#dPriceTotal').textContent = (totalPrice||0).toLocaleString());
+  $('#dBase') && ($('#dBase').textContent = BASE_FARE.toLocaleString());
+  $('#dDistKm') && ($('#dDistKm').textContent = (routeKm||0).toFixed(1));
+  $('#dDistCost') && ($('#dDistCost').textContent = Math.round((routeKm||0)*PER_KM_TRIP).toLocaleString());
+  $('#dEtaMin') && ($('#dEtaMin').textContent = etaMinutes || '—');
+  $('#dPickupCost') && ($('#dPickupCost').textContent = Math.round((nearestKm||0)*PER_KM_PICKUP).toLocaleString());
+  updatePackagePrices();
+  selectPkg(selectedPkg);
+}
+
+function initDetailsMap(){
+  if(!pickup||!dest) return;
+  const el = document.getElementById('detailsMap');
+  if(!el) return;
+  if(!detailsMap){
+    detailsMap = L.map('detailsMap',{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false,doubleClickZoom:false}).setView([pickup.lat,pickup.lng],13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(detailsMap);
+  }
+  if(detailsPickupMarker){detailsPickupMarker.remove();}
+  if(detailsDestMarker){detailsDestMarker.remove();}
+  if(detailsLine){detailsLine.remove();}
+  detailsPickupMarker = L.marker([pickup.lat,pickup.lng],{icon:circleIcon('#16a34a')}).addTo(detailsMap);
+  detailsDestMarker = L.marker([dest.lat,dest.lng],{icon:pinIcon('#ef4444')}).addTo(detailsMap);
+  detailsLine = L.polyline([[pickup.lat,pickup.lng],[dest.lat,dest.lng]],{color:'#0ea5e9',weight:4}).addTo(detailsMap);
+  setTimeout(()=>{ detailsMap.invalidateSize(); detailsMap.fitBounds(detailsLine.getBounds(),{padding:[30,30]}); },150);
+}
+
+// price toggle (legacy - kept for compatibility)
+$('#priceToggleBtn') && ($('#priceToggleBtn').onclick = ()=>{
+  const b = $('#priceBreakdown');
+  const ic = $('#priceToggleIcon');
+  if(b){ b.classList.toggle('hidden'); }
+  if(ic){ ic.classList.toggle('fa-chevron-down'); ic.classList.toggle('fa-chevron-up'); }
+});
+
+// === اختيار الباقة ===
+let selectedPkg = 'normal';
+window.selectPkg = function(type){
+  selectedPkg = type;
+  document.querySelectorAll('.pkg-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('pkgNormal').classList.toggle('selected', type==='normal');
+  document.getElementById('pkgFamily').classList.toggle('selected', type==='family');
+  // تحديث السعر الإجمالي
+  if(totalPrice > 0){
+    const finalPrice = type==='family' ? Math.round(totalPrice*1.25) : totalPrice;
+    const summaryPriceEl = $('#summaryPrice');
+    if(summaryPriceEl) summaryPriceEl.textContent = finalPrice.toLocaleString()+' ل.س';
+  }
+};
+
+function updatePackagePrices(){
+  const normalPrice = totalPrice || 0;
+  const familyPrice = Math.round(normalPrice * 1.25);
+  const npEl = document.getElementById('pkgNormalPrice');
+  const fpEl = document.getElementById('pkgFamilyPrice');
+  if(npEl) npEl.textContent = normalPrice.toLocaleString();
+  if(fpEl) fpEl.textContent = familyPrice.toLocaleString();
+}
+
+// === تأكيد الطلب (details) → ينشئ الرحلة في Firestore ===
 $('#confirmBtn').onclick = async ()=>{
   if(!pickup||!dest) return;
   $('#confirmBtn').disabled=true;
+  const finalPrice = selectedPkg==='family' ? Math.round(totalPrice*1.25) : totalPrice;
+  const pkgLabel = selectedPkg==='family' ? 'سيارة عائلية' : 'سيارة عادية';
+  // تحديث ملخص الطلب في صفحة البحث
+  const sd = $('#summaryDist'); if(sd) sd.textContent = (routeKm||0).toFixed(1)+' كم';
+  const se = $('#summaryEta'); if(se) se.textContent = etaMinutes ? etaMinutes+' دقيقة' : '—';
+  const sp = $('#summaryPrice'); if(sp) sp.textContent = finalPrice.toLocaleString()+' ل.س';
+  const spk = $('#summaryPkg'); if(spk) spk.textContent = pkgLabel;
   try{
     const ride = {
       customerId: user.uid, customerName: userData.name||'', customerPhone: userData.phone||'',
-      pickup, destination: dest, routeKm, captainPickupKm: nearestKm||0, price: totalPrice,
+      pickup, destination: dest, routeKm, captainPickupKm: nearestKm||0, price: finalPrice,
+      packageType: selectedPkg, packageLabel: pkgLabel,
       status:'searching', captainId:null, captainName:null, captainPhone:null, captainLocation:null,
       createdAt: serverTimestamp()
     };
     const ref = await addDoc(collection(db,'rides'), ride);
     activeRideId = ref.id;
     playSound('request');
-    showNotification('تم إرسال طلب الرحلة 🚖', 'نبحث الآن عن أقرب كابتن متاح لك', 'ride-sent');
+    showNotification('تم إرسال طلب الرحلة 🚖', 'نبحث الآن عن أقرب مندوب متاح لك', 'ride-sent');
     showTracking();
-  }catch(e){ toast('فشل الإنشاء: '+e.message,'err'); $('#confirmBtn').disabled=false; }
+  }catch(e){ toast('فشل الإنشاء: '+e.message,'err'); }
+  finally{ $('#confirmBtn').disabled=false; }
 };
 
 function showTracking(){
@@ -1640,7 +1724,30 @@ $('#sendChatBtn').onclick = sendChatMessage;
 $('#chatInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendChatMessage(); });
 $('#submitRatingBtn').onclick = submitCaptainRating;
 
-// Orders page
+// === recent places click → set as dest by name search ===
+$$('.recent-item').forEach(it=>it.addEventListener('click', async ()=>{
+  const nm = it.querySelector('.nm')?.textContent || '';
+  if(!nm) return;
+  toast('جاري تحديد '+nm,'ok');
+  try{
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(nm)}&limit=1&accept-language=ar`;
+    const res = await fetch(url); const data = await res.json();
+    if(data && data[0]){
+      const ll = L.latLng(+data[0].lat, +data[0].lon);
+      setDest(ll, nm); map.setView(ll,15);
+    } else toast('لم يتم العثور','err');
+  }catch(e){ toast('خطأ في الشبكة','err'); }
+}));
+
+// === saved places (placeholders) ===
+$$('.saved-item[data-saved]').forEach(it=>it.addEventListener('click',()=>{
+  toast('سيتم إضافة الأماكن المحفوظة قريباً','ok');
+}));
+$('#addPlaceBtn').onclick = ()=> toast('سيتم إضافة الأماكن المحفوظة قريباً','ok');
+$('#showAllSaved').onclick = ()=> toast('قريباً','ok');
+$('#helpBtn').onclick = ()=> toast('للمساعدة تواصل مع الدعم','ok');
+
+// Orders
 function subscribeOrders(){
   if(ordersUnsub) ordersUnsub();
   ordersUnsub = onSnapshot(query(collection(db,'rides'), where('customerId','==',user.uid)), snap=>{
@@ -1706,7 +1813,7 @@ function renderOrders(list){
   }));
 }
 
-// تسجيل Service Worker مع تحديث تلقائي
+// Service Worker
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').then((reg) => {
