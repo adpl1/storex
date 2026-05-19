@@ -109,11 +109,17 @@ body{background:white;color:var(--dark);font-size:15px}
 .svc-card{border-radius:18px;padding:14px 12px 12px;position:relative;cursor:pointer;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
 .svc-card .t{font-size:14px;font-weight:800;margin-bottom:3px}
 .svc-card .s{font-size:11px;color:var(--gray);font-weight:600}
-.svc-card .ic{font-size:34px;align-self:flex-start;margin-top:4px}
+.svc-card .ic{align-self:flex-start;margin-top:2px;width:56px;height:56px;display:grid;place-items:center}
+.svc-card .ic img{width:100%;height:100%;object-fit:contain;display:block}
 .svc-card .go{position:absolute;bottom:10px;left:10px;width:28px;height:28px;border-radius:50%;color:#fff;display:grid;place-items:center;font-size:11px;box-shadow:0 4px 10px rgba(0,0,0,.18)}
 .svc-card.green{background:#E8F5EC}.svc-card.green .t{color:#198754}.svc-card.green .go{background:#198754}
 .svc-card.orange{background:#FFEDDC}.svc-card.orange .t{color:#F58220}.svc-card.orange .go{background:#F58220}
 .svc-card.blue{background:#E3F0F8}.svc-card.blue .t{color:#1E90FF}.svc-card.blue .go{background:#1E90FF}
+/* hide secondary banners section — only the hero banner is shown */
+#bannersSection{display:none !important}
+/* store logos: contain on white, not cropped */
+.store-card .img{background:#fff}
+.store-card .img img{object-fit:contain;padding:8px}
 
 .hero-banner{margin:0 18px 10px;background:linear-gradient(135deg,#198754 0%,#1FA864 100%);border-radius:22px;padding:18px 18px 18px;position:relative;overflow:hidden;color:#fff;min-height:170px;display:flex;align-items:center;box-shadow:0 10px 24px rgba(25,135,84,.25)}
 .hero-banner .hb-text{flex:1;z-index:2;text-align:right}
@@ -377,7 +383,7 @@ body{background:white;color:var(--dark);font-size:15px}
         <div class="t">طلب سيارة</div>
         <div class="s">توصيل سريع</div>
       </div>
-      <div class="ic">🚗</div>
+      <div class="ic"><img src="https://e7.pngegg.com/pngimages/556/1007/png-clipart-computer-icons-car-dealership-icon-design-car-blue-angle-thumbnail.png" alt="سيارة"></div>
       <div class="go"><i class="fas fa-arrow-left"></i></div>
     </div>
     <div class="svc-card orange" onclick="openCustomOrder()">
@@ -385,7 +391,7 @@ body{background:white;color:var(--dark);font-size:15px}
         <div class="t">اطلب أي شيء</div>
         <div class="s">من أي مكان</div>
       </div>
-      <div class="ic">🛍️</div>
+      <div class="ic"><img src="https://png.pngtree.com/png-vector/20240723/ourmid/pngtree-colorful-logo-of-a-shopping-bag-vector-png-image_7280180.png" alt="تسوق"></div>
       <div class="go"><i class="fas fa-arrow-left"></i></div>
     </div>
     <div class="svc-card blue" onclick="openGasOrder()">
@@ -393,7 +399,7 @@ body{background:white;color:var(--dark);font-size:15px}
         <div class="t">تبديل غاز</div>
         <div class="s">طلبات البيت</div>
       </div>
-      <div class="ic">🛢️</div>
+      <div class="ic"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVK7YeNQFQ7gwqCeVd7NQUTvG2u5Z3bE6i7A&s" alt="غاز"></div>
       <div class="go"><i class="fas fa-arrow-left"></i></div>
     </div>
   </div>
