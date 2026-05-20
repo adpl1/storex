@@ -16,7 +16,7 @@
   <meta name="google-site-verification" content="DhT6dcetl6v_uKdz_S_asi6u918VSW4SRqR8GGCcKgw" />
   <link rel="icon" type="image/png" href="favicon.png">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2E7D32">
+<meta name="theme-color" content="#F5C842">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ادبل">
@@ -24,20 +24,18 @@
 
 <style>
 :root{
-  --primary:#2E7D32; --primary-dark:#1B5E20; --primary-light:#E8F5E9;
-  --accent:#FF9800; --accent-light:#FFF3E0;
-  --blue:#2196F3; --blue-light:#E3F2FD;
-  --dark:#1A1D29; --gray:#6B7280; --light:#F5F5F5; --border:#E8EBF0;
+  --primary:#FF5A1F; --primary-dark:#E04A10; --primary-light:#FFE8DD;
+  --accent:#1E90FF; --dark:#1A1D29; --gray:#6B7280; --light:#F8F9FB; --border:#E8EBF0;
   --success:#22C55E; --warning:#F59E0B; --danger:#EF4444;
-  --orange:#FF9800; --orange-dark:#F57C00;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:'Cairo',sans-serif}
 html,body{width:100%;height:100%;overflow:hidden}
-body{background:#F5F5F5;color:var(--dark);font-size:15px}
-.app{width:100%;max-width:480px;margin:0 auto;min-height:100dvh;height:100dvh;background:#F5F5F5;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.08)}
-.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;padding-bottom:100px;width:100%;-webkit-overflow-scrolling:touch;background:#F5F5F5;z-index:0}
+body{background:white;color:var(--dark);font-size:15px}
+.app{width:100%;max-width:480px;margin:0 auto;min-height:100dvh;height:100dvh;background:white;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.08)}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;padding-bottom:80px;width:100%;-webkit-overflow-scrolling:touch;background:white;z-index:0}
 .screen.active{display:block;animation:fadeIn .3s;z-index:10}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
 
 /* PWA Install Button */
 .pwa-install-bar{display:none;align-items:center;gap:12px;background:linear-gradient(135deg,#1A1D29,#2D3250);color:white;padding:14px 20px;margin:0 20px 16px;border-radius:16px;cursor:pointer;box-shadow:0 8px 24px rgba(26,29,41,.25);animation:fadeIn .4s}
@@ -47,13 +45,13 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 .pwa-install-bar .pwa-text{flex:1}
 .pwa-install-bar .pwa-text h4{font-size:14px;font-weight:800;margin-bottom:2px}
 .pwa-install-bar .pwa-text p{font-size:11px;opacity:.75}
-.pwa-install-bar .pwa-btn-install{background:var(--accent);color:#1A1D29;border:none;border-radius:10px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.pwa-install-bar .pwa-btn-install{background:#F5C842;color:#1A1D29;border:none;border-radius:10px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
 .pwa-install-bar .pwa-close{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.12);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
 
 /* Auth */
-.auth-screen{background:linear-gradient(160deg,#2E7D32 0%,#388E3C 50%,#4CAF50 100%);padding:40px 24px;padding-bottom:40px;display:flex;flex-direction:column;justify-content:center;min-height:100dvh}
-#homeScreen{background:#F5F5F5}
-#storeScreen,#cartScreen,#checkoutScreen,#customScreen,#ordersScreen,#orderDetailScreen,#chatScreen,#profileScreen,#productDetailScreen,#favoritesScreen{background:#F5F5F5}
+.auth-screen{background:linear-gradient(160deg,#F5C842 0%,#F0D060 50%,#F7E08A 100%);padding:40px 24px;padding-bottom:40px;display:flex;flex-direction:column;justify-content:center;min-height:100dvh}
+#homeScreen{background:white}
+#storeScreen,#cartScreen,#checkoutScreen,#customScreen,#ordersScreen,#orderDetailScreen,#chatScreen,#profileScreen,#productDetailScreen,#favoritesScreen{background:white}
 .auth-logo{width:120px;height:120px;margin:0 auto 20px;border-radius:30px;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 40px rgba(0,0,0,.2);overflow:hidden}
 .auth-logo img{width:100%;height:100%;object-fit:cover}
 .auth-logo i{font-size:60px;color:var(--primary)}
@@ -79,121 +77,90 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 .err{background:#FEF2F2;color:var(--danger);padding:10px;border-radius:10px;font-size:13px;margin-bottom:12px;display:none}
 .err.show{display:block}
 
-/* ====== NEW HOME DESIGN ====== */
-.home-top-bar{background:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
-.home-top-bar .avatar-circle{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FF9800,#FFB74D);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(255,152,0,.3)}
-.home-top-bar .welcome-text{text-align:right}
-.home-top-bar .welcome-text .greet{font-size:13px;color:var(--gray);font-weight:600}
-.home-top-bar .welcome-text .name{font-size:18px;font-weight:900;color:var(--dark)}
-.home-top-bar .notif-btn{width:44px;height:44px;border-radius:50%;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray);font-size:20px;position:relative}
-.home-top-bar .notif-btn .notif-dot{position:absolute;top:8px;right:8px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid #fff}
-
-.home-search-wrap{padding:0 20px 16px;background:#fff}
-.home-search-bar{background:#F5F5F5;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;color:var(--gray);border:1px solid #eee}
-.home-search-bar input{border:none;flex:1;font-size:14px;background:transparent;outline:none;font-family:inherit;color:var(--dark)}
-.home-search-bar input::placeholder{color:#aaa}
-.home-search-bar i{font-size:16px;color:#aaa}
-
-/* Service Cards */
-.services-row{display:flex;gap:10px;padding:0 20px;margin-bottom:16px}
-.service-card{flex:1;background:#fff;border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:.2s;border:1px solid #eee;position:relative;overflow:hidden}
-.service-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
-.service-card .svc-title{font-size:13px;font-weight:800;margin-bottom:4px}
-.service-card .svc-desc{font-size:10px;color:var(--gray);margin-bottom:8px}
-.service-card .svc-img{height:50px;display:flex;align-items:center;justify-content:center;margin-bottom:6px}
-.service-card .svc-img img{max-height:100%;max-width:100%;object-fit:contain}
-.service-card .svc-img i{font-size:32px}
-.service-card .svc-arrow{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:12px;color:#fff}
-
-.service-card.car{background:linear-gradient(180deg,#E8F5E9 0%,#fff 60%)}
-.service-card.car .svc-title{color:var(--primary)}
-.service-card.car .svc-arrow{background:var(--primary)}
-.service-card.car .svc-img i{color:var(--primary)}
-
-.service-card.any{background:linear-gradient(180deg,#FFF3E0 0%,#fff 60%)}
-.service-card.any .svc-title{color:var(--orange)}
-.service-card.any .svc-arrow{background:var(--orange)}
-.service-card.any .svc-img i{color:var(--orange)}
-
-.service-card.gas{background:linear-gradient(180deg,#E3F2FD 0%,#fff 60%)}
-.service-card.gas .svc-title{color:var(--blue)}
-.service-card.gas .svc-arrow{background:var(--blue)}
-.service-card.gas .svc-img i{color:var(--blue)}
-
-/* Promo Banner */
-.promo-banner{background:linear-gradient(135deg,#2E7D32 0%,#43A047 50%,#66BB6A 100%);border-radius:20px;margin:0 20px 16px;padding:20px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(46,125,50,.25)}
-.promo-banner .promo-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);color:#fff;padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;margin-bottom:10px}
-.promo-banner .promo-title{color:#fff;font-size:18px;font-weight:900;margin-bottom:6px;line-height:1.3}
-.promo-banner .promo-sub{color:rgba(255,255,255,.85);font-size:12px;margin-bottom:14px}
-.promo-banner .promo-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.2);color:#fff;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;backdrop-filter:blur(4px)}
-.promo-banner .promo-btn i{width:28px;height:28px;border-radius:50%;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px}
-.promo-banner .promo-scooter{position:absolute;left:10px;bottom:0;width:140px;height:100px;object-fit:contain;z-index:2}
-.promo-banner .promo-scooter i{font-size:80px;color:rgba(255,255,255,.15);position:absolute;left:0;bottom:-10px}
-
-.banner-dots{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
-.banner-dots .dot{width:8px;height:8px;border-radius:50%;background:#ddd;transition:.3s}
-.banner-dots .dot.active{background:var(--primary);width:20px;border-radius:4px}
-
-/* Section Header */
-.section-header{display:flex;justify-content:space-between;align-items:center;padding:0 20px;margin-bottom:12px}
-.section-header h3{font-size:16px;font-weight:900;color:var(--dark)}
-.section-header .see-all{color:var(--gray);font-size:13px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:4px}
-.section-header .see-all i{font-size:10px}
-
-/* Offer Cards */
-.offers-scroll{display:flex;gap:12px;padding:0 20px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;margin-bottom:20px}
-.offers-scroll::-webkit-scrollbar{display:none}
-.offer-card{min-width:260px;background:#fff;border-radius:18px;padding:16px;display:flex;gap:12px;align-items:center;scroll-snap-align:start;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.offer-card .offer-img{width:100px;height:100px;border-radius:14px;overflow:hidden;flex-shrink:0;background:#f5f5f5;display:flex;align-items:center;justify-content:center}
-.offer-card .offer-img img{width:100%;height:100%;object-fit:cover}
-.offer-card .offer-img i{font-size:40px;color:var(--gray)}
-.offer-card .offer-info{flex:1}
-.offer-card .offer-tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;margin-bottom:6px;display:inline-block}
-.offer-card .offer-tag.special{background:#FFF3E0;color:var(--orange)}
-.offer-card .offer-tag.limited{background:#E8F5E9;color:var(--primary)}
-.offer-card .offer-discount{font-size:28px;font-weight:900;margin-bottom:2px}
-.offer-card .offer-discount.orange{color:var(--orange)}
-.offer-card .offer-discount.green{color:var(--primary)}
-.offer-card .offer-desc{font-size:11px;color:var(--gray);margin-bottom:10px}
-.offer-card .offer-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;color:#fff}
-.offer-card .offer-btn.orange{background:linear-gradient(135deg,var(--orange),#FFB74D)}
-.offer-card .offer-btn.green{background:linear-gradient(135deg,var(--primary),#66BB6A)}
-.offer-card .offer-btn i{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:10px}
-
-/* Categories */
-.cats-scroll{display:flex;gap:12px;padding:0 20px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:20px}
-.cats-scroll::-webkit-scrollbar{display:none}
-.cat-item{min-width:70px;text-align:center;cursor:pointer;transition:.2s}
-.cat-item .cat-img{width:64px;height:64px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;border:1px solid #eee;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.cat-item .cat-img img{width:100%;height:100%;object-fit:cover}
-.cat-item .cat-img i{font-size:28px;color:var(--primary)}
-.cat-item .cat-name{font-size:11px;font-weight:700;color:var(--dark)}
-
-/* Featured Products */
-.products-scroll{display:flex;gap:12px;padding:0 20px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:20px}
-.products-scroll::-webkit-scrollbar{display:none}
-.featured-card{min-width:150px;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #eee;cursor:pointer;transition:.2s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.featured-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
-.featured-card .fav-btn{position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:#ccc;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.featured-card .fav-btn.active{color:var(--danger)}
-.featured-card .feat-img{height:120px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.featured-card .feat-img img{width:100%;height:100%;object-fit:cover}
-.featured-card .feat-img i{font-size:36px;color:#ddd}
-
 /* Header */
-.header{background:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.header{background:white;padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
 .header h2{font-size:17px;font-weight:800;flex:1}
 .header-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .header-info .title{font-size:17px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chat-subtitle{font-size:12px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chat-user{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
-.chat-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#66BB6A);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.chat-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#FF8A3D);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.12)}
 .chat-user .header-info{min-width:0}
 .icon-btn{width:40px;height:40px;border-radius:12px;background:var(--light);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--dark);font-size:16px;transition:.2s}
 .icon-btn:hover{background:var(--primary-light);color:var(--primary)}
-.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#66BB6A);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;cursor:pointer}
+.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#FF8A3D);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;cursor:pointer}
 
-/* Section (legacy) */
+
+/* Home */
+.home-shell{padding:14px 0 92px;background:linear-gradient(180deg,#FFF7F1 0%,#FFFFFF 28%,#FFFFFF 100%);min-height:100%}
+.home-hero{
+  margin:0 14px 14px;
+  padding:18px;
+  border-radius:28px;
+  color:white;
+  background:
+    radial-gradient(circle at top right,rgba(255,255,255,.18),transparent 34%),
+    linear-gradient(135deg,#FF6B2E 0%,#FF8A4A 45%,#F5B942 100%);
+  box-shadow:0 18px 40px rgba(255,107,46,.22);
+  position:relative;
+  overflow:hidden;
+}
+.home-hero::after{
+  content:"";
+  position:absolute;
+  inset:auto -40px -55px auto;
+  width:180px;height:180px;border-radius:50%;
+  background:rgba(255,255,255,.10);
+  filter:blur(8px);
+}
+.hero-top{position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.hero-copy{min-width:0;flex:1}
+.home-hero .greet{font-size:13px;opacity:.92;margin-bottom:4px}
+.home-hero .name{font-size:24px;font-weight:900;line-height:1.1;margin-bottom:7px}
+.hero-sub{font-size:13px;line-height:1.6;opacity:.95;max-width:92%}
+.hero-avatar-wrap{position:relative;z-index:1;flex-shrink:0}
+.home-hero .avatar{
+  width:52px;height:52px;
+  border-radius:18px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 10px 25px rgba(0,0,0,.12);
+  backdrop-filter:blur(8px);
+}
+.hero-search{
+  position:relative;z-index:1;
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:18px;
+  padding:14px 15px;
+  display:flex;align-items:center;gap:10px;
+  color:var(--dark);
+  box-shadow:0 12px 26px rgba(47,52,71,.12);
+}
+.hero-search i{color:var(--primary);font-size:16px}
+.hero-search input{
+  border:none;flex:1;font-size:14px;background:transparent;outline:none;font-family:inherit;color:var(--dark)
+}
+.hero-metrics{
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+.hero-metric{
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:10px 12px;
+  backdrop-filter:blur(8px);
+}
+.hero-metric strong{display:block;font-size:14px;font-weight:800;margin-bottom:2px}
+.hero-metric span{display:block;font-size:11px;opacity:.9;line-height:1.4}
+
+.home-hero .search-bar{display:none}
+
+
 .section{padding:0 20px;margin-bottom:20px}
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .section-head h3{font-size:16px;font-weight:800}
@@ -205,54 +172,133 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 .custom-card h4{font-size:15px;font-weight:800;margin-bottom:3px}
 .custom-card p{font-size:12px;opacity:.92}
 
-/* Banners (legacy) */
-.banners{overflow-x:auto;display:flex;gap:12px;padding:4px 0 4px 0;scrollbar-width:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-.banners::-webkit-scrollbar{display:none}
-.banner{min-width:280px;height:130px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#FFB07A,#FF5A1F);scroll-snap-align:start}
-.banner img{width:100%;height:100%;object-fit:cover}
-.banner .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.5));display:flex;align-items:flex-end;padding:14px;color:white;font-weight:700}
+/* Home-specific */
+.home-shell .section{
+  background:white;
+  border:1px solid rgba(232,235,240,.9);
+  border-radius:24px;
+  padding:16px;
+  box-shadow:0 12px 28px rgba(26,29,41,.05);
+  margin-left:14px;
+  margin-right:14px;
+}
+.home-shell .section-head{
+  margin-bottom:14px;
+  align-items:flex-end;
+}
+.home-shell .section-head h3{
+  font-size:16px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.home-shell .section-head h3::before{
+  content:"";
+  width:9px;height:9px;border-radius:50%;
+  background:var(--primary);
+  box-shadow:0 0 0 5px var(--primary-light);
+}
+.home-shell .section-sub{margin-bottom:12px}
 
-/* Stores grid */
-.stores-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.store-card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);cursor:pointer;transition:.2s;border:1px solid var(--border)}
-.store-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
-.store-card .img{height:100px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:32px;overflow:hidden}
-.store-card .img img{width:100%;height:100%;object-fit:cover}
-.store-card .info{padding:10px 12px}
-.store-card h5{font-size:14px;font-weight:700;margin-bottom:3px}
-.store-card p{font-size:11px;color:var(--gray);display:flex;align-items:center;gap:4px}
+.quick-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:0 14px;
+}
+.quick-card{
+  border:none;
+  border-radius:20px;
+  padding:14px;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:92px;
+  box-shadow:0 14px 28px rgba(0,0,0,.08);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.quick-card:active{transform:scale(.985)}
+.quick-card:hover{transform:translateY(-2px)}
+.quick-card .qic{
+  width:42px;height:42px;border-radius:14px;
+  background:rgba(255,255,255,.18);
+  display:grid;place-items:center;
+  font-size:18px;flex-shrink:0;
+}
+.quick-card h4{font-size:14px;font-weight:900;margin-bottom:3px;line-height:1.2}
+.quick-card p{font-size:11px;opacity:.94;line-height:1.45}
+.quick-card.orange{background:linear-gradient(135deg,#FF5A1F 0%,#FF8A5A 100%)}
+.quick-card.blue{background:linear-gradient(135deg,#1E90FF 0%,#43B7FF 100%)}
 
-/* Categories pills (legacy) */
-.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-.cats::-webkit-scrollbar{display:none}
-.cat-pill{padding:8px 14px;background:white;border:1.5px solid var(--border);border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--dark)}
-.cat-pill.active{background:var(--primary);color:white;border-color:var(--primary)}
+.hero-ride{
+  padding:0 14px;
+}
+.hero-ride a{text-decoration:none;display:block}
+.ride-card{
+  border-radius:24px;
+  padding:16px;
+  background:
+    radial-gradient(circle at top right,rgba(255,255,255,.13),transparent 30%),
+    linear-gradient(135deg,#0B5D38 0%,#198754 52%,#1D9A62 100%);
+  color:white;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  box-shadow:0 16px 32px rgba(15,81,50,.24);
+}
+.ride-card .qic{width:48px;height:48px;border-radius:16px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.ride-card h4{font-size:15px;font-weight:900;margin-bottom:4px}
+.ride-card p{font-size:12px;opacity:.92;line-height:1.5}
+.ride-card .arrow{font-size:14px;opacity:.95}
 
-/* Product */
-.product-list{display:flex;flex-direction:column;gap:10px}
-.product{background:white;border-radius:14px;padding:12px;display:flex;gap:12px;border:1px solid var(--border);cursor:pointer}
-.product .img{width:80px;height:80px;border-radius:12px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:22px;overflow:hidden;flex-shrink:0}
-.product .img img{width:100%;height:100%;object-fit:cover}
-.product .info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
-.product h5{font-size:14px;font-weight:700;margin-bottom:3px}
-.product p{font-size:12px;color:var(--gray);margin-bottom:4px;line-height:1.4}
-.product .price{color:var(--primary);font-weight:800;font-size:15px}
-.product .add{width:34px;height:34px;border-radius:10px;background:var(--primary);color:white;border:none;font-size:16px;cursor:pointer;align-self:flex-end}
+#homeScreen .banners{overflow-x:auto;display:flex;gap:12px;padding:4px 0 4px 0;scrollbar-width:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+#homeScreen .banners::-webkit-scrollbar{display:none}
+#homeScreen .banner{min-width:280px;height:150px;border-radius:20px;overflow:hidden;position:relative;background:linear-gradient(135deg,#FFB07A,#FF5A1F);scroll-snap-align:start;box-shadow:0 10px 24px rgba(0,0,0,.08)}
+#homeScreen .banner img{width:100%;height:100%;object-fit:cover}
+#homeScreen .banner .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 42%,rgba(0,0,0,.58));display:flex;align-items:flex-end;padding:16px;color:white;font-weight:800;font-size:15px}
 
-/* Product Grid (2 per row) */
-.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.product-grid-card{background:white;border-radius:16px;border:1px solid var(--border);cursor:pointer;transition:.2s;overflow:hidden;display:flex;flex-direction:column}
-.product-grid-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
-.product-grid-card .pimg{height:130px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:36px;overflow:hidden;position:relative}
-.product-grid-card .pimg img{width:100%;height:100%;object-fit:cover}
-.product-grid-card .pfav{position:absolute;top:8px;left:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#ccc;transition:.2s;z-index:2}
-.product-grid-card .pfav.active{color:#EF4444}
-.product-grid-card .pbody{padding:10px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
-.product-grid-card h5{font-size:13px;font-weight:700;margin-bottom:3px;line-height:1.3}
-.product-grid-card .pdesc{font-size:11px;color:var(--gray);margin-bottom:6px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.product-grid-card .pfoot{display:flex;justify-content:space-between;align-items:center}
-.product-grid-card .pprice{color:var(--primary);font-weight:800;font-size:14px}
-.product-grid-card .padd{width:30px;height:30px;border-radius:9px;background:var(--primary);color:white;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#homeScreen .stores-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#homeScreen .store-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.05);cursor:pointer;transition:.2s;border:1px solid var(--border)}
+#homeScreen .store-card:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,0,0,.09)}
+#homeScreen .store-card .img{height:106px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:32px;overflow:hidden;position:relative}
+#homeScreen .store-card .img img{width:100%;height:100%;object-fit:cover}
+#homeScreen .store-card .info{padding:11px 12px 12px}
+#homeScreen .store-card h5{font-size:14px;font-weight:800;margin-bottom:4px;line-height:1.35}
+#homeScreen .store-card p{font-size:11px;color:var(--gray);display:flex;align-items:center;gap:4px;line-height:1.4}
+
+#homeScreen .cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+#homeScreen .cats::-webkit-scrollbar{display:none}
+#homeScreen .cat-pill{padding:9px 14px;background:#F8FAFC;border:1.5px solid var(--border);border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;color:var(--dark);transition:.2s}
+#homeScreen .cat-pill.active{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 8px 18px rgba(255,90,31,.18)}
+
+#homeScreen .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#homeScreen .product-grid-card{background:white;border-radius:18px;border:1px solid var(--border);cursor:pointer;transition:.2s;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 16px rgba(0,0,0,.04)}
+#homeScreen .product-grid-card:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(0,0,0,.08)}
+#homeScreen .product-grid-card .pimg{height:132px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:36px;overflow:hidden;position:relative}
+#homeScreen .product-grid-card .pimg img{width:100%;height:100%;object-fit:cover}
+#homeScreen .product-grid-card .pfav{position:absolute;top:8px;left:8px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#C7CED7;transition:.2s;z-index:2;box-shadow:0 6px 14px rgba(0,0,0,.08)}
+#homeScreen .product-grid-card .pfav.active{color:#EF4444}
+#homeScreen .product-grid-card .pbody{padding:11px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+#homeScreen .product-grid-card h5{font-size:13px;font-weight:800;margin-bottom:4px;line-height:1.35}
+#homeScreen .product-grid-card .pdesc{font-size:11px;color:var(--gray);margin-bottom:8px;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#homeScreen .product-grid-card .pfoot{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#homeScreen .product-grid-card .pprice{color:var(--primary);font-weight:900;font-size:14px}
+#homeScreen .product-grid-card .padd{width:32px;height:32px;border-radius:10px;background:var(--primary);color:white;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(255,90,31,.22)}
+
+.home-shell .load-more-wrap{padding-top:12px}
+.home-shell .btn-ghost{background:#F8FAFC;border:1px solid var(--border);color:var(--dark)}
+.home-shell .btn-ghost:hover{background:#F1F5F9}
+
+#homeProductsSection{display:none}
+
+@media (max-width:420px){
+  .hero-metrics{grid-template-columns:1fr;gap:8px}
+  .quick-actions{grid-template-columns:1fr}
+  #homeScreen .stores-grid,#homeScreen .product-grid{grid-template-columns:1fr 1fr}
+}
 
 /* Product Detail Screen */
 #productDetailScreen{background:white}
@@ -286,7 +332,7 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 .page-loader i{animation:spin 1s linear infinite}
 
 /* Store header */
-.store-banner{height:160px;position:relative;background:linear-gradient(135deg,var(--primary),#66BB6A);overflow:hidden}
+.store-banner{height:160px;position:relative;background:linear-gradient(135deg,var(--primary),#FF8A3D);overflow:hidden}
 .store-banner img{width:100%;height:100%;object-fit:cover}
 .store-banner .back{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;cursor:pointer}
 .store-info{padding:20px;margin-top:-30px;background:white;border-radius:24px 24px 0 0;position:relative;z-index:2}
@@ -294,10 +340,10 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 .store-info p{color:var(--gray);font-size:13px}
 
 /* Bottom nav */
-.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;padding:8px 0;z-index:40;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,.06)}.nav-item{position:relative}.nav-badge{position:absolute;top:4px;right:16px;min-width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none;z-index:5;box-shadow:0 2px 6px rgba(239,68,68,.35)}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;padding:8px 0;z-index:40;max-width:480px;margin:0 auto}.nav-item{position:relative}.nav-badge{position:absolute;top:4px;right:16px;min-width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none;z-index:5;box-shadow:0 2px 6px rgba(239,68,68,.35)}
 .nav-item.cart-has-badge .nav-badge{display:flex;align-items:center;justify-content:center;padding:0 4px;height:18px;min-width:18px;font-size:10px;line-height:1;font-weight:800}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px;cursor:pointer;color:var(--gray);font-size:11px;font-weight:600;transition:.2s}
-.nav-item i{font-size:20px}
+.nav-item i{font-size:18px}
 .nav-item.active{color:var(--primary)}
 
 /* Cart */
@@ -353,7 +399,7 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 .modal-close{position:absolute;left:20px;top:20px;cursor:pointer;color:var(--gray);font-size:20px}
 
 /* Profile */
-.profile-head{text-align:center;padding:28px 20px 20px;background:linear-gradient(135deg,var(--primary),#66BB6A);color:white;border-bottom-left-radius:28px;border-bottom-right-radius:28px;margin-bottom:16px}
+.profile-head{text-align:center;padding:28px 20px 20px;background:linear-gradient(135deg,var(--primary),#FF8A3D);color:white;border-bottom-left-radius:28px;border-bottom-right-radius:28px;margin-bottom:16px}
 .profile-head .avatar-big{width:80px;height:80px;margin:0 auto 12px;border-radius:50%;background:white;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700}
 .profile-head h3{font-size:18px;font-weight:800;margin-bottom:3px}
 .profile-head p{font-size:13px;opacity:.9}
@@ -379,7 +425,7 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 .toast.success{background:var(--success)}
 .toast.error{background:var(--danger)}
 
-.cart-fab{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:12px 22px;border-radius:100px;box-shadow:0 10px 30px rgba(46,125,50,.4);cursor:pointer;display:none;align-items:center;gap:10px;font-weight:700;font-size:14px;z-index:30;max-width:460px;width:calc(100% - 40px);justify-content:center}
+.cart-fab{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:12px 22px;border-radius:100px;box-shadow:0 10px 30px rgba(255,90,31,.4);cursor:pointer;display:none;align-items:center;gap:10px;font-weight:700;font-size:14px;z-index:30;max-width:460px;width:calc(100% - 40px);justify-content:center}
 .cart-fab.show{display:flex}
 .cart-fab .count{background:white;color:var(--primary);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
 .chat-notif-dot{position:absolute;top:4px;left:4px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none}
@@ -389,178 +435,107 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 <body>
 <div class="app" id="app">
 
+
 <!-- HOME -->
+
 <div id="homeScreen" class="screen">
-  <!-- Top Bar -->
-  <div class="home-top-bar">
-    <div class="avatar-circle" id="homeAvatar" onclick="showScreen('profileScreen')">A</div>
-    <div class="welcome-text">
-      <div class="greet">مرحباً بعودتك</div>
-      <div class="name" id="helloName">Ahmad</div>
-    </div>
-    <button class="notif-btn" onclick="toast('الإشعارات قريباً')">
-      <i class="far fa-bell"></i>
-      <span class="notif-dot"></span>
-    </button>
-  </div>
-
-  <!-- Search Bar -->
-  <div class="home-search-wrap">
-    <div class="home-search-bar">
-      <i class="fas fa-microphone"></i>
-      <input placeholder="ابحث عن متجر أو منتج..." id="searchInput">
-      <i class="fas fa-search"></i>
-    </div>
-  </div>
-
-  <!-- Service Cards Row -->
-  <div class="services-row">
-    <a href="ride.html" style="flex:1;text-decoration:none;display:block">
-      <div class="service-card car">
-        <div class="svc-title">طلب سيارة</div>
-        <div class="svc-desc">توصيل سريع</div>
-        <div class="svc-img"><i class="fas fa-taxi"></i></div>
-        <div class="svc-arrow"><i class="fas fa-arrow-left"></i></div>
+  <div class="home-shell">
+    <div class="home-hero">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <div class="greet">مرحباً بعودتك</div>
+          <div class="name" id="helloName">صديقنا</div>
+          <div class="hero-sub">اطلب من أقرب المتاجر والبقالات مع تجربة أسرع وشكل أنيق يناسب التطبيقات الحديثة.</div>
+        </div>
+        <div class="hero-avatar-wrap">
+          <div class="avatar" id="homeAvatar" onclick="showScreen('profileScreen')">-</div>
+        </div>
       </div>
-    </a>
-    <div class="service-card any" onclick="openCustomOrder()">
-      <div class="svc-title">اطلب أي شيء</div>
-      <div class="svc-desc">من أي مكان</div>
-      <div class="svc-img"><i class="fas fa-shopping-bag"></i></div>
-      <div class="svc-arrow"><i class="fas fa-arrow-left"></i></div>
-    </div>
-    <div class="service-card gas" onclick="openGasOrder()">
-      <div class="svc-title">تبديل غاز</div>
-      <div class="svc-desc">طلبات البيت</div>
-      <div class="svc-img"><i class="fas fa-fire-flame-simple"></i></div>
-      <div class="svc-arrow"><i class="fas fa-arrow-left"></i></div>
-    </div>
-  </div>
 
-  <!-- Promo Banner -->
-  <div class="promo-banner" id="promoBanner">
-    <div class="promo-badge"><i class="fas fa-bolt"></i> توصيل سريع</div>
-    <div class="promo-title">توصيل طلباتك بسرعة وأمان</div>
-    <div class="promo-sub">نصل إليك في أسرع وقت</div>
-    <button class="promo-btn" onclick="showScreen('ordersScreen')"><i class="fas fa-chevron-right"></i> اطلب الآن</button>
-    <div class="promo-scooter"><i class="fas fa-motorcycle"></i></div>
-  </div>
+      <div class="hero-search">
+        <i class="fas fa-search"></i>
+        <input placeholder="ابحث عن متجر أو منتج..." id="searchInput">
+      </div>
 
-  <!-- Banner Dots -->
-  <div class="banner-dots">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-
-  <!-- Exclusive Offers -->
-  <div class="section-header">
-    <h3>عروض حصرية</h3>
-    <div class="see-all" onclick="toast('جميع العروض')">عرض الكل <i class="fas fa-chevron-left"></i></div>
-  </div>
-  <div class="offers-scroll" id="offersList">
-    <div class="offer-card">
-      <div class="offer-img"><i class="fas fa-hamburger"></i></div>
-      <div class="offer-info">
-        <div class="offer-tag special">عرض خاص</div>
-        <div class="offer-discount orange">خصم حتى 50%</div>
-        <div class="offer-desc">على جميع الطلبات</div>
-        <button class="offer-btn orange"><i class="fas fa-chevron-right"></i> اطلب الآن</button>
+      <div class="hero-metrics">
+        <div class="hero-metric">
+          <strong>توصيل سريع</strong>
+          <span>واجهة نظيفة وواضحة</span>
+        </div>
+        <div class="hero-metric">
+          <strong>متاجر متعددة</strong>
+          <span>اختيار أسهل من قبل</span>
+        </div>
+        <div class="hero-metric">
+          <strong>تجربة سلسة</strong>
+          <span>طلبك بخطوات قليلة</span>
+        </div>
       </div>
     </div>
-    <div class="offer-card">
-      <div class="offer-img"><i class="fas fa-pizza-slice"></i></div>
-      <div class="offer-info">
-        <div class="offer-tag limited">عرض محدود</div>
-        <div class="offer-discount green">خصم 30%</div>
-        <div class="offer-desc">على البيتزا</div>
-        <button class="offer-btn green"><i class="fas fa-chevron-right"></i> اطلب الآن</button>
+
+    <!-- PWA Install Bar -->
+    <div class="pwa-install-bar" id="pwaInstallBar">
+      <div class="pwa-ic"><img src="favicon.png" alt="ادبل"></div>
+      <div class="pwa-text">
+        <h4>ثبّت تطبيق ادبل</h4>
+        <p>للوصول السريع من شاشتك الرئيسية</p>
+      </div>
+      <button class="pwa-btn-install" id="pwaInstallBtn">تثبيت</button>
+      <button class="pwa-close" id="pwaCloseBtn"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="quick-actions">
+      <div class="quick-card orange" onclick="openCustomOrder()">
+        <div class="qic"><i class="fas fa-store"></i></div>
+        <div>
+          <h4>اطلب أي شيء</h4>
+          <p>من أقرب بقالة أو متجر قريب</p>
+        </div>
+      </div>
+      <div class="quick-card blue" onclick="openGasOrder()">
+        <div class="qic"><i class="fas fa-fire-flame-simple"></i></div>
+        <div>
+          <h4>تبديل غاز</h4>
+          <p>خدمة سريعة إلى باب البيت</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Categories -->
-  <div class="section-header">
-    <h3>الأقسام</h3>
-    <div class="see-all" onclick="toast('جميع الأقسام')">عرض الكل <i class="fas fa-chevron-left"></i></div>
-  </div>
-  <div class="cats-scroll" id="catsList">
-    <div class="cat-item" data-cat="all">
-      <div class="cat-img"><i class="fas fa-utensils"></i></div>
-      <div class="cat-name">مطاعم</div>
+    <div class="hero-ride">
+      <a href="ride.html">
+        <div class="ride-card">
+          <div class="qic"><i class="fas fa-taxi"></i></div>
+          <div style="flex:1">
+            <h4>طلب سيارة</h4>
+            <p>وصّلك لأي مكان بسهولة وأمان مع واجهة حديثة ومريحة.</p>
+          </div>
+          <i class="fas fa-chevron-left arrow"></i>
+        </div>
+      </a>
     </div>
-    <div class="cat-item" data-cat="supermarket">
-      <div class="cat-img"><i class="fas fa-basket-shopping"></i></div>
-      <div class="cat-name">سوبر ماركت</div>
-    </div>
-    <div class="cat-item" data-cat="pharmacy">
-      <div class="cat-img"><i class="fas fa-pills"></i></div>
-      <div class="cat-name">صيدليات</div>
-    </div>
-    <div class="cat-item" data-cat="vegetables">
-      <div class="cat-img"><i class="fas fa-carrot"></i></div>
-      <div class="cat-name">خضروات وفواكه</div>
-    </div>
-    <div class="cat-item" data-cat="bakery">
-      <div class="cat-img"><i class="fas fa-bread-slice"></i></div>
-      <div class="cat-name">مخبوزات</div>
-    </div>
-  </div>
 
-  <!-- Featured Products -->
-  <div class="section-header">
-    <h3>المنتجات المميزة</h3>
-    <div class="see-all" onclick="toast('جميع المنتجات')">عرض الكل <i class="fas fa-chevron-left"></i></div>
-  </div>
-  <div class="products-scroll" id="featuredProducts">
-    <div class="featured-card" onclick="toast('برجر لذيذ')">
-      <button class="fav-btn" onclick="event.stopPropagation();this.classList.toggle('active')"><i class="far fa-heart"></i></button>
-      <div class="feat-img"><i class="fas fa-hamburger"></i></div>
+    <div class="section" id="bannersSection" style="display:none">
+      <div class="section-head"><h3>عروض حصرية</h3></div>
+      <div class="banners" id="bannersList"></div>
     </div>
-    <div class="featured-card" onclick="toast('موز طازج')">
-      <button class="fav-btn" onclick="event.stopPropagation();this.classList.toggle('active')"><i class="far fa-heart"></i></button>
-      <div class="feat-img"><i class="fas fa-lemon"></i></div>
+
+    <div class="section">
+      <div class="section-head"><h3>الأقسام</h3></div>
+      <div class="cats" id="catsList"><div class="cat-pill active" data-cat="all">الكل</div></div>
     </div>
-    <div class="featured-card" onclick="toast('قهوة مميزة')">
-      <button class="fav-btn" onclick="event.stopPropagation();this.classList.toggle('active')"><i class="far fa-heart"></i></button>
-      <div class="feat-img"><i class="fas fa-mug-hot"></i></div>
+
+    <div class="section">
+      <div class="section-head"><h3>المتاجر المميزة</h3></div>
+      <div class="stores-grid" id="storesList"></div>
+    </div>
+
+    <div class="section" id="homeProductsSection" style="display:none">
+      <div class="section-head"><h3>المنتجات</h3></div>
+      <div class="section-sub">جميع المنتجات مع تحميل تدريجي</div>
+      <div class="product-grid" id="homeProductsList"></div>
+      <div class="load-more-wrap"><button class="btn btn-ghost" id="homeProductsMore" style="display:none">تحميل المزيد</button></div>
     </div>
   </div>
-
-  <!-- PWA Install Bar -->
-  <div class="pwa-install-bar" id="pwaInstallBar">
-    <div class="pwa-ic"><img src="favicon.png" alt="ادبل"></div>
-    <div class="pwa-text">
-      <h4>ثبّت تطبيق ادبل</h4>
-      <p>للوصول السريع من شاشتك الرئيسية</p>
-    </div>
-    <button class="pwa-btn-install" id="pwaInstallBtn">تثبيت</button>
-    <button class="pwa-close" id="pwaCloseBtn"><i class="fas fa-times"></i></button>
-  </div>
-
-  <!-- Legacy sections (hidden by default, populated by JS) -->
-  <div class="section" id="bannersSection" style="display:none">
-    <div class="section-head"><h3>عروض حصرية</h3></div>
-    <div class="banners" id="bannersList"></div>
-  </div>
-
-  <div class="section" style="display:none">
-    <div class="section-head"><h3>الأقسام</h3></div>
-    <div class="cats" id="catsListLegacy"><div class="cat-pill active" data-cat="all">الكل</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-head"><h3>المتاجر المميزة</h3></div>
-    <div class="stores-grid" id="storesList"></div>
-  </div>
-  <div class="section" id="homeProductsSection" style="display:none">
-    <div class="section-head"><h3>المنتجات</h3></div>
-    <div class="section-sub">جميع المنتجات مع تحميل تدريجي</div>
-    <div class="product-grid" id="homeProductsList"></div>
-    <div class="load-more-wrap"><button class="btn btn-ghost" id="homeProductsMore" style="display:none">تحميل المزيد</button></div>
-  </div>
-
 </div>
 
 <!-- STORE DETAIL -->
@@ -821,16 +796,15 @@ body{background:#F5F5F5;color:var(--dark);font-size:15px}
 
 <!-- Bottom Nav -->
 <div class="bottom-nav" id="bottomNav" style="display:none">
-  <div class="nav-item" data-nav="profileScreen"><i class="far fa-user"></i><span>حسابي</span></div>
-  <div class="nav-item" data-nav="cartScreen"><i class="fas fa-basket-shopping"></i><span>السلة</span><span class="nav-badge" id="cartBadge"></span></div>
-  <div class="nav-item" data-nav="ordersScreen"><i class="fas fa-receipt"></i><span>طلباتي</span><span class="nav-badge" id="ordersBadge"></span></div>
   <div class="nav-item active" data-nav="homeScreen"><i class="fas fa-house"></i><span>الرئيسية</span></div>
+  <div class="nav-item" data-nav="ordersScreen"><i class="fas fa-receipt"></i><span>طلباتي</span><span class="nav-badge" id="ordersBadge"></span></div>
+  <div class="nav-item" data-nav="cartScreen"><i class="fas fa-basket-shopping"></i><span>السلة</span><span class="nav-badge" id="cartBadge"></span></div>
+  <div class="nav-item" data-nav="profileScreen"><i class="far fa-user"></i><span>حسابي</span></div>
 </div>
 
 </div>
 <div class="toast" id="toast"></div>
 
-<script type="module">
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
