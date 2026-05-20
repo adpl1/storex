@@ -48,7 +48,11 @@ body{background:white;color:var(--dark);font-size:15px}
 .pwa-install-bar .pwa-btn-install{background:#F5C842;color:#1A1D29;border:none;border-radius:10px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
 .pwa-install-bar .pwa-close{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.12);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
 
-/* Auth */
+
+/* =======================================================
+   CSS - الدخول والتسجيل
+   ======================================================= */
+
 .auth-screen{background:linear-gradient(160deg,#F5C842 0%,#F0D060 50%,#F7E08A 100%);padding:40px 24px;padding-bottom:40px;display:flex;flex-direction:column;justify-content:center;min-height:100dvh}
 #homeScreen{background:white}
 #storeScreen,#cartScreen,#checkoutScreen,#customScreen,#ordersScreen,#orderDetailScreen,#chatScreen,#profileScreen,#productDetailScreen,#favoritesScreen{background:white}
@@ -77,7 +81,11 @@ body{background:white;color:var(--dark);font-size:15px}
 .err{background:#FEF2F2;color:var(--danger);padding:10px;border-radius:10px;font-size:13px;margin-bottom:12px;display:none}
 .err.show{display:block}
 
-/* Header */
+
+/* =======================================================
+   CSS - الرأس العام
+   ======================================================= */
+
 .header{background:white;padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
 .header h2{font-size:17px;font-weight:800;flex:1}
 .header-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
@@ -91,216 +99,447 @@ body{background:white;color:var(--dark);font-size:15px}
 .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#FF8A3D);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;cursor:pointer}
 
 
-/* Home */
-.home-shell{padding:14px 0 92px;background:linear-gradient(180deg,#FFF7F1 0%,#FFFFFF 28%,#FFFFFF 100%);min-height:100%}
+/* =======================================================
+   CSS - الصفحة الرئيسية
+   ======================================================= */
+/* =========================
+   MODERN DELIVERY HOME UI
+========================= */
+
 .home-hero{
-  margin:0 14px 14px;
-  padding:18px;
-  border-radius:28px;
-  color:white;
-  background:
-    radial-gradient(circle at top right,rgba(255,255,255,.18),transparent 34%),
-    linear-gradient(135deg,#FF6B2E 0%,#FF8A4A 45%,#F5B942 100%);
-  box-shadow:0 18px 40px rgba(255,107,46,.22);
-  position:relative;
-  overflow:hidden;
+    position:relative;
+    overflow:hidden;
+    padding:24px 20px 120px;
+    background:
+    radial-gradient(circle at top right,rgba(255,255,255,.18),transparent 30%),
+    linear-gradient(135deg,#10B981 0%,#059669 45%,#047857 100%);
+    border-bottom-left-radius:34px;
+    border-bottom-right-radius:34px;
+    margin-bottom:85px;
+    box-shadow:0 14px 35px rgba(5,150,105,.28);
 }
+
+.home-hero::before{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    background:rgba(255,255,255,.06);
+    border-radius:50%;
+    top:-90px;
+    right:-60px;
+}
+
 .home-hero::after{
-  content:"";
-  position:absolute;
-  inset:auto -40px -55px auto;
-  width:180px;height:180px;border-radius:50%;
-  background:rgba(255,255,255,.10);
-  filter:blur(8px);
-}
-.hero-top{position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
-.hero-copy{min-width:0;flex:1}
-.home-hero .greet{font-size:13px;opacity:.92;margin-bottom:4px}
-.home-hero .name{font-size:24px;font-weight:900;line-height:1.1;margin-bottom:7px}
-.hero-sub{font-size:13px;line-height:1.6;opacity:.95;max-width:92%}
-.hero-avatar-wrap{position:relative;z-index:1;flex-shrink:0}
-.home-hero .avatar{
-  width:52px;height:52px;
-  border-radius:18px;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:0 10px 25px rgba(0,0,0,.12);
-  backdrop-filter:blur(8px);
-}
-.hero-search{
-  position:relative;z-index:1;
-  background:rgba(255,255,255,.96);
-  border:1px solid rgba(255,255,255,.45);
-  border-radius:18px;
-  padding:14px 15px;
-  display:flex;align-items:center;gap:10px;
-  color:var(--dark);
-  box-shadow:0 12px 26px rgba(47,52,71,.12);
-}
-.hero-search i{color:var(--primary);font-size:16px}
-.hero-search input{
-  border:none;flex:1;font-size:14px;background:transparent;outline:none;font-family:inherit;color:var(--dark)
-}
-.hero-metrics{
-  position:relative;z-index:1;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-top:14px;
-}
-.hero-metric{
-  background:rgba(255,255,255,.13);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:18px;
-  padding:10px 12px;
-  backdrop-filter:blur(8px);
-}
-.hero-metric strong{display:block;font-size:14px;font-weight:800;margin-bottom:2px}
-.hero-metric span{display:block;font-size:11px;opacity:.9;line-height:1.4}
-
-.home-hero .search-bar{display:none}
-
-
-.section{padding:0 20px;margin-bottom:20px}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.section-head h3{font-size:16px;font-weight:800}
-.section-head a{color:var(--primary);font-size:13px;cursor:pointer;font-weight:600}
-
-/* Custom order card */
-.custom-card{background:linear-gradient(135deg,#1E90FF,#4FC3F7);color:white;padding:18px;border-radius:18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 8px 24px rgba(30,144,255,.25)}
-.custom-card .ic{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.custom-card h4{font-size:15px;font-weight:800;margin-bottom:3px}
-.custom-card p{font-size:12px;opacity:.92}
-
-/* Home-specific */
-.home-shell .section{
-  background:white;
-  border:1px solid rgba(232,235,240,.9);
-  border-radius:24px;
-  padding:16px;
-  box-shadow:0 12px 28px rgba(26,29,41,.05);
-  margin-left:14px;
-  margin-right:14px;
-}
-.home-shell .section-head{
-  margin-bottom:14px;
-  align-items:flex-end;
-}
-.home-shell .section-head h3{
-  font-size:16px;
-  font-weight:900;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.home-shell .section-head h3::before{
-  content:"";
-  width:9px;height:9px;border-radius:50%;
-  background:var(--primary);
-  box-shadow:0 0 0 5px var(--primary-light);
-}
-.home-shell .section-sub{margin-bottom:12px}
-
-.quick-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  padding:0 14px;
-}
-.quick-card{
-  border:none;
-  border-radius:20px;
-  padding:14px;
-  color:white;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-height:92px;
-  box-shadow:0 14px 28px rgba(0,0,0,.08);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.quick-card:active{transform:scale(.985)}
-.quick-card:hover{transform:translateY(-2px)}
-.quick-card .qic{
-  width:42px;height:42px;border-radius:14px;
-  background:rgba(255,255,255,.18);
-  display:grid;place-items:center;
-  font-size:18px;flex-shrink:0;
-}
-.quick-card h4{font-size:14px;font-weight:900;margin-bottom:3px;line-height:1.2}
-.quick-card p{font-size:11px;opacity:.94;line-height:1.45}
-.quick-card.orange{background:linear-gradient(135deg,#FF5A1F 0%,#FF8A5A 100%)}
-.quick-card.blue{background:linear-gradient(135deg,#1E90FF 0%,#43B7FF 100%)}
-
-.hero-ride{
-  padding:0 14px;
-}
-.hero-ride a{text-decoration:none;display:block}
-.ride-card{
-  border-radius:24px;
-  padding:16px;
-  background:
-    radial-gradient(circle at top right,rgba(255,255,255,.13),transparent 30%),
-    linear-gradient(135deg,#0B5D38 0%,#198754 52%,#1D9A62 100%);
-  color:white;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  box-shadow:0 16px 32px rgba(15,81,50,.24);
-}
-.ride-card .qic{width:48px;height:48px;border-radius:16px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:22px;flex-shrink:0}
-.ride-card h4{font-size:15px;font-weight:900;margin-bottom:4px}
-.ride-card p{font-size:12px;opacity:.92;line-height:1.5}
-.ride-card .arrow{font-size:14px;opacity:.95}
-
-#homeScreen .banners{overflow-x:auto;display:flex;gap:12px;padding:4px 0 4px 0;scrollbar-width:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-#homeScreen .banners::-webkit-scrollbar{display:none}
-#homeScreen .banner{min-width:280px;height:150px;border-radius:20px;overflow:hidden;position:relative;background:linear-gradient(135deg,#FFB07A,#FF5A1F);scroll-snap-align:start;box-shadow:0 10px 24px rgba(0,0,0,.08)}
-#homeScreen .banner img{width:100%;height:100%;object-fit:cover}
-#homeScreen .banner .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 42%,rgba(0,0,0,.58));display:flex;align-items:flex-end;padding:16px;color:white;font-weight:800;font-size:15px}
-
-#homeScreen .stores-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-#homeScreen .store-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.05);cursor:pointer;transition:.2s;border:1px solid var(--border)}
-#homeScreen .store-card:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,0,0,.09)}
-#homeScreen .store-card .img{height:106px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:32px;overflow:hidden;position:relative}
-#homeScreen .store-card .img img{width:100%;height:100%;object-fit:cover}
-#homeScreen .store-card .info{padding:11px 12px 12px}
-#homeScreen .store-card h5{font-size:14px;font-weight:800;margin-bottom:4px;line-height:1.35}
-#homeScreen .store-card p{font-size:11px;color:var(--gray);display:flex;align-items:center;gap:4px;line-height:1.4}
-
-#homeScreen .cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-#homeScreen .cats::-webkit-scrollbar{display:none}
-#homeScreen .cat-pill{padding:9px 14px;background:#F8FAFC;border:1.5px solid var(--border);border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;color:var(--dark);transition:.2s}
-#homeScreen .cat-pill.active{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 8px 18px rgba(255,90,31,.18)}
-
-#homeScreen .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-#homeScreen .product-grid-card{background:white;border-radius:18px;border:1px solid var(--border);cursor:pointer;transition:.2s;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 16px rgba(0,0,0,.04)}
-#homeScreen .product-grid-card:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(0,0,0,.08)}
-#homeScreen .product-grid-card .pimg{height:132px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:36px;overflow:hidden;position:relative}
-#homeScreen .product-grid-card .pimg img{width:100%;height:100%;object-fit:cover}
-#homeScreen .product-grid-card .pfav{position:absolute;top:8px;left:8px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#C7CED7;transition:.2s;z-index:2;box-shadow:0 6px 14px rgba(0,0,0,.08)}
-#homeScreen .product-grid-card .pfav.active{color:#EF4444}
-#homeScreen .product-grid-card .pbody{padding:11px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
-#homeScreen .product-grid-card h5{font-size:13px;font-weight:800;margin-bottom:4px;line-height:1.35}
-#homeScreen .product-grid-card .pdesc{font-size:11px;color:var(--gray);margin-bottom:8px;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-#homeScreen .product-grid-card .pfoot{display:flex;justify-content:space-between;align-items:center;gap:8px}
-#homeScreen .product-grid-card .pprice{color:var(--primary);font-weight:900;font-size:14px}
-#homeScreen .product-grid-card .padd{width:32px;height:32px;border-radius:10px;background:var(--primary);color:white;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(255,90,31,.22)}
-
-.home-shell .load-more-wrap{padding-top:12px}
-.home-shell .btn-ghost{background:#F8FAFC;border:1px solid var(--border);color:var(--dark)}
-.home-shell .btn-ghost:hover{background:#F1F5F9}
-
-#homeProductsSection{display:none}
-
-@media (max-width:420px){
-  .hero-metrics{grid-template-columns:1fr;gap:8px}
-  .quick-actions{grid-template-columns:1fr}
-  #homeScreen .stores-grid,#homeScreen .product-grid{grid-template-columns:1fr 1fr}
+    content:"";
+    position:absolute;
+    width:160px;
+    height:160px;
+    background:rgba(255,255,255,.05);
+    border-radius:50%;
+    bottom:-70px;
+    left:-40px;
 }
 
-/* Product Detail Screen */
+.home-hero .greet{
+    font-size:13px;
+    color:rgba(255,255,255,.8);
+    margin-bottom:4px;
+    position:relative;
+    z-index:2;
+}
+
+.home-hero .name{
+    font-size:28px;
+    font-weight:900;
+    color:white;
+    margin-bottom:20px;
+    position:relative;
+    z-index:2;
+    letter-spacing:-.5px;
+}
+
+.search-bar{
+    position:absolute;
+    left:20px;
+    right:20px;
+    bottom:-28px;
+    background:white;
+    border-radius:22px;
+    padding:15px 18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    box-shadow:
+    0 10px 35px rgba(0,0,0,.08),
+    0 2px 10px rgba(0,0,0,.04);
+    z-index:10;
+}
+
+.search-bar i{
+    color:#10B981;
+    font-size:18px;
+}
+
+.search-bar input{
+    border:none;
+    background:transparent;
+    flex:1;
+    outline:none;
+    font-size:14px;
+    font-weight:600;
+    color:#111827;
+    font-family:inherit;
+}
+
+/* =========================
+   GENERAL SECTION
+========================= */
+
+.section{
+    padding:0 18px;
+    margin-bottom:28px;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+}
+
+.section-head h3{
+    font-size:18px;
+    font-weight:900;
+    color:#111827;
+    letter-spacing:-.3px;
+}
+
+.section-head a{
+    font-size:13px;
+    color:#10B981;
+    font-weight:700;
+    text-decoration:none;
+}
+
+/* =========================
+   SPECIAL SERVICE CARD
+========================= */
+
+.custom-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#111827,#1F2937);
+    border-radius:24px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    cursor:pointer;
+    box-shadow:0 15px 35px rgba(17,24,39,.18);
+}
+
+.custom-card::before{
+    content:"";
+    position:absolute;
+    width:130px;
+    height:130px;
+    background:rgba(255,255,255,.04);
+    border-radius:50%;
+    top:-40px;
+    right:-30px;
+}
+
+.custom-card .ic{
+    width:58px;
+    height:58px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#10B981,#34D399);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:24px;
+    flex-shrink:0;
+    box-shadow:0 8px 20px rgba(16,185,129,.35);
+}
+
+.custom-card h4{
+    font-size:17px;
+    color:white;
+    font-weight:800;
+    margin-bottom:4px;
+}
+
+.custom-card p{
+    color:rgba(255,255,255,.7);
+    font-size:12px;
+    line-height:1.5;
+}
+
+/* =========================
+   MODERN BANNERS
+========================= */
+
+.banners{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    scroll-snap-type:x mandatory;
+    padding-bottom:4px;
+}
+
+.banners::-webkit-scrollbar{
+    display:none;
+}
+
+.banner{
+    min-width:300px;
+    height:150px;
+    border-radius:26px;
+    overflow:hidden;
+    position:relative;
+    scroll-snap-align:start;
+    background:#111827;
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:scale(1.03);
+}
+
+.banner .overlay{
+    position:absolute;
+    inset:0;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.75));
+}
+
+.banner .overlay h4{
+    color:white;
+    font-size:18px;
+    font-weight:900;
+    margin-bottom:4px;
+}
+
+.banner .overlay p{
+    color:rgba(255,255,255,.85);
+    font-size:12px;
+}
+
+/* =========================
+   CATEGORIES
+========================= */
+
+.cats{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    padding-bottom:4px;
+}
+
+.cats::-webkit-scrollbar{
+    display:none;
+}
+
+.cat-pill{
+    padding:10px 18px;
+    border-radius:100px;
+    background:#F3F4F6;
+    color:#374151;
+    border:none;
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    transition:.2s;
+    cursor:pointer;
+}
+
+.cat-pill.active{
+    background:linear-gradient(135deg,#10B981,#059669);
+    color:white;
+    box-shadow:0 6px 18px rgba(16,185,129,.25);
+}
+
+/* =========================
+   STORES GRID
+========================= */
+
+.stores-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.store-card{
+    background:white;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid #F1F5F9;
+    transition:.25s;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(15,23,42,.04);
+}
+
+.store-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 14px 28px rgba(15,23,42,.08);
+}
+
+.store-card .img{
+    height:120px;
+    position:relative;
+    overflow:hidden;
+}
+
+.store-card .img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.store-card .info{
+    padding:14px;
+}
+
+.store-card h5{
+    font-size:15px;
+    font-weight:800;
+    color:#111827;
+    margin-bottom:6px;
+}
+
+.store-card p{
+    font-size:12px;
+    color:#6B7280;
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.product-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.product-grid-card{
+    background:white;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid #EEF2F7;
+    transition:.25s;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,.04);
+}
+
+.product-grid-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+}
+
+.product-grid-card .pimg{
+    height:145px;
+    position:relative;
+    overflow:hidden;
+    background:#F8FAFC;
+}
+
+.product-grid-card .pimg img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.product-grid-card .pfav{
+    position:absolute;
+    top:10px;
+    left:10px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(8px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:15px;
+    color:#D1D5DB;
+    transition:.2s;
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.product-grid-card .pfav.active{
+    color:#EF4444;
+}
+
+.product-grid-card .pbody{
+    padding:14px;
+}
+
+.product-grid-card h5{
+    font-size:14px;
+    font-weight:800;
+    color:#111827;
+    margin-bottom:5px;
+    line-height:1.4;
+}
+
+.product-grid-card .pdesc{
+    font-size:11px;
+    color:#6B7280;
+    line-height:1.5;
+    margin-bottom:10px;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+}
+
+.product-grid-card .pfoot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.product-grid-card .pprice{
+    font-size:16px;
+    font-weight:900;
+    color:#10B981;
+}
+
+.product-grid-card .padd{
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#10B981,#059669);
+    color:white;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(16,185,129,.25);
+}
+/* =======================================================
+   CSS - صفحة تفاصيل المنتج
+   ======================================================= */
+
 #productDetailScreen{background:white}
 .pdetail-img{height:280px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:64px;overflow:hidden;position:relative}
 .pdetail-img img{width:100%;height:100%;object-fit:cover}
@@ -317,7 +556,11 @@ body{background:white;color:var(--dark);font-size:15px}
 .pdetail-add{padding:15px;background:var(--primary);color:white;border:none;border-radius:14px;width:100%;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
 .pdetail-add:hover{background:var(--primary-dark)}
 
-/* Favorites Screen */
+
+/* =======================================================
+   CSS - صفحة المفضلة
+   ======================================================= */
+
 #favoritesScreen{background:white}
 .fav-empty{text-align:center;padding:60px 20px;color:var(--gray)}
 .fav-empty i{font-size:54px;color:var(--border);margin-bottom:14px}
@@ -331,7 +574,11 @@ body{background:white;color:var(--dark);font-size:15px}
 .page-loader.show{display:flex}
 .page-loader i{animation:spin 1s linear infinite}
 
-/* Store header */
+
+/* =======================================================
+   CSS - رأس صفحة المتجر
+   ======================================================= */
+
 .store-banner{height:160px;position:relative;background:linear-gradient(135deg,var(--primary),#FF8A3D);overflow:hidden}
 .store-banner img{width:100%;height:100%;object-fit:cover}
 .store-banner .back{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -339,14 +586,22 @@ body{background:white;color:var(--dark);font-size:15px}
 .store-info h3{font-size:19px;font-weight:800;margin-bottom:4px}
 .store-info p{color:var(--gray);font-size:13px}
 
-/* Bottom nav */
+
+/* =======================================================
+   CSS - شريط التنقل السفلي
+   ======================================================= */
+
 .bottom-nav{position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;padding:8px 0;z-index:40;max-width:480px;margin:0 auto}.nav-item{position:relative}.nav-badge{position:absolute;top:4px;right:16px;min-width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none;z-index:5;box-shadow:0 2px 6px rgba(239,68,68,.35)}
 .nav-item.cart-has-badge .nav-badge{display:flex;align-items:center;justify-content:center;padding:0 4px;height:18px;min-width:18px;font-size:10px;line-height:1;font-weight:800}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px;cursor:pointer;color:var(--gray);font-size:11px;font-weight:600;transition:.2s}
 .nav-item i{font-size:18px}
 .nav-item.active{color:var(--primary)}
 
-/* Cart */
+
+/* =======================================================
+   CSS - صفحة السلة
+   ======================================================= */
+
 .cart-item{background:white;padding:12px;border-radius:14px;margin-bottom:10px;display:flex;gap:10px;align-items:center;border:1px solid var(--border)}
 .cart-item .img{width:56px;height:56px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary);overflow:hidden;flex-shrink:0}
 .cart-item .img img{width:100%;height:100%;object-fit:cover}
@@ -361,7 +616,11 @@ body{background:white;color:var(--dark);font-size:15px}
 .total-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
 .total-row.big{font-size:17px;font-weight:800;border-top:1px dashed var(--border);padding-top:10px;margin-top:10px}
 
-/* Orders */
+
+/* =======================================================
+   CSS - صفحة الطلبات
+   ======================================================= */
+
 .order-card{background:white;padding:14px;border-radius:14px;margin-bottom:10px;border:1px solid var(--border);cursor:pointer}
 .order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .order-head h5{font-size:14px;font-weight:700}
@@ -373,12 +632,20 @@ body{background:white;color:var(--dark);font-size:15px}
 .badge.cancelled{background:#FEE2E2;color:#991B1B}
 .order-card p{font-size:12px;color:var(--gray);margin-bottom:4px}
 
-/* Map */
+
+/* =======================================================
+   CSS - الخريطة
+   ======================================================= */
+
 #map,#orderMap{height:260px;width:100%;border-radius:16px;margin-bottom:12px;z-index:1}
 .map-note{background:var(--primary-light);color:var(--primary-dark);padding:10px 14px;border-radius:12px;font-size:12px;margin-bottom:12px;display:flex;gap:8px;align-items:center}
 
 #chatScreen{padding-bottom:0!important;overflow:hidden}
-/* Chat */
+
+/* =======================================================
+   CSS - صفحة المحادثة
+   ======================================================= */
+
 .chat-container{display:flex;flex-direction:column;position:absolute;top:86px;bottom:0;left:0;right:0;overflow:hidden}
 .chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--light)}
 .msg{max-width:75%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.5;word-wrap:break-word}.msg img{max-width:100%;border-radius:12px;display:block;margin-top:6px}
@@ -389,7 +656,11 @@ body{background:white;color:var(--dark);font-size:15px}
 .chat-input input{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:100px;font-size:14px;font-family:inherit;outline:none}
 .chat-input button{width:44px;height:44px;border-radius:50%;background:var(--primary);color:white;border:none;cursor:pointer;font-size:16px}
 
-/* Modal */
+
+/* =======================================================
+   CSS - النوافذ المنبثقة
+   ======================================================= */
+
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:100}
 .modal.show{display:flex;animation:fadeIn .2s}
 .modal-content{position:relative;background:white;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:22px;max-height:85vh;overflow-y:auto;animation:slideUp .3s}
@@ -398,7 +669,11 @@ body{background:white;color:var(--dark);font-size:15px}
 .modal h3{font-size:17px;font-weight:800;margin-bottom:14px}
 .modal-close{position:absolute;left:20px;top:20px;cursor:pointer;color:var(--gray);font-size:20px}
 
-/* Profile */
+
+/* =======================================================
+   CSS - صفحة الحساب
+   ======================================================= */
+
 .profile-head{text-align:center;padding:28px 20px 20px;background:linear-gradient(135deg,var(--primary),#FF8A3D);color:white;border-bottom-left-radius:28px;border-bottom-right-radius:28px;margin-bottom:16px}
 .profile-head .avatar-big{width:80px;height:80px;margin:0 auto 12px;border-radius:50%;background:white;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700}
 .profile-head h3{font-size:18px;font-weight:800;margin-bottom:3px}
@@ -436,109 +711,92 @@ body{background:white;color:var(--dark);font-size:15px}
 <div class="app" id="app">
 
 
-<!-- HOME -->
+
+<!-- ===================================================== -->
+<!-- ================= الصفحة الرئيسية ================= -->
+<!-- ===================================================== -->
 
 <div id="homeScreen" class="screen">
-  <div class="home-shell">
-    <div class="home-hero">
-      <div class="hero-top">
-        <div class="hero-copy">
-          <div class="greet">مرحباً بعودتك</div>
-          <div class="name" id="helloName">صديقنا</div>
-          <div class="hero-sub">اطلب من أقرب المتاجر والبقالات مع تجربة أسرع وشكل أنيق يناسب التطبيقات الحديثة.</div>
-        </div>
-        <div class="hero-avatar-wrap">
-          <div class="avatar" id="homeAvatar" onclick="showScreen('profileScreen')">-</div>
+  <div class="home-hero">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div><div class="greet">مرحباً بعودتك</div><div class="name" id="helloName">صديقنا</div></div>
+      <div class="avatar" id="homeAvatar" onclick="showScreen('profileScreen')">-</div>
+    </div>
+    <div class="search-bar"><i class="fas fa-search" style="color:var(--gray)"></i><input placeholder="ابحث عن متجر أو منتج..." id="searchInput"></div>
+  </div>
+
+  <!-- PWA Install Bar -->
+  <div class="pwa-install-bar" id="pwaInstallBar">
+    <div class="pwa-ic"><img src="favicon.png" alt="ادبل"></div>
+    <div class="pwa-text">
+      <h4>ثبّت تطبيق ادبل</h4>
+      <p>للوصول السريع من شاشتك الرئيسية</p>
+    </div>
+    <button class="pwa-btn-install" id="pwaInstallBtn">تثبيت</button>
+    <button class="pwa-close" id="pwaCloseBtn"><i class="fas fa-times"></i></button>
+  </div>
+
+  <div class="section">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div onclick="openCustomOrder()" style="background:linear-gradient(135deg,#FF5A1F,#FF8A5A);border-radius:14px;padding:10px 12px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 6px 16px rgba(255,90,31,.22)">
+        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:16px;flex-shrink:0"><i class="fas fa-store"></i></div>
+        <div style="min-width:0">
+          <h4 style="font-size:13px;font-weight:800;margin-bottom:2px">اطلب أي شيء</h4>
+          <p style="font-size:10.5px;opacity:.92">من أقرب بقالة</p>
         </div>
       </div>
-
-      <div class="hero-search">
-        <i class="fas fa-search"></i>
-        <input placeholder="ابحث عن متجر أو منتج..." id="searchInput">
-      </div>
-
-      <div class="hero-metrics">
-        <div class="hero-metric">
-          <strong>توصيل سريع</strong>
-          <span>واجهة نظيفة وواضحة</span>
-        </div>
-        <div class="hero-metric">
-          <strong>متاجر متعددة</strong>
-          <span>اختيار أسهل من قبل</span>
-        </div>
-        <div class="hero-metric">
-          <strong>تجربة سلسة</strong>
-          <span>طلبك بخطوات قليلة</span>
+      <div onclick="openGasOrder()" style="background:linear-gradient(135deg,#1E90FF,#3FB5FF);border-radius:14px;padding:10px 12px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 6px 16px rgba(30,144,255,.22)">
+        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:16px;flex-shrink:0"><i class="fas fa-fire-flame-simple"></i></div>
+        <div style="min-width:0">
+          <h4 style="font-size:13px;font-weight:800;margin-bottom:2px">تبديل غاز</h4>
+          <p style="font-size:10.5px;opacity:.92">لباب البيت</p>
         </div>
       </div>
-    </div>
-
-    <!-- PWA Install Bar -->
-    <div class="pwa-install-bar" id="pwaInstallBar">
-      <div class="pwa-ic"><img src="favicon.png" alt="ادبل"></div>
-      <div class="pwa-text">
-        <h4>ثبّت تطبيق ادبل</h4>
-        <p>للوصول السريع من شاشتك الرئيسية</p>
-      </div>
-      <button class="pwa-btn-install" id="pwaInstallBtn">تثبيت</button>
-      <button class="pwa-close" id="pwaCloseBtn"><i class="fas fa-times"></i></button>
-    </div>
-
-    <div class="quick-actions">
-      <div class="quick-card orange" onclick="openCustomOrder()">
-        <div class="qic"><i class="fas fa-store"></i></div>
-        <div>
-          <h4>اطلب أي شيء</h4>
-          <p>من أقرب بقالة أو متجر قريب</p>
-        </div>
-      </div>
-      <div class="quick-card blue" onclick="openGasOrder()">
-        <div class="qic"><i class="fas fa-fire-flame-simple"></i></div>
-        <div>
-          <h4>تبديل غاز</h4>
-          <p>خدمة سريعة إلى باب البيت</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-ride">
-      <a href="ride.html">
-        <div class="ride-card">
-          <div class="qic"><i class="fas fa-taxi"></i></div>
-          <div style="flex:1">
-            <h4>طلب سيارة</h4>
-            <p>وصّلك لأي مكان بسهولة وأمان مع واجهة حديثة ومريحة.</p>
-          </div>
-          <i class="fas fa-chevron-left arrow"></i>
-        </div>
-      </a>
-    </div>
-
-    <div class="section" id="bannersSection" style="display:none">
-      <div class="section-head"><h3>عروض حصرية</h3></div>
-      <div class="banners" id="bannersList"></div>
-    </div>
-
-    <div class="section">
-      <div class="section-head"><h3>الأقسام</h3></div>
-      <div class="cats" id="catsList"><div class="cat-pill active" data-cat="all">الكل</div></div>
-    </div>
-
-    <div class="section">
-      <div class="section-head"><h3>المتاجر المميزة</h3></div>
-      <div class="stores-grid" id="storesList"></div>
-    </div>
-
-    <div class="section" id="homeProductsSection" style="display:none">
-      <div class="section-head"><h3>المنتجات</h3></div>
-      <div class="section-sub">جميع المنتجات مع تحميل تدريجي</div>
-      <div class="product-grid" id="homeProductsList"></div>
-      <div class="load-more-wrap"><button class="btn btn-ghost" id="homeProductsMore" style="display:none">تحميل المزيد</button></div>
     </div>
   </div>
+
+  <!-- خدماتنا -->
+  <div class="section">
+    <a href="ride.html" style="text-decoration:none;display:block">
+      <div style="background:linear-gradient(135deg,#0F5132 0%,#198754 50%,#1B7A4D 100%);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 8px 24px rgba(15,81,50,.28)">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;color:#fff;flex-shrink:0"><i class="fas fa-taxi"></i></div>
+        <div style="flex:1">
+          <h4 style="font-size:15px;font-weight:800;color:#fff;margin-bottom:3px">طلب سيارة</h4>
+          <p style="font-size:12px;color:rgba(255,255,255,.85)">وصّلك لأي مكان بسهولة وأمان</p>
+        </div>
+        <i class="fas fa-chevron-left" style="font-size:14px;color:#fff"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="section" id="bannersSection" style="display:none">
+    <div class="section-head"><h3>عروض حصرية</h3></div>
+    <div class="banners" id="bannersList"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h3>الأقسام</h3></div>
+    <div class="cats" id="catsList"><div class="cat-pill active" data-cat="all">الكل</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h3>المتاجر المميزة</h3></div>
+    <div class="stores-grid" id="storesList"></div>
+  </div>
+  <div class="section" id="homeProductsSection" style="display:none">
+    <div class="section-head"><h3>المنتجات</h3></div>
+    <div class="section-sub">جميع المنتجات مع تحميل تدريجي</div>
+    <div class="product-grid" id="homeProductsList"></div>
+    <div class="load-more-wrap"><button class="btn btn-ghost" id="homeProductsMore" style="display:none">تحميل المزيد</button></div>
+  </div>
+
 </div>
 
-<!-- STORE DETAIL -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة المتجر ================= -->
+<!-- ===================================================== -->
+
 <div id="storeScreen" class="screen">
   <div class="store-banner" id="storeBanner">
     <div class="back" onclick="showScreen('homeScreen')"><i class="fas fa-chevron-right"></i></div>
@@ -555,7 +813,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- CART -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة السلة ================= -->
+<!-- ===================================================== -->
+
 <div id="cartScreen" class="screen">
   <div class="header">
     <button class="icon-btn" onclick="showScreen('homeScreen')"><i class="fas fa-chevron-right"></i></button>
@@ -578,7 +840,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- CHECKOUT -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة تأكيد الطلب ================= -->
+<!-- ===================================================== -->
+
 <div id="checkoutScreen" class="screen">
   <div class="header">
     <button class="icon-btn" onclick="showScreen('cartScreen')"><i class="fas fa-chevron-right"></i></button>
@@ -610,7 +876,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- CUSTOM ORDER -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة اطلب أي شيء من أقرب بقالة ================= -->
+<!-- ===================================================== -->
+
 <div id="customScreen" class="screen">
   <div class="header">
     <button class="icon-btn" onclick="showScreen('homeScreen')"><i class="fas fa-chevron-right"></i></button>
@@ -646,7 +916,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- GAS ORDER -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة تبديل الغاز ================= -->
+<!-- ===================================================== -->
+
 <div id="gasScreen" class="screen">
   <div class="header">
     <button class="icon-btn" onclick="showScreen('homeScreen')"><i class="fas fa-chevron-right"></i></button>
@@ -672,7 +946,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- ORDERS -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة طلباتي ================= -->
+<!-- ===================================================== -->
+
 <div id="ordersScreen" class="screen">
   <div class="header"><h2>طلباتي</h2></div>
   <div style="padding:16px">
@@ -680,7 +958,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- ORDER DETAIL -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة تفاصيل الطلب ================= -->
+<!-- ===================================================== -->
+
 <div id="orderDetailScreen" class="screen">
   <div class="header">
     <button class="icon-btn" onclick="showScreen('ordersScreen')"><i class="fas fa-chevron-right"></i></button>
@@ -690,7 +972,11 @@ body{background:white;color:var(--dark);font-size:15px}
   <div style="padding:16px" id="orderDetailBody"></div>
 </div>
 
-<!-- CHAT -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة المحادثة ================= -->
+<!-- ===================================================== -->
+
 <div id="chatScreen" class="screen">
   <div class="header">
     <button class="icon-btn" onclick="showScreen('orderDetailScreen')"><i class="fas fa-chevron-right"></i></button>
@@ -711,7 +997,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- PRODUCT DETAIL -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة تفاصيل المنتج ================= -->
+<!-- ===================================================== -->
+
 <div id="productDetailScreen" class="screen">
   <div style="position:relative">
     <div class="pdetail-img" id="pdetailImg"><i class="fas fa-box" id="pdetailImgIcon"></i></div>
@@ -728,7 +1018,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- FAVORITES -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة المفضلة ================= -->
+<!-- ===================================================== -->
+
 <div id="favoritesScreen" class="screen">
   <div class="header">
     <button class="icon-btn" onclick="showScreen('profileScreen')"><i class="fas fa-chevron-right"></i></button>
@@ -744,7 +1038,11 @@ body{background:white;color:var(--dark);font-size:15px}
   </div>
 </div>
 
-<!-- PROFILE -->
+
+<!-- ===================================================== -->
+<!-- ================= صفحة حسابي ================= -->
+<!-- ===================================================== -->
+
 <div id="profileScreen" class="screen">
   <div class="profile-head">
     <div class="avatar-big" id="profAvatar">-</div>
@@ -827,6 +1125,9 @@ setPersistence(auth, browserLocalPersistence).catch(()=>{});
 
 let currentUser=null, userData=null, cart=[], currentStore=null, storeProducts=[], allStores=[], allBanners=[], homeProducts=[], currentOrder=null, chatUnsub=null, ordersUnsub=null, orderDetailUnsub=null, pickedLocation=null, customPickedLocation=null, mapInstance=null, customMapInstance=null, activeMarker=null, customMarker=null, bannerTimer=null, bannerIndex=0, deliveryEstimate={fee:0,km:0,courier:null}, homeProductsPage=1, homeProductsPageSize=8, storeProductsPage=1, storeProductsPageSize=8, ordersPage=1, ordersPageSize=6, courierWatchId=null;
 
+// =======================================================
+// JS - الإعدادات العامة والمراجع المشتركة
+// =======================================================
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 window.$ = $;
@@ -895,6 +1196,9 @@ onAuthStateChanged(auth, async (user)=>{
   }
 });
 
+// =======================================================
+// JS - إعدادات الدخول والتشغيل
+// =======================================================
 async function loadSettings(){
   try{
     const s = await getDoc(doc(db,'settings','main'));
@@ -917,6 +1221,9 @@ function initApp(){
   subscribeOrders();
 }
 
+// =======================================================
+// JS - الصفحة الرئيسية
+// =======================================================
 async function loadHome(){
   // Banners
   try{
@@ -1018,6 +1325,9 @@ function renderStores(filter='all'){
 if(navigator.geolocation){ navigator.geolocation.getCurrentPosition(p=>{ window._userLoc={lat:p.coords.latitude,lng:p.coords.longitude}; },()=>{},{maximumAge:60000}); }
 
 
+// =======================================================
+// JS - منتجات الصفحة الرئيسية
+// =======================================================
 function renderHomeProducts(){
   const section = $('#homeProductsSection');
   const listEl = $('#homeProductsList');
@@ -1052,6 +1362,9 @@ if(document.getElementById('homeProductsMore')) document.getElementById('homePro
 
 $('#searchInput').addEventListener('input', ()=>{ const a=document.querySelector('#catsList .cat-pill.active'); renderStores(a?a.dataset.cat:'all'); renderHomeProducts(); });
 
+// =======================================================
+// JS - صفحة المتجر
+// =======================================================
 async function openStore(id){
   const store = allStores.find(s=>s.id===id); if(!store) return;
   currentStore = store;
@@ -1111,10 +1424,15 @@ function renderProducts(cat){
 }
 
 
-// === Favorites System ===
+// =======================================================
+// JS - المفضلة
+// =======================================================
 function loadFavs(){ try{ return JSON.parse(localStorage.getItem('_favs')||'{}'); }catch(e){ return {}; } }
 function saveFavs(favs){ try{ localStorage.setItem('_favs',JSON.stringify(favs)); }catch(e){} }
 
+// =======================================================
+// JS - المفضلة والاختصارات
+// =======================================================
 window.toggleFav = (id, btn) => {
   const favs = loadFavs();
   if(favs[id]){ delete favs[id]; btn&&btn.classList.remove('active'); toast('تمت الإزالة من المفضلة'); }
