@@ -287,6 +287,78 @@ body{background:white;color:var(--dark);font-size:15px}
 .cart-fab .count{background:white;color:var(--primary);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
 .chat-notif-dot{position:absolute;top:4px;left:4px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none}
 .chat-notif-dot.show{display:block}
+
+/* ===== NEW HOME DESIGN ===== */
+.new-home-header{padding:18px 18px 8px;display:flex;align-items:center;justify-content:space-between;background:white}
+.nh-right{display:flex;align-items:center;gap:12px}
+.nh-bell{position:relative;width:42px;height:42px;border-radius:14px;background:#E8F8EE;color:#1FA260;display:grid;place-items:center;font-size:17px;cursor:pointer;flex-shrink:0}
+.nh-bell .dot{position:absolute;top:8px;left:8px;width:9px;height:9px;border-radius:50%;background:#EF4444;border:2px solid #E8F8EE}
+.nh-greet{line-height:1.25}
+.nh-greet .small{font-size:12px;color:var(--gray)}
+.nh-greet .big{font-size:17px;font-weight:800;color:var(--dark)}
+.nh-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#FF7A3D,#FF5A1F);color:white;display:grid;place-items:center;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 6px 16px rgba(255,90,31,.28)}
+
+.nh-search-wrap{padding:6px 18px 16px;background:white}
+.nh-search{background:#F4F5F8;border-radius:16px;padding:13px 16px;display:flex;align-items:center;gap:12px}
+.nh-search .ic-search{color:var(--gray);font-size:15px}
+.nh-search input{flex:1;border:none;background:transparent;outline:none;font-size:14px;font-family:inherit;color:var(--dark)}
+.nh-search input::placeholder{color:#9AA3B2}
+.nh-search .ic-mic{color:var(--primary);font-size:16px;cursor:pointer;width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:rgba(255,90,31,.12)}
+
+.qs-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 18px;margin-bottom:18px}
+.qs-card{position:relative;border-radius:18px;padding:12px 10px 44px;min-height:140px;cursor:pointer;overflow:hidden;display:flex;flex-direction:column}
+.qs-card h5{font-size:13px;font-weight:800;color:var(--dark);line-height:1.2;margin-bottom:3px}
+.qs-card p{font-size:10.5px;color:var(--gray);font-weight:600}
+.qs-card .qs-img{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);font-size:38px;opacity:.95}
+.qs-card .qs-btn{position:absolute;bottom:10px;left:10px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:white;font-size:11px;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.qs-blue{background:#E6F2FF}
+.qs-blue .qs-img{color:#1E90FF}
+.qs-blue .qs-btn{background:#1E90FF}
+.qs-orange{background:#FFEDE2}
+.qs-orange .qs-img{color:#FF5A1F}
+.qs-orange .qs-btn{background:#FF5A1F}
+.qs-green{background:#E4F7EC}
+.qs-green .qs-img{color:#1FA260}
+.qs-green .qs-btn{background:#1FA260}
+
+.promo-banner{margin:0 18px 12px;border-radius:22px;padding:18px 18px;background:linear-gradient(135deg,#1FA260 0%,#16A34A 60%,#0F7A45 100%);color:white;position:relative;overflow:hidden;min-height:158px;display:flex;align-items:center}
+.promo-banner::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.18),transparent 45%),radial-gradient(circle at 10% 90%,rgba(255,255,255,.10),transparent 40%);pointer-events:none}
+.promo-banner::after{content:"";position:absolute;right:-30px;bottom:-30px;width:160px;height:160px;border-radius:50%;border:30px solid rgba(255,255,255,.06)}
+.promo-text{flex:1;position:relative;z-index:2;min-width:0}
+.promo-flash{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:100px;margin-bottom:8px}
+.promo-text h3{font-size:18px;font-weight:900;line-height:1.3;margin-bottom:4px}
+.promo-text .sub{font-size:12px;opacity:.92;margin-bottom:12px}
+.promo-cta{display:inline-flex;align-items:center;gap:8px;background:white;color:#0F7A45;padding:8px 8px 8px 16px;border-radius:100px;font-size:13px;font-weight:800;border:none;cursor:pointer;font-family:inherit}
+.promo-cta .arrow{width:26px;height:26px;border-radius:50%;background:#0F7A45;color:white;display:grid;place-items:center;font-size:11px}
+.promo-img{position:relative;z-index:2;font-size:72px;flex-shrink:0;filter:drop-shadow(0 8px 14px rgba(0,0,0,.25))}
+.promo-dots{display:flex;justify-content:center;gap:6px;margin-bottom:18px}
+.promo-dot{width:6px;height:6px;border-radius:50%;background:#D4DCE5;transition:.2s}
+.promo-dot.active{width:18px;border-radius:100px;background:#1FA260}
+
+.offers-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px}
+.offer-card{background:white;border-radius:18px;padding:12px;border:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,.04);display:flex;flex-direction:column;gap:8px}
+.offer-card .ocimg{width:100%;height:90px;border-radius:14px;display:grid;place-items:center;font-size:42px}
+.offer-card .otag{font-size:10.5px;font-weight:700;color:var(--gray)}
+.offer-card .otitle{font-size:13px;font-weight:800;line-height:1.35;color:var(--dark);min-height:36px}
+.offer-card .obtn{margin-top:2px;border:none;color:white;padding:9px 12px;border-radius:12px;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit}
+.offer-pizza .ocimg{background:linear-gradient(135deg,#FFE4B5,#FFC78A);color:#C2410C}
+.offer-pizza .obtn{background:#1FA260}
+.offer-burger .ocimg{background:linear-gradient(135deg,#FFE4D6,#FFB68A);color:#9A3412}
+.offer-burger .obtn{background:#FF5A1F}
+
+.cats-row{display:flex;gap:12px;overflow-x:auto;padding:4px 18px 6px;scrollbar-width:none}
+.cats-row::-webkit-scrollbar{display:none}
+.cat-tile{flex:0 0 72px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.cat-tile .cticon{width:64px;height:64px;border-radius:18px;background:white;border:1px solid var(--border);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+.cat-tile .ctname{font-size:11.5px;font-weight:700;color:var(--dark);text-align:center;line-height:1.2}
+.cat-tile.c-bake .cticon{color:#D97706;background:#FFF7E6}
+.cat-tile.c-veg .cticon{color:#16A34A;background:#E8F8EE}
+.cat-tile.c-pharm .cticon{color:#DC2626;background:#FEE7E7}
+.cat-tile.c-mart .cticon{color:#2563EB;background:#E6F0FF}
+.cat-tile.c-rest .cticon{color:#EA580C;background:#FFEDE2}
+
+#catsList{display:none}
+#storesSectionWrap{display:none}
 </style>
 </head>
 <body>
@@ -295,12 +367,29 @@ body{background:white;color:var(--dark);font-size:15px}
 
 <!-- HOME -->
 <div id="homeScreen" class="screen">
-  <div class="home-hero">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <div><div class="greet">مرحباً بعودتك</div><div class="name" id="helloName">صديقنا</div></div>
-      <div class="avatar" id="homeAvatar" onclick="showScreen('profileScreen')">-</div>
+
+  <!-- 1. Header -->
+  <div class="new-home-header">
+    <div class="nh-right">
+      <div class="nh-bell" onclick="showScreen('ordersScreen')" aria-label="الإشعارات">
+        <i class="fas fa-bell"></i>
+        <span class="dot"></span>
+      </div>
+      <div class="nh-greet">
+        <div class="small">مرحباً بعودتك</div>
+        <div class="big" id="helloName">صديقنا</div>
+      </div>
     </div>
-    <div class="search-bar"><i class="fas fa-search" style="color:var(--gray)"></i><input placeholder="ابحث عن متجر أو منتج..." id="searchInput"></div>
+    <div class="nh-avatar" id="homeAvatar" onclick="showScreen('profileScreen')">A</div>
+  </div>
+
+  <!-- 2. Search Bar -->
+  <div class="nh-search-wrap">
+    <div class="nh-search">
+      <i class="fas fa-search ic-search"></i>
+      <input placeholder="ابحث عن متجر أو منتج..." id="searchInput">
+      <div class="ic-mic" onclick="showToast && showToast('البحث الصوتي قريباً')"><i class="fas fa-microphone"></i></div>
+    </div>
   </div>
 
   <!-- PWA Install Bar -->
@@ -314,56 +403,102 @@ body{background:white;color:var(--dark);font-size:15px}
     <button class="pwa-close" id="pwaCloseBtn"><i class="fas fa-times"></i></button>
   </div>
 
-  <div class="section">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div onclick="openCustomOrder()" style="background:linear-gradient(135deg,#FF5A1F,#FF8A5A);border-radius:14px;padding:10px 12px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 6px 16px rgba(255,90,31,.22)">
-        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:16px;flex-shrink:0"><i class="fas fa-store"></i></div>
-        <div style="min-width:0">
-          <h4 style="font-size:13px;font-weight:800;margin-bottom:2px">اطلب أي شيء</h4>
-          <p style="font-size:10.5px;opacity:.92">من أقرب بقالة</p>
-        </div>
-      </div>
-      <div onclick="openGasOrder()" style="background:linear-gradient(135deg,#1E90FF,#3FB5FF);border-radius:14px;padding:10px 12px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 6px 16px rgba(30,144,255,.22)">
-        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:16px;flex-shrink:0"><i class="fas fa-fire-flame-simple"></i></div>
-        <div style="min-width:0">
-          <h4 style="font-size:13px;font-weight:800;margin-bottom:2px">تبديل غاز</h4>
-          <p style="font-size:10.5px;opacity:.92">لباب البيت</p>
-        </div>
-      </div>
+  <!-- 3. Quick Services -->
+  <div class="qs-row">
+    <div class="qs-card qs-blue" onclick="openGasOrder()">
+      <h5>تبديل غاز</h5>
+      <p>طلبات البيت</p>
+      <div class="qs-img"><i class="fas fa-fire-flame-simple"></i></div>
+      <div class="qs-btn"><i class="fas fa-arrow-left"></i></div>
+    </div>
+    <div class="qs-card qs-orange" onclick="openCustomOrder()">
+      <h5>اطلب أي شيء</h5>
+      <p>من أي مكان</p>
+      <div class="qs-img"><i class="fas fa-bag-shopping"></i></div>
+      <div class="qs-btn"><i class="fas fa-arrow-left"></i></div>
+    </div>
+    <div class="qs-card qs-green" onclick="location.href='ride.html'">
+      <h5>طلب سيارة</h5>
+      <p>توصيل سريع</p>
+      <div class="qs-img"><i class="fas fa-car-side"></i></div>
+      <div class="qs-btn"><i class="fas fa-arrow-left"></i></div>
     </div>
   </div>
 
-  <!-- خدماتنا -->
-  <div class="section">
-    <a href="ride.html" style="text-decoration:none;display:block">
-      <div style="background:linear-gradient(135deg,#0F5132 0%,#198754 50%,#1B7A4D 100%);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 8px 24px rgba(15,81,50,.28)">
-        <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;color:#fff;flex-shrink:0"><i class="fas fa-taxi"></i></div>
-        <div style="flex:1">
-          <h4 style="font-size:15px;font-weight:800;color:#fff;margin-bottom:3px">طلب سيارة</h4>
-          <p style="font-size:12px;color:rgba(255,255,255,.85)">وصّلك لأي مكان بسهولة وأمان</p>
-        </div>
-        <i class="fas fa-chevron-left" style="font-size:14px;color:#fff"></i>
-      </div>
-    </a>
+  <!-- 4. Promo Banner -->
+  <div class="promo-banner">
+    <div class="promo-text">
+      <span class="promo-flash"><i class="fas fa-bolt"></i> توصيل سريع</span>
+      <h3>توصيل طلباتك بسرعة وأمان</h3>
+      <div class="sub">نصل إليك في أسرع وقت</div>
+      <button class="promo-cta" onclick="openCustomOrder()">
+        اطلب الآن
+        <span class="arrow"><i class="fas fa-arrow-left"></i></span>
+      </button>
+    </div>
+    <div class="promo-img"><i class="fas fa-motorcycle"></i></div>
+  </div>
+  <div class="promo-dots">
+    <span class="promo-dot active"></span>
+    <span class="promo-dot"></span>
+    <span class="promo-dot"></span>
+    <span class="promo-dot"></span>
   </div>
 
+  <!-- 5. Exclusive Offers -->
+  <div class="section">
+    <div class="section-head">
+      <h3>عروض حصرية</h3>
+      <a onclick="showScreen('homeScreen')">عرض الكل <i class="fas fa-chevron-left" style="font-size:10px"></i></a>
+    </div>
+  </div>
+  <div class="offers-row" style="margin-bottom:20px">
+    <div class="offer-card offer-pizza">
+      <div class="ocimg"><i class="fas fa-pizza-slice"></i></div>
+      <div class="otag">عرض محدود</div>
+      <div class="otitle">خصم 30% على البيتزا</div>
+      <button class="obtn" onclick="openCustomOrder()">اطلب الآن <i class="fas fa-arrow-left"></i></button>
+    </div>
+    <div class="offer-card offer-burger">
+      <div class="ocimg"><i class="fas fa-burger"></i></div>
+      <div class="otag">عرض خاص</div>
+      <div class="otitle">خصم حتى 50% على جميع الطلبات</div>
+      <button class="obtn" onclick="openCustomOrder()">اطلب الآن <i class="fas fa-arrow-left"></i></button>
+    </div>
+  </div>
+
+  <!-- 6. Categories -->
+  <div class="section">
+    <div class="section-head">
+      <h3>الأقسام</h3>
+      <a onclick="showScreen('homeScreen')">عرض الكل <i class="fas fa-chevron-left" style="font-size:10px"></i></a>
+    </div>
+  </div>
+  <div class="cats-row" style="margin-bottom:20px">
+    <div class="cat-tile c-bake"><div class="cticon"><i class="fas fa-bread-slice"></i></div><div class="ctname">مخبوزات</div></div>
+    <div class="cat-tile c-veg"><div class="cticon"><i class="fas fa-apple-whole"></i></div><div class="ctname">خضروات وفواكه</div></div>
+    <div class="cat-tile c-pharm"><div class="cticon"><i class="fas fa-pills"></i></div><div class="ctname">صيدليات</div></div>
+    <div class="cat-tile c-mart"><div class="cticon"><i class="fas fa-basket-shopping"></i></div><div class="ctname">سوبر ماركت</div></div>
+    <div class="cat-tile c-rest"><div class="cticon"><i class="fas fa-burger"></i></div><div class="ctname">مطاعم</div></div>
+  </div>
+
+  <!-- Dynamic banners (kept for admin-added banners) -->
   <div class="section" id="bannersSection" style="display:none">
-    <div class="section-head"><h3>عروض حصرية</h3></div>
+    <div class="section-head"><h3>عروض إضافية</h3></div>
     <div class="banners" id="bannersList"></div>
   </div>
 
-  <div class="section">
-    <div class="section-head"><h3>الأقسام</h3></div>
-    <div class="cats" id="catsList"><div class="cat-pill active" data-cat="all">الكل</div></div>
-  </div>
+  <!-- Hidden dynamic categories filter (kept for JS compatibility) -->
+  <div id="catsList"><div class="cat-pill active" data-cat="all">الكل</div></div>
 
-  <div class="section">
-    <div class="section-head"><h3>المتاجر المميزة</h3></div>
+  <!-- Hidden stores list (kept for JS compatibility) -->
+  <div id="storesSectionWrap">
     <div class="stores-grid" id="storesList"></div>
   </div>
+
+  <!-- 7. Featured Products -->
   <div class="section" id="homeProductsSection" style="display:none">
-    <div class="section-head"><h3>المنتجات</h3></div>
-    <div class="section-sub">جميع المنتجات مع تحميل تدريجي</div>
+    <div class="section-head"><h3>المنتجات المميزة</h3></div>
     <div class="product-grid" id="homeProductsList"></div>
     <div class="load-more-wrap"><button class="btn btn-ghost" id="homeProductsMore" style="display:none">تحميل المزيد</button></div>
   </div>
