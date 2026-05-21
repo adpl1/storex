@@ -38,591 +38,59 @@ body{background:white;color:var(--dark);font-size:15px}
 
 
 /* PWA Install Button */
-/* =========================
-   HOME SCREEN MODERN UI
-========================= */
-
-#homeScreen{
-  background:#F6F7FB;
-}
-
-.home-page{
-  min-height:100%;
-  padding-bottom:92px;
-  background:#F6F7FB;
-}
-
-.home-top{
-  padding:18px 18px 14px;
-  background:linear-gradient(180deg,#FFFFFF 0%,#F6F7FB 100%);
-}
-
-.home-status{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.status-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.home-avatar{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#FF9F1C,#F97316);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  font-weight:800;
-  box-shadow:0 10px 24px rgba(249,115,22,.22);
-  cursor:pointer;
-  flex-shrink:0;
-}
-
-.notif-btn{
-  width:42px;
-  height:42px;
-  border:none;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 8px 20px rgba(15,23,42,.06);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  color:#0F172A;
-  cursor:pointer;
-}
-
-.notif-dot{
-  position:absolute;
-  top:8px;
-  right:9px;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#EF4444;
-  box-shadow:0 0 0 3px #fff;
-}
-
-.welcome-box{
-  text-align:right;
-}
-
-.welcome-sub{
-  font-size:12px;
-  color:#6B7280;
-  margin-bottom:2px;
-}
-
-.welcome-name{
-  font-size:20px;
-  font-weight:900;
-  color:#111827;
-  line-height:1.1;
-}
-
-.hero-search{
-  background:#fff;
-  border:1px solid #EEF2F7;
-  border-radius:22px;
-  padding:14px 16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  box-shadow:0 12px 30px rgba(15,23,42,.05);
-}
-
-.hero-search input{
-  flex:1;
-  border:none;
-  outline:none;
-  background:transparent;
-  font-family:inherit;
-  font-size:14px;
-  color:#111827;
-}
-
-.hero-search input::placeholder{
-  color:#A0A6B2;
-}
-
-.search-mic,
-.search-icon{
-  font-size:18px;
-  color:#6B7280;
-  flex-shrink:0;
-}
-
-.section{
-  padding:0 18px;
-  margin-bottom:22px;
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-}
-
-.section-head h3{
-  font-size:17px;
-  font-weight:900;
-  color:#111827;
-}
-
-.section-head a{
-  font-size:13px;
-  color:#16A34A;
-  font-weight:700;
-  cursor:pointer;
-  text-decoration:none;
-}
-
-.section-sub{
-  font-size:12px;
-  color:#6B7280;
-  margin-top:-4px;
-  margin-bottom:10px;
-}
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.quick-card{
-  min-height:112px;
-  border-radius:22px;
-  padding:14px 12px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  position:relative;
-  overflow:hidden;
-  cursor:pointer;
-  box-shadow:0 10px 24px rgba(15,23,42,.05);
-}
-
-.quick-green{ background:#EAF7EF; }
-.quick-orange{ background:#FFF0E4; }
-.quick-blue{ background:#EAF4FF; }
-
-.quick-title{
-  font-size:15px;
-  font-weight:900;
-  line-height:1.2;
-  margin-bottom:4px;
-}
-
-.quick-sub{
-  font-size:12px;
-  color:#475569;
-}
-
-.quick-green .quick-title{ color:#15803D; }
-.quick-orange .quick-title{ color:#F97316; }
-.quick-blue .quick-title{ color:#2563EB; }
-
-.quick-ic{
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  align-self:flex-end;
-  font-size:14px;
-}
-
-.quick-green .quick-ic{ background:#16A34A; }
-.quick-orange .quick-ic{ background:#F97316; }
-.quick-blue .quick-ic{ background:#3B82F6; }
-
-.promo-card{
-  background:linear-gradient(135deg,#2FAE60 0%,#1E9E57 55%,#17824A 100%);
-  border-radius:28px;
-  padding:20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  box-shadow:0 18px 34px rgba(16,185,129,.20);
-  position:relative;
-  overflow:hidden;
-}
-
-.promo-card::before{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:rgba(255,255,255,.09);
-  top:-55px;
-  left:-60px;
-}
-
-.promo-copy{
-  flex:1;
-  color:#fff;
-  z-index:2;
-}
-
-.promo-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:12px;
-  font-weight:700;
-  opacity:.95;
-  margin-bottom:10px;
-}
-
-.promo-copy h2{
-  font-size:22px;
-  line-height:1.45;
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.promo-copy p{
-  font-size:13px;
-  opacity:.9;
-  margin-bottom:14px;
-}
-
-.promo-btn{
-  border:none;
-  background:rgba(255,255,255,.18);
-  color:#fff;
-  padding:12px 16px;
-  border-radius:16px;
-  font-family:inherit;
-  font-size:14px;
-  font-weight:800;
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  cursor:pointer;
-  backdrop-filter:blur(8px);
-}
-
-.promo-btn span{
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  background:#fff;
-  color:#166534;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.promo-visual{
-  width:132px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:2;
-}
-
-.promo-circle{
-  width:118px;
-  height:118px;
-  border-radius:50%;
-  background:rgba(255,255,255,.18);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:46px;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
-}
-
-.promo-dots{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin-top:12px;
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#D1D5DB;
-}
-
-.dot.active{
-  width:20px;
-  border-radius:999px;
-  background:#16A34A;
-}
-
-.banners{
-  display:flex;
-  gap:12px;
-  overflow-x:auto;
-  scrollbar-width:none;
-  scroll-snap-type:x mandatory;
-  padding-bottom:4px;
-}
-
-.banners::-webkit-scrollbar{
-  display:none;
-}
-
-.banner{
-  min-width:290px;
-  height:132px;
-  border-radius:22px;
-  overflow:hidden;
-  position:relative;
-  scroll-snap-align:start;
-  box-shadow:0 12px 26px rgba(15,23,42,.08);
-}
-
-.banner img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.banner .overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.55));
-  display:flex;
-  align-items:flex-end;
-  padding:14px;
-  color:#fff;
-  font-weight:800;
-  font-size:14px;
-}
-
-.cats{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding-bottom:4px;
-  scrollbar-width:none;
-}
-
-.cats::-webkit-scrollbar{
-  display:none;
-}
-
-.cat-pill{
-  padding:10px 16px;
-  background:#fff;
-  border:1px solid #E8ECF3;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:700;
-  white-space:nowrap;
-  cursor:pointer;
-  color:#111827;
-  box-shadow:0 6px 18px rgba(15,23,42,.04);
-}
-
-.cat-pill.active{
-  background:linear-gradient(135deg,#16A34A,#15803D);
-  color:#fff;
-  border-color:#16A34A;
-  box-shadow:0 10px 20px rgba(22,163,74,.18);
-}
-
-.offers-grid{
-  display:grid;
-  grid-template-columns:1.3fr .9fr;
-  gap:12px;
-}
-
-.offer-card{
-  border-radius:24px;
-  padding:18px;
-  min-height:180px;
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:stretch;
-  justify-content:space-between;
-  box-shadow:0 12px 28px rgba(15,23,42,.06);
-}
-
-.offer-large{
-  background:linear-gradient(135deg,#FFF8E7 0%,#FFF1D7 100%);
-}
-
-.offer-small{
-  background:#FFFFFF;
-  border:1px solid #EEF2F7;
-}
-
-.offer-text{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  flex:1;
-}
-
-.offer-kicker{
-  font-size:12px;
-  color:#B45309;
-  font-weight:800;
-  margin-bottom:8px;
-}
-
-.offer-kicker.green{
-  color:#15803D;
-}
-
-.offer-text h4{
-  font-size:20px;
-  font-weight:900;
-  color:#111827;
-  line-height:1.2;
-  margin-bottom:6px;
-}
-
-.offer-text p{
-  font-size:13px;
-  color:#6B7280;
-  margin-bottom:16px;
-}
-
-.offer-text button{
-  align-self:flex-start;
-  border:none;
-  background:#F97316;
-  color:#fff;
-  padding:10px 16px;
-  border-radius:14px;
-  font-family:inherit;
-  font-size:13px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.offer-text button.green-btn{
-  background:#16A34A;
-}
-
-.offer-art{
-  width:96px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:60px;
-  opacity:.95;
-}
-
-.offer-large .offer-art{
-  width:120px;
-}
-
-.offer-large .offer-art.burger{
-  align-self:flex-end;
-}
-
-.offer-small .offer-art.pizza{
-  align-self:flex-end;
-  font-size:52px;
-}
-
-#homeProductsSection{
-  display:block;
-}
-
-#homeProductsList{
-  display:flex;
-  gap:12px;
-  overflow-x:auto;
-  padding-bottom:6px;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-
-#homeProductsList::-webkit-scrollbar{
-  display:none;
-}
-
-#homeProductsList .product-grid-card{
-  min-width:160px;
-  width:160px;
-  scroll-snap-align:start;
-}
-
-#homeProductsList .product-grid-card .pimg{
-  height:120px;
-}
-
-#homeProductsList .product-grid-card h5{
-  font-size:12.5px;
-}
-
-#homeProductsList .product-grid-card .pdesc{
-  -webkit-line-clamp:2;
-}
-
-#homeProductsList .product-grid-card .pprice{
-  font-size:13px;
-}
-
-#homeProductsList .product-grid-card .padd{
-  width:28px;
-  height:28px;
-  border-radius:9px;
-}
-
-#homeProductsMore{
-  width:100%;
-  margin-top:10px;
-  border-radius:14px;
-}
-
-.stores-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.store-card{
-  background:#fff;
-  border-radius:22px;
-  overflow:hidden;
-  border:1px solid #EEF2F7;
-  box-shadow:0 8px 20px rgba(15,23,42,.04);
-}
-
-.store-card .img{
-  height:104px;
-}
-
-.store-card .info{
-  padding:10px 12px 12px;
-}
-
-.store-card h5{
-  font-size:14px;
-}
-
-.store-card p{
-  font-size:11px;
-}
+.pwa-install-bar{display:none;align-items:center;gap:12px;background:linear-gradient(135deg,#1A1D29,#2D3250);color:white;padding:14px 20px;margin:0 20px 16px;border-radius:16px;cursor:pointer;box-shadow:0 8px 24px rgba(26,29,41,.25);animation:fadeIn .4s}
+.pwa-install-bar.show{display:flex}
+.pwa-install-bar .pwa-ic{width:44px;height:44px;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.pwa-install-bar .pwa-ic img{width:100%;height:100%;object-fit:cover}
+.pwa-install-bar .pwa-text{flex:1}
+.pwa-install-bar .pwa-text h4{font-size:14px;font-weight:800;margin-bottom:2px}
+.pwa-install-bar .pwa-text p{font-size:11px;opacity:.75}
+.pwa-install-bar .pwa-btn-install{background:#F5C842;color:#1A1D29;border:none;border-radius:10px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.pwa-install-bar .pwa-close{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.12);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
+
+/* Auth */
+.auth-screen{background:linear-gradient(160deg,#F5C842 0%,#F0D060 50%,#F7E08A 100%);padding:40px 24px;padding-bottom:40px;display:flex;flex-direction:column;justify-content:center;min-height:100dvh}
+#homeScreen{background:white}
+#storeScreen,#cartScreen,#checkoutScreen,#customScreen,#ordersScreen,#orderDetailScreen,#chatScreen,#profileScreen,#productDetailScreen,#favoritesScreen{background:white}
+.auth-logo{width:120px;height:120px;margin:0 auto 20px;border-radius:30px;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 40px rgba(0,0,0,.2);overflow:hidden}
+.auth-logo img{width:100%;height:100%;object-fit:cover}
+.auth-logo i{font-size:60px;color:var(--primary)}
+.auth-title{text-align:center;color:#1A1D29;font-size:28px;font-weight:900;margin-bottom:8px}
+.auth-sub{text-align:center;color:rgba(26,29,41,.75);margin-bottom:32px;font-size:14px}
+.auth-card{background:white;border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.tabs{display:flex;background:var(--light);border-radius:14px;padding:4px;margin-bottom:20px}
+.tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-weight:600;color:var(--gray);cursor:pointer;transition:.2s;font-size:14px}
+.tab.active{background:white;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;color:var(--gray);margin-bottom:6px;font-weight:600}
+.input-wrap{position:relative}
+.input-wrap i{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:14px}
+.input,.textarea,.select{width:100%;padding:13px 40px 13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:white;transition:.2s}
+.input:focus,.textarea:focus,.select:focus{outline:none;border-color:var(--primary);background:var(--primary-light)}
+.textarea{min-height:80px;resize:vertical;padding:13px 14px}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--primary);color:white}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-outline{background:white;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-ghost{background:var(--light);color:var(--dark)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.err{background:#FEF2F2;color:var(--danger);padding:10px;border-radius:10px;font-size:13px;margin-bottom:12px;display:none}
+.err.show{display:block}
+
+/* Header */
+.header{background:white;padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.header h2{font-size:17px;font-weight:800;flex:1}
+.header-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.header-info .title{font-size:17px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-subtitle{font-size:12px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-user{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.chat-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#FF8A3D);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.chat-user .header-info{min-width:0}
+.icon-btn{width:40px;height:40px;border-radius:12px;background:var(--light);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--dark);font-size:16px;transition:.2s}
+.icon-btn:hover{background:var(--primary-light);color:var(--primary)}
+.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#FF8A3D);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;cursor:pointer}
+
+/* Home */
 .home-hero{background:linear-gradient(135deg,#F5D565 0%,#E7B93A 100%);padding:16px 20px 14px;color:white;border-bottom-left-radius:24px;border-bottom-right-radius:24px;margin-bottom:16px}
 .home-hero .greet{font-size:13px;opacity:.9}
 .home-hero .name{font-size:20px;font-weight:800;margin-bottom:14px}
@@ -819,444 +287,87 @@ body{background:white;color:var(--dark);font-size:15px}
 .cart-fab .count{background:white;color:var(--primary);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
 .chat-notif-dot{position:absolute;top:4px;left:4px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none}
 .chat-notif-dot.show{display:block}
-/* ========= HOME SCREEN MODERN ========= */
-#homeScreen {
-  background: #f5f7fb;
-}
-
-.home-page {
-  padding-bottom: 85px;
-}
-
-/* top header */
-.home-top {
-  background: #ffffff;
-  padding: 20px 18px 16px;
-  border-bottom-left-radius: 28px;
-  border-bottom-right-radius: 28px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.02);
-}
-
-.user-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.user-info .hello-text {
-  font-size: 13px;
-  color: #8e9aaf;
-  margin-bottom: 4px;
-}
-
-.user-name {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1f2a44;
-}
-
-.avatar-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(145deg, #ff8c42, #ff5e14);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 18px;
-  color: white;
-  box-shadow: 0 6px 14px rgba(255, 94, 20, 0.25);
-  cursor: pointer;
-}
-
-.search-container {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.search-box {
-  flex: 1;
-  background: #f0f2f5;
-  border-radius: 60px;
-  padding: 12px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.search-box i {
-  color: #8e9aaf;
-  font-size: 16px;
-}
-
-.search-box input {
-  background: transparent;
-  border: none;
-  outline: none;
-  flex: 1;
-  font-size: 14px;
-  font-family: inherit;
-}
-
-.filter-chip {
-  width: 48px;
-  height: 48px;
-  background: #ffffff;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  border: 1px solid #edf2f7;
-  cursor: pointer;
-  color: #ff5e14;
-}
-
-/* quick grid */
-.quick-grid {
-  display: flex;
-  gap: 16px;
-  padding: 20px 18px;
-  justify-content: space-between;
-}
-
-.quick-card {
-  flex: 1;
-  background: white;
-  border-radius: 24px;
-  padding: 16px 8px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
-  transition: 0.2s;
-  cursor: pointer;
-  border: 1px solid #f0f2f5;
-}
-
-.quick-icon {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto 12px;
-  border-radius: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-}
-
-.quick-icon.taxi { background: #fff2e5; color: #ff8c42; }
-.quick-icon.custom { background: #e7f3ff; color: #2d7aff; }
-.quick-icon.gas { background: #ffece5; color: #ff5e14; }
-
-.quick-title {
-  font-weight: 800;
-  font-size: 14px;
-  margin-bottom: 4px;
-  color: #1f2a44;
-}
-
-.quick-sub {
-  font-size: 11px;
-  color: #8e9aaf;
-}
-
-/* promo slider */
-.promo-slider {
-  padding: 0 18px;
-  margin-bottom: 28px;
-  position: relative;
-}
-.promo-track {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-.promo-track::-webkit-scrollbar { display: none; }
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 12px;
-}
-.slider-dots .dot {
-  width: 6px;
-  height: 6px;
-  background: #cbd5e1;
-  border-radius: 10px;
-  transition: 0.2s;
-}
-.slider-dots .dot.active {
-  width: 18px;
-  background: #ff5e14;
-}
-
-/* categories */
-.section-category {
-  padding: 0 18px;
-  margin-bottom: 24px;
-}
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 14px;
-}
-.section-header h3 {
-  font-size: 18px;
-  font-weight: 80a0;
-  color: #1f2a44;
-}
-.link-more {
-  font-size: 12px;
-  color: #ff5e14;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
-.cats-scroll {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.cats-scroll::-webkit-scrollbar { display: none; }
-.cat-item {
-  padding: 8px 18px;
-  background: white;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  border: 1px solid #edf2f7;
-  color: #4a5568;
-}
-.cat-item.active {
-  background: #ff5e14;
-  color: white;
-  border-color: #ff5e14;
-  box-shadow: 0 6px 14px rgba(255, 94, 20, 0.25);
-}
-
-/* offers row */
-.offers-row {
-  display: flex;
-  gap: 14px;
-  padding: 0 18px;
-  margin-bottom: 28px;
-}
-.offer-card {
-  flex: 1;
-  border-radius: 24px;
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
-}
-.promo-one { background: linear-gradient(145deg, #fff5eb, #ffffff); border: 1px solid #ffe2cc; }
-.promo-two { background: linear-gradient(145deg, #fff0f0, #ffffff); border: 1px solid #ffe0e0; }
-
-.offer-badge {
-  font-size: 10px;
-  font-weight: 800;
-  color: #ff5e14;
-  margin-bottom: 6px;
-}
-.offer-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: #1f2a44;
-}
-.offer-desc {
-  font-size: 11px;
-  color: #8e9aaf;
-  margin: 4px 0 12px;
-}
-.offer-btn {
-  background: #1f2a44;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 700;
-  color: white;
-  cursor: pointer;
-}
-.offer-emoji {
-  font-size: 44px;
-}
-
-/* products horizontal */
-.section-products {
-  padding: 0 18px;
-  margin-bottom: 28px;
-}
-.products-horizontal {
-  display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding-bottom: 8px;
-}
-.products-horizontal::-webkit-scrollbar { display: none; }
-.products-horizontal .product-grid-card {
-  min-width: 150px;
-  width: 150px;
-  scroll-snap-align: start;
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #edf2f7;
-}
-
-/* stores grid */
-.section-stores {
-  padding: 0 18px;
-}
-.stores-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-.store-card {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #edf2f7;
-  transition: 0.2s;
-}
-.store-card .img {
-  height: 110px;
-  background: #f8fafc;
-}
-.store-card .info {
-  padding: 12px;
-}
-.store-card h5 {
-  font-size: 14px;
-  font-weight: 800;
-}
 </style>
 </head>
 <body>
 <div class="app" id="app">
 
-  <!-- HOME - MODERN DELIVERY APP STYLE -->
+
+<!-- HOME -->
 <div id="homeScreen" class="screen">
-  <div class="home-page">
-
-    <!-- Header with user info & search -->
-    <div class="home-top">
-      <div class="user-row">
-        <div class="user-info">
-          <div class="hello-text">📍 مرحباً بك</div>
-          <div class="user-name" id="helloName">أحمد</div>
-        </div>
-        <div class="avatar-icon" id="homeAvatar" onclick="showScreen('profileScreen')">أ</div>
-      </div>
-
-      <div class="search-container">
-        <div class="search-box">
-          <i class="fas fa-search search-icon"></i>
-          <input type="text" id="searchInput" placeholder="ابحث عن مطعم، منتج أو متجر..." />
-        </div>
-        <div class="filter-chip">
-          <i class="fas fa-sliders-h"></i>
-        </div>
-      </div>
+  <div class="home-hero">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div><div class="greet">مرحباً بعودتك</div><div class="name" id="helloName">صديقنا</div></div>
+      <div class="avatar" id="homeAvatar" onclick="showScreen('profileScreen')">-</div>
     </div>
-
-    <!-- Quick Actions Grid (Modern Cards) -->
-    <div class="quick-grid">
-      <div class="quick-card" onclick="location.href='ride.html'">
-        <div class="quick-icon taxi">
-          <i class="fas fa-car-side"></i>
-        </div>
-        <div class="quick-title">سيارة</div>
-        <div class="quick-sub">طلب مشوار</div>
-      </div>
-      <div class="quick-card" onclick="openCustomOrder()">
-        <div class="quick-icon custom">
-          <i class="fas fa-bag-shopping"></i>
-        </div>
-        <div class="quick-title">اطلب أي شيء</div>
-        <div class="quick-sub">بقالة، صيدلية، وغيرها</div>
-      </div>
-      <div class="quick-card" onclick="openGasOrder()">
-        <div class="quick-icon gas">
-          <i class="fas fa-fire"></i>
-        </div>
-        <div class="quick-title">تبديل غاز</div>
-        <div class="quick-sub">توصيل منزلي</div>
-      </div>
-    </div>
-
-    <!-- Promo Banner (Slider like) -->
-    <div class="promo-slider" id="bannersSection" style="display:none">
-      <div class="promo-track" id="bannersList"></div>
-      <div class="slider-dots" id="bannerDots"></div>
-    </div>
-
-    <!-- Categories -->
-    <div class="section-category">
-      <div class="section-header">
-        <h3>الأقسام</h3>
-        <span class="link-more">عرض الكل <i class="fas fa-chevron-left"></i></span>
-      </div>
-      <div class="cats-scroll" id="catsList">
-        <div class="cat-item active" data-cat="all">الكل</div>
-      </div>
-    </div>
-
-    <!-- Offers row (two cards) -->
-    <div class="offers-row">
-      <div class="offer-card promo-one">
-        <div class="offer-info">
-          <div class="offer-badge">🔥 عرض حصري</div>
-          <div class="offer-title">خصم يصل إلى 50%</div>
-          <div class="offer-desc">على جميع الطلبات</div>
-          <button class="offer-btn" onclick="showScreen('cartScreen')">اطلب الآن</button>
-        </div>
-        <div class="offer-emoji">🍔</div>
-      </div>
-      <div class="offer-card promo-two">
-        <div class="offer-info">
-          <div class="offer-badge">🎁 عرض محدود</div>
-          <div class="offer-title">خصم 30%</div>
-          <div class="offer-desc">على البيتزا</div>
-          <button class="offer-btn" onclick="showScreen('cartScreen')">اطلب الآن</button>
-        </div>
-        <div class="offer-emoji">🍕</div>
-      </div>
-    </div>
-
-    <!-- Products Section (Horizontal scroll) -->
-    <div class="section-products" id="homeProductsSection" style="display:none">
-      <div class="section-header">
-        <h3>منتجات مميزة</h3>
-        <span class="link-more" id="homeProductsMore" style="display:none">عرض المزيد</span>
-      </div>
-      <div class="products-horizontal" id="homeProductsList"></div>
-    </div>
-
-    <!-- Stores Grid -->
-    <div class="section-stores">
-      <div class="section-header">
-        <h3>المتاجر المميزة</h3>
-        <span class="link-more">عرض الكل</span>
-      </div>
-      <div class="stores-grid" id="storesList"></div>
-    </div>
-
+    <div class="search-bar"><i class="fas fa-search" style="color:var(--gray)"></i><input placeholder="ابحث عن متجر أو منتج..." id="searchInput"></div>
   </div>
+
+  <!-- PWA Install Bar -->
+  <div class="pwa-install-bar" id="pwaInstallBar">
+    <div class="pwa-ic"><img src="favicon.png" alt="ادبل"></div>
+    <div class="pwa-text">
+      <h4>ثبّت تطبيق ادبل</h4>
+      <p>للوصول السريع من شاشتك الرئيسية</p>
+    </div>
+    <button class="pwa-btn-install" id="pwaInstallBtn">تثبيت</button>
+    <button class="pwa-close" id="pwaCloseBtn"><i class="fas fa-times"></i></button>
+  </div>
+
+  <div class="section">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div onclick="openCustomOrder()" style="background:linear-gradient(135deg,#FF5A1F,#FF8A5A);border-radius:14px;padding:10px 12px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 6px 16px rgba(255,90,31,.22)">
+        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:16px;flex-shrink:0"><i class="fas fa-store"></i></div>
+        <div style="min-width:0">
+          <h4 style="font-size:13px;font-weight:800;margin-bottom:2px">اطلب أي شيء</h4>
+          <p style="font-size:10.5px;opacity:.92">من أقرب بقالة</p>
+        </div>
+      </div>
+      <div onclick="openGasOrder()" style="background:linear-gradient(135deg,#1E90FF,#3FB5FF);border-radius:14px;padding:10px 12px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 6px 16px rgba(30,144,255,.22)">
+        <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:16px;flex-shrink:0"><i class="fas fa-fire-flame-simple"></i></div>
+        <div style="min-width:0">
+          <h4 style="font-size:13px;font-weight:800;margin-bottom:2px">تبديل غاز</h4>
+          <p style="font-size:10.5px;opacity:.92">لباب البيت</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- خدماتنا -->
+  <div class="section">
+    <a href="ride.html" style="text-decoration:none;display:block">
+      <div style="background:linear-gradient(135deg,#0F5132 0%,#198754 50%,#1B7A4D 100%);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 8px 24px rgba(15,81,50,.28)">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;color:#fff;flex-shrink:0"><i class="fas fa-taxi"></i></div>
+        <div style="flex:1">
+          <h4 style="font-size:15px;font-weight:800;color:#fff;margin-bottom:3px">طلب سيارة</h4>
+          <p style="font-size:12px;color:rgba(255,255,255,.85)">وصّلك لأي مكان بسهولة وأمان</p>
+        </div>
+        <i class="fas fa-chevron-left" style="font-size:14px;color:#fff"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="section" id="bannersSection" style="display:none">
+    <div class="section-head"><h3>عروض حصرية</h3></div>
+    <div class="banners" id="bannersList"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h3>الأقسام</h3></div>
+    <div class="cats" id="catsList"><div class="cat-pill active" data-cat="all">الكل</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h3>المتاجر المميزة</h3></div>
+    <div class="stores-grid" id="storesList"></div>
+  </div>
+  <div class="section" id="homeProductsSection" style="display:none">
+    <div class="section-head"><h3>المنتجات</h3></div>
+    <div class="section-sub">جميع المنتجات مع تحميل تدريجي</div>
+    <div class="product-grid" id="homeProductsList"></div>
+    <div class="load-more-wrap"><button class="btn btn-ghost" id="homeProductsMore" style="display:none">تحميل المزيد</button></div>
+  </div>
+
 </div>
 
 <!-- STORE DETAIL -->
