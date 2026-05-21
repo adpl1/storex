@@ -819,177 +819,446 @@ body{background:white;color:var(--dark);font-size:15px}
 .cart-fab .count{background:white;color:var(--primary);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
 .chat-notif-dot{position:absolute;top:4px;left:4px;width:10px;height:10px;border-radius:50%;background:var(--danger);border:2px solid white;display:none}
 .chat-notif-dot.show{display:block}
+/* ========= HOME SCREEN MODERN ========= */
+#homeScreen {
+  background: #f5f7fb;
+}
+
+.home-page {
+  padding-bottom: 85px;
+}
+
+/* top header */
+.home-top {
+  background: #ffffff;
+  padding: 20px 18px 16px;
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.02);
+}
+
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.user-info .hello-text {
+  font-size: 13px;
+  color: #8e9aaf;
+  margin-bottom: 4px;
+}
+
+.user-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1f2a44;
+}
+
+.avatar-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(145deg, #ff8c42, #ff5e14);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  box-shadow: 0 6px 14px rgba(255, 94, 20, 0.25);
+  cursor: pointer;
+}
+
+.search-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-box {
+  flex: 1;
+  background: #f0f2f5;
+  border-radius: 60px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-box i {
+  color: #8e9aaf;
+  font-size: 16px;
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.filter-chip {
+  width: 48px;
+  height: 48px;
+  background: #ffffff;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid #edf2f7;
+  cursor: pointer;
+  color: #ff5e14;
+}
+
+/* quick grid */
+.quick-grid {
+  display: flex;
+  gap: 16px;
+  padding: 20px 18px;
+  justify-content: space-between;
+}
+
+.quick-card {
+  flex: 1;
+  background: white;
+  border-radius: 24px;
+  padding: 16px 8px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+  transition: 0.2s;
+  cursor: pointer;
+  border: 1px solid #f0f2f5;
+}
+
+.quick-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 12px;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.quick-icon.taxi { background: #fff2e5; color: #ff8c42; }
+.quick-icon.custom { background: #e7f3ff; color: #2d7aff; }
+.quick-icon.gas { background: #ffece5; color: #ff5e14; }
+
+.quick-title {
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #1f2a44;
+}
+
+.quick-sub {
+  font-size: 11px;
+  color: #8e9aaf;
+}
+
+/* promo slider */
+.promo-slider {
+  padding: 0 18px;
+  margin-bottom: 28px;
+  position: relative;
+}
+.promo-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.promo-track::-webkit-scrollbar { display: none; }
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.slider-dots .dot {
+  width: 6px;
+  height: 6px;
+  background: #cbd5e1;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+.slider-dots .dot.active {
+  width: 18px;
+  background: #ff5e14;
+}
+
+/* categories */
+.section-category {
+  padding: 0 18px;
+  margin-bottom: 24px;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+.section-header h3 {
+  font-size: 18px;
+  font-weight: 80a0;
+  color: #1f2a44;
+}
+.link-more {
+  font-size: 12px;
+  color: #ff5e14;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.cats-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.cats-scroll::-webkit-scrollbar { display: none; }
+.cat-item {
+  padding: 8px 18px;
+  background: white;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid #edf2f7;
+  color: #4a5568;
+}
+.cat-item.active {
+  background: #ff5e14;
+  color: white;
+  border-color: #ff5e14;
+  box-shadow: 0 6px 14px rgba(255, 94, 20, 0.25);
+}
+
+/* offers row */
+.offers-row {
+  display: flex;
+  gap: 14px;
+  padding: 0 18px;
+  margin-bottom: 28px;
+}
+.offer-card {
+  flex: 1;
+  border-radius: 24px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+}
+.promo-one { background: linear-gradient(145deg, #fff5eb, #ffffff); border: 1px solid #ffe2cc; }
+.promo-two { background: linear-gradient(145deg, #fff0f0, #ffffff); border: 1px solid #ffe0e0; }
+
+.offer-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: #ff5e14;
+  margin-bottom: 6px;
+}
+.offer-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1f2a44;
+}
+.offer-desc {
+  font-size: 11px;
+  color: #8e9aaf;
+  margin: 4px 0 12px;
+}
+.offer-btn {
+  background: #1f2a44;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+}
+.offer-emoji {
+  font-size: 44px;
+}
+
+/* products horizontal */
+.section-products {
+  padding: 0 18px;
+  margin-bottom: 28px;
+}
+.products-horizontal {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 8px;
+}
+.products-horizontal::-webkit-scrollbar { display: none; }
+.products-horizontal .product-grid-card {
+  min-width: 150px;
+  width: 150px;
+  scroll-snap-align: start;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #edf2f7;
+}
+
+/* stores grid */
+.section-stores {
+  padding: 0 18px;
+}
+.stores-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.store-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #edf2f7;
+  transition: 0.2s;
+}
+.store-card .img {
+  height: 110px;
+  background: #f8fafc;
+}
+.store-card .info {
+  padding: 12px;
+}
+.store-card h5 {
+  font-size: 14px;
+  font-weight: 800;
+}
 </style>
 </head>
 <body>
 <div class="app" id="app">
 
-
-<!-- HOME -->
+  <!-- HOME - MODERN DELIVERY APP STYLE -->
 <div id="homeScreen" class="screen">
   <div class="home-page">
 
+    <!-- Header with user info & search -->
     <div class="home-top">
-      <div class="home-status">
-        <div class="status-left">
-          <div class="home-avatar" id="homeAvatar" onclick="showScreen('profileScreen')">A</div>
+      <div class="user-row">
+        <div class="user-info">
+          <div class="hello-text">📍 مرحباً بك</div>
+          <div class="user-name" id="helloName">أحمد</div>
         </div>
-
-        <div class="status-right">
-          <button class="notif-btn" onclick="toast('الإشعارات قريباً')">
-            <i class="far fa-bell"></i>
-            <span class="notif-dot"></span>
-          </button>
-
-          <div class="welcome-box">
-            <div class="welcome-sub">مرحباً بعودتك</div>
-            <div class="welcome-name" id="helloName">Ahmad</div>
-          </div>
-        </div>
+        <div class="avatar-icon" id="homeAvatar" onclick="showScreen('profileScreen')">أ</div>
       </div>
 
-      <div class="hero-search">
-        <i class="fas fa-microphone search-mic"></i>
-        <input id="searchInput" type="text" placeholder="ابحث عن متجر أو منتج..." />
-        <i class="fas fa-search search-icon"></i>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="quick-grid">
-        <div class="quick-card quick-green" onclick="location.href='ride.html'">
-          <div class="quick-text">
-            <div class="quick-title">طلب سيارة</div>
-            <div class="quick-sub">توصيل سريع</div>
-          </div>
-          <div class="quick-ic">
-            <i class="fas fa-car-side"></i>
-          </div>
+      <div class="search-container">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="searchInput" placeholder="ابحث عن مطعم، منتج أو متجر..." />
         </div>
-
-        <div class="quick-card quick-orange" onclick="openCustomOrder()">
-          <div class="quick-text">
-            <div class="quick-title">اطلب أي شيء</div>
-            <div class="quick-sub">من أي مكان</div>
-          </div>
-          <div class="quick-ic">
-            <i class="fas fa-bag-shopping"></i>
-          </div>
-        </div>
-
-        <div class="quick-card quick-blue" onclick="openGasOrder()">
-          <div class="quick-text">
-            <div class="quick-title">تبديل غاز</div>
-            <div class="quick-sub">طلبات البيت</div>
-          </div>
-          <div class="quick-ic">
-            <i class="fas fa-fire-flame-curved"></i>
-          </div>
+        <div class="filter-chip">
+          <i class="fas fa-sliders-h"></i>
         </div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="promo-card">
-        <div class="promo-copy">
-          <div class="promo-badge">
-            <i class="fas fa-bolt"></i>
-            توصيل سريع
-          </div>
-          <h2>توصيل طلباتك بسرعة وأمان</h2>
-          <p>نصل إليك في أسرع وقت مع تجربة بسيطة وحديثة.</p>
-          <button class="promo-btn" onclick="showScreen('ordersScreen')">
-            اطلب الآن
-            <span><i class="fas fa-arrow-left"></i></span>
-          </button>
+    <!-- Quick Actions Grid (Modern Cards) -->
+    <div class="quick-grid">
+      <div class="quick-card" onclick="location.href='ride.html'">
+        <div class="quick-icon taxi">
+          <i class="fas fa-car-side"></i>
         </div>
-
-        <div class="promo-visual">
-          <div class="promo-circle">
-            <i class="fas fa-motorcycle"></i>
-          </div>
-        </div>
+        <div class="quick-title">سيارة</div>
+        <div class="quick-sub">طلب مشوار</div>
       </div>
-
-      <div class="promo-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+      <div class="quick-card" onclick="openCustomOrder()">
+        <div class="quick-icon custom">
+          <i class="fas fa-bag-shopping"></i>
+        </div>
+        <div class="quick-title">اطلب أي شيء</div>
+        <div class="quick-sub">بقالة، صيدلية، وغيرها</div>
+      </div>
+      <div class="quick-card" onclick="openGasOrder()">
+        <div class="quick-icon gas">
+          <i class="fas fa-fire"></i>
+        </div>
+        <div class="quick-title">تبديل غاز</div>
+        <div class="quick-sub">توصيل منزلي</div>
       </div>
     </div>
 
-    <div class="section" id="bannersSection" style="display:none">
-      <div class="section-head">
-        <h3>عروض حصرية</h3>
-        <a href="javascript:void(0)">عرض الكل</a>
-      </div>
-      <div class="banners" id="bannersList"></div>
+    <!-- Promo Banner (Slider like) -->
+    <div class="promo-slider" id="bannersSection" style="display:none">
+      <div class="promo-track" id="bannersList"></div>
+      <div class="slider-dots" id="bannerDots"></div>
     </div>
 
-    <div class="section">
-      <div class="section-head">
+    <!-- Categories -->
+    <div class="section-category">
+      <div class="section-header">
         <h3>الأقسام</h3>
-        <a href="javascript:void(0)">عرض الكل</a>
+        <span class="link-more">عرض الكل <i class="fas fa-chevron-left"></i></span>
       </div>
-      <div class="cats" id="catsList">
-        <div class="cat-pill active" data-cat="all">الكل</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <h3>عروض خاصة</h3>
-        <a href="javascript:void(0)">عرض الكل</a>
-      </div>
-
-      <div class="offers-grid">
-        <div class="offer-card offer-large">
-          <div class="offer-text">
-            <span class="offer-kicker">عرض خاص</span>
-            <h4>خصم حتى 50%</h4>
-            <p>على جميع الطلبات</p>
-            <button onclick="showScreen('cartScreen')">اطلب الآن</button>
-          </div>
-          <div class="offer-art burger">🍔</div>
-        </div>
-
-        <div class="offer-card offer-small">
-          <div class="offer-text">
-            <span class="offer-kicker green">عرض محدود</span>
-            <h4>خصم 30%</h4>
-            <p>على البيتزا</p>
-            <button class="green-btn" onclick="showScreen('cartScreen')">اطلب الآن</button>
-          </div>
-          <div class="offer-art pizza">🍕</div>
-        </div>
+      <div class="cats-scroll" id="catsList">
+        <div class="cat-item active" data-cat="all">الكل</div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-head">
-        <h3>المنتجات المميزة</h3>
-        <a href="javascript:void(0)">عرض الكل</a>
-      </div>
-      <div class="section-sub">تصفح المنتجات بسرعة من هنا</div>
-      <div id="homeProductsSection" style="display:none">
-        <div class="product-grid" id="homeProductsList"></div>
-        <div class="load-more-wrap">
-          <button class="btn btn-ghost" id="homeProductsMore" style="display:none">تحميل المزيد</button>
+    <!-- Offers row (two cards) -->
+    <div class="offers-row">
+      <div class="offer-card promo-one">
+        <div class="offer-info">
+          <div class="offer-badge">🔥 عرض حصري</div>
+          <div class="offer-title">خصم يصل إلى 50%</div>
+          <div class="offer-desc">على جميع الطلبات</div>
+          <button class="offer-btn" onclick="showScreen('cartScreen')">اطلب الآن</button>
         </div>
+        <div class="offer-emoji">🍔</div>
+      </div>
+      <div class="offer-card promo-two">
+        <div class="offer-info">
+          <div class="offer-badge">🎁 عرض محدود</div>
+          <div class="offer-title">خصم 30%</div>
+          <div class="offer-desc">على البيتزا</div>
+          <button class="offer-btn" onclick="showScreen('cartScreen')">اطلب الآن</button>
+        </div>
+        <div class="offer-emoji">🍕</div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-head">
+    <!-- Products Section (Horizontal scroll) -->
+    <div class="section-products" id="homeProductsSection" style="display:none">
+      <div class="section-header">
+        <h3>منتجات مميزة</h3>
+        <span class="link-more" id="homeProductsMore" style="display:none">عرض المزيد</span>
+      </div>
+      <div class="products-horizontal" id="homeProductsList"></div>
+    </div>
+
+    <!-- Stores Grid -->
+    <div class="section-stores">
+      <div class="section-header">
         <h3>المتاجر المميزة</h3>
-        <a href="javascript:void(0)">عرض الكل</a>
+        <span class="link-more">عرض الكل</span>
       </div>
       <div class="stores-grid" id="storesList"></div>
     </div>
 
   </div>
 </div>
+
 <!-- STORE DETAIL -->
 <div id="storeScreen" class="screen">
   <div class="store-banner" id="storeBanner">
